@@ -1,0 +1,43 @@
+{# How to build an app with an assistant, in three steps, on the home page: for a person who
+   may build and owns no published app yet, or who asked for a new one. Each idea to start from
+   is near one of the examples, which the builder starts each app from. Needs nav, me_address
+   and demo. #}
+<section class="card card-border first-app" id="new-app" aria-labelledby="new-app-title">
+  <div class="card-body">
+    <h2 class="card-title" id="new-app-title">{% if nav.own %}Build a new app{% else %}Build your first app{% endif %}</h2>
+    <p class="text-base-content/70">Your AI assistant builds it with you, through Cliquet's connector. Nothing
+      goes live until you agree.</p>
+    {% if demo %}{% include "demo_warning.html" %}{% endif %}
+    <ol class="first-steps">
+      <li>
+        <h3>Connect your AI assistant</h3>
+        <p class="text-base-content/70">Add this address as a connector, also called a remote MCP server, and
+          sign in to Cliquet when your assistant asks.{% if nav.own %} Once is enough: skip this step if
+          it is connected.{% endif %}</p>
+        {% include "connector.html" %}
+      </li>
+      <li>
+        <h3>Ask for your app</h3>
+        <p class="text-base-content/70">Say what it keeps, who uses it, and what it must never allow. Bring
+          your spreadsheet if you have one. For example:</p>
+        <ul class="list">
+          {% for prompt in [
+            "Create a Cliquet app for our office's meeting rooms, from my spreadsheet. Everyone books rooms and cancels their own bookings; only admins add rooms and set closing days. Two bookings of a room never overlap, and a meeting never has more people than its room seats.",
+            "Create a Cliquet app that registers our team's deployed environments: each one's customer, address and connected systems. Our coding agents look an environment up before they change it, and the app says whether a test or a data reset is safe there.",
+            "Create a Cliquet app for our household accounts. My agent imports our bank statements each month and classifies every line. Show our spending by category and our net worth.",
+          ] %}
+          <li class="list-row">
+            <span class="list-col-grow">{{ prompt }}</span>
+            <button class="btn btn-sm" type="button" data-copy="{{ prompt }}">Copy</button>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      <li>
+        <h3>Check the preview, then publish</h3>
+        <p class="text-base-content/70">Your assistant writes the app and its tests, and shows you its screens
+          on a copy of your data. Once you agree, it publishes the app, and the app appears here.</p>
+      </li>
+    </ol>
+  </div>
+</section>

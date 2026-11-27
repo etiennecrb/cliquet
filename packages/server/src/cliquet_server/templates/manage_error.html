@@ -1,0 +1,17 @@
+{% extends "manage.html" %}
+{% block tab %}
+<section class="card card-border" aria-labelledby="error-title">
+  <div class="card-body">
+    <h2 class="card-title" id="error-title">Error <code>{{ error.id }}</code></h2>
+    {% if error.during == "start" %}
+    <p class="text-base-content/70">{{ error.when }}: the app couldn't be started, so nobody could use it: its pages and its calls said it can't be started. Only you read this: it may quote the app's code or data.</p>
+    {% else %}
+    <p class="text-base-content/70">{{ error.when }}: {{ error.caller }}{% if error.role %} <span class="badge badge-ghost">{{ error.role }}</span>{% endif %} called <code>{{ error.tool }}</code>, and the app's code failed. Only you read this: it may quote the app's data.</p>
+    {% endif %}
+    <pre class="error-text">{{ error.text }}</pre>
+    <div class="card-actions">
+      <a class="btn" href="/manage/{{ login }}/{{ name }}/errors">Every error</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

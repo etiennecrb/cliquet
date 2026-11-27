@@ -1,0 +1,22 @@
+{# What to say to an assistant, then, folded, how to connect one, and last the app's own
+   address for an agent that runs on its own, with a token limited to the app.
+   Needs title, me_address, app_address and token_link. #}
+{% set ask = "Open " ~ title ~ " on Cliquet." %}
+<div class="connect">
+  <div class="join copy-field">
+    <span class="join-item ask" id="ask-sentence" aria-label="A sentence to send your assistant">{{ ask }}</span>
+    <button class="btn join-item" type="button" data-copy="{{ ask }}" aria-controls="ask-sentence">Copy</button>
+  </div>
+  <details class="collapse collapse-arrow fold">
+    <summary class="collapse-title">Not connected yet? Add Cliquet to your assistant</summary>
+    <div class="collapse-content stack">
+      <p class="text-base-content/70">Add it once, at your own address. Your assistant then signs in as you, and
+        reaches every app you use.</p>
+      {% include "connector.html" %}
+    </div>
+  </details>
+  <p class="text-base-content/70 agent-line"><small>Running an agent on its own? Connect it to
+    <code class="address-inline" id="app-address">{{ app_address }}</code>
+    <button class="btn btn-xs" type="button" data-copy="{{ app_address }}" aria-controls="app-address">Copy</button>,
+    with <a class="link" href="{{ token_link }}">a token for {{ title }}</a>: it reaches nothing else.</small></p>
+</div>

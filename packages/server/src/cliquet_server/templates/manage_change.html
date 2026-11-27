@@ -1,0 +1,91 @@
+{% extends "manage.html" %}
+{% from "parts.html" import count %}
+{% block tab %}
+{% set base = "/manage/" ~ login ~ "/" ~ name %}
+{% if notice %}
+<div class="alert{% if failed %} alert-error{% endif %}" role="{% if failed %}alert{% else %}status{% endif %}"><span class="error-text">{{ notice }}</span></div>
+{% endif %}
+<section class="card card-border" aria-labelledby="change-title">
+  <div class="card-body">
+    <p><a class="link" href="{{ base }}/history">← Every change</a></p>
+    <h2 class="card-title" id="change-title">{% if entry.publish %}{{ entry.publish.title }}{% else %}<code>{{ entry.action }}</code>{% endif %}</h2>
+    {% if entry.publish %}<p>{{ entry.publish.detail }}</p>{% endif %}
+    {% if entry.remark %}<p>{{ entry.remark }}</p>{% endif %}
+    <p class="text-base-content/70">{{ entry.when }}{% if entry.caller %}, by {{ entry.caller }}{% endif %}{% if entry.role %} <span class="badge badge-ghost">{{ entry.role }}</span>{% endif %}{% if entry.agent %}, with the token {{ entry.agent }}{% endif %}</p>
+    {% if entry.reverts %}<p class="text-base-content/70">It undoes <a class="link" href="{{ base }}/history/{{ entry.reverts }}">the change <code>{{ entry.reverts[:7] }}</code></a>.</p>{% endif %}
+    <p class="text-base-content/70"><small>Commit <code>{{ entry.commit[:7] }}</code>. What it did to the data
+      shows below, file by file. Only you, the owner, see this page.</small></p>
+    {% if not entry.publish %}
+    <form class="card-actions" method="post" action="{{ base }}/history/{{ entry.commit }}/undo"
+          data-confirm="Undo this change? The undo is checked against the app's rules, and kept as a new change.">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <button class="btn btn-sm" type="submit">Undo this change</button>
+    </form>
+    {% endif %}
+  </div>
+</section>
+
+{% if left_out %}
+<div class="alert" role="status">
+  <p>This change is long. Its first {{ count(max_lines) }} lines show here, and
+    {{ count(left_out) }} more {{ "is" if left_out == 1 else "are" }} left out.
+    <a class="link" href="{{ base }}/download">Download the app</a> to read the rest.</p>
+</div>
+{% endif %}
+
+{% for file in files %}
+<section class="card card-border" aria-labelledby="file-{{ loop.index }}">
+  <div class="card-body">
+    <h3 class="card-title" id="file-{{ loop.index }}">
+      <code>{{ file.name }}</code>
+      {% if file.status == "added" %}<span class="badge badge-ghost">New file</span>{% endif %}
+      {% if file.status == "removed" %}<span class="badge badge-ghost">Removed</span>{% endif %}
+    </h3>
+    {% if file.binary %}
+    <p class="text-base-content/70">A binary file{% if file.before is not none and file.after is not none %}: {{ size(file.before) }} before, {{ size(file.after) }} after{% elif file.after is not none %} of {{ size(file.after) }}{% elif file.before is not none %} of {{ size(file.before) }}{% endif %}. Its content isn't shown.</p>
+    {% else %}
+    {% set table = file.table %}
+    {% if table %}
+    <p class="text-base-content/70">{{ count(table.added) }} row{{ "s" if table.added != 1 }} added, {{ count(table.removed) }} removed.</p>
+    {% else %}
+    <p class="text-base-content/70">{{ count(file.added) }} line{{ "s" if file.added != 1 }} added, {{ count(file.removed) }} removed.</p>
+    {% endif %}
+    {% endif %}
+    {% if table %}
+    <div class="data-table patch-table" role="group" aria-label="What changed in {{ file.name }}" tabindex="0">
+      <table class="table table-xs table-pin-rows">
+        <thead><tr><th><span class="sr-only">Change</span></th>{% for cell in table.header %}<th>{{ cell }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for row in table.rows %}
+          {% if row.gap %}<tr class="patch-gap"><td colspan="{{ table.header|length + 1 }}"><span aria-hidden="true">⋯</span><span class="sr-only">Rows left alone</span></td></tr>{% endif %}
+          <tr class="patch-row patch-{{ row.kind }}"><td class="patch-sign">{% if row.kind == "added" %}<span aria-hidden="true">+</span><span class="sr-only">Added</span>{% elif row.kind == "removed" %}<span aria-hidden="true">−</span><span class="sr-only">Removed</span>{% endif %}</td>{% for cell in row.cells %}<td>{{ cell }}</td>{% endfor %}</tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% elif file.lines %}
+    <div class="patch" role="group" aria-label="What changed in {{ file.name }}" tabindex="0">
+      <code class="patch-lines">
+        {% for line in file.lines -%}
+        {% if line.kind == "hunk" -%}
+        {% if not loop.first or not line.text.startswith(("@@ -0,0 ", "@@ -1,", "@@ -1 ")) %}<span class="patch-gap"><span aria-hidden="true">⋯</span><span class="sr-only">Lines left alone</span></span>{% endif %}
+        {%- else -%}
+        <span class="patch-line patch-{{ line.kind }}">{{ line.text }}{% if line.cut %}<span class="patch-cut"> … the rest of this long line is left out</span>{% endif %}</span>
+        {%- endif %}
+        {%- endfor %}
+      </code>
+    </div>
+    {% endif %}
+    {% if file.left_out %}
+    <p class="text-base-content/70">{{ count(file.left_out) }} more line{{ "s" if file.left_out != 1 }} of this file's diff {{ "is" if file.left_out == 1 else "are" }} left out.</p>
+    {% endif %}
+  </div>
+</section>
+{% else %}
+<section class="card card-border">
+  <div class="card-body">
+    <p class="text-base-content/70">No line of the data changed, except perhaps how its lines end.</p>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

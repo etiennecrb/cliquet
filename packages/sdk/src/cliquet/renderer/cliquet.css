@@ -1,0 +1,336 @@
+/* Cliquet's base styles: what a screen needs that daisyUI leaves to the page around it.
+   Element defaults go in daisyUI's own `base` layer, so that its components override them.
+   The few rules outside a layer are meant to win over daisyUI. */
+
+@layer base {
+  /* The screen: a column of its parts. */
+  .s-screen {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-base-content);
+    background-color: var(--color-base-100);
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (width < 480px) {
+    .s-screen { padding: .75rem; }
+  }
+
+  .s-screen :is(h1, h2, h3, h4) { font-weight: 600; line-height: 1.25; }
+  .s-screen h1 { font-size: 1.5rem; }
+  .s-screen h2 { font-size: 1.25rem; }
+  .s-screen h3 { font-size: 1.125rem; }
+  .s-screen h4 { font-size: 1rem; }
+
+  /* A plain link looks like daisyUI's `link`. None has a real address: the script follows it. */
+  .s-screen a:not([class]) { text-decoration-line: underline; text-underline-offset: .15em; }
+  .s-screen a[role="link"] { cursor: pointer; }
+  .s-screen a[role="link"]:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* A plain list keeps its bullets. daisyUI's lists, menus and steps style their own. */
+  .s-screen :is(ul, ol):not([class]):not(.menu *, .breadcrumbs *) { padding-inline-start: 1.25rem; }
+  .s-screen ul:not([class]):not(.menu *, .breadcrumbs *) { list-style: disc; }
+  .s-screen ol:not([class]):not(.menu *, .breadcrumbs *) { list-style: decimal; }
+  .s-screen li:not([class]) + li:not([class]) { margin-top: .25rem; }
+
+  /* A screen has no padding classes: a tab's panel gets its room here. */
+  .s-screen .tab-content { padding-top: .75rem; }
+  .s-screen :is(.tabs-box, .tabs-lift) > .tab-content { padding: .75rem; }
+
+  .s-screen :is(code, kbd, pre) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .875em;
+  }
+  .s-screen pre { overflow-x: auto; white-space: pre-wrap; }
+  .s-screen hr { border-color: color-mix(in oklab, var(--color-base-content) 12%, transparent); }
+  .s-screen small { font-size: .875em; }
+  /* A table's figures line up, column by column. */
+  .s-screen table { font-variant-numeric: tabular-nums; }
+}
+
+/* daisyUI caps a field at 20rem: a screen is narrow, so a field takes its column. */
+.input, .select, .textarea { width: 100%; }
+/* A select that lays its view out (`pickerOf` in screen.js) is as wide as its options: a
+   compact choice, such as a year, beside the heading or the numbers it changes. */
+.s-picker .select { width: auto; }
+
+/* On a touch screen, fields and buttons are 44 pixels tall (daisyUI: 10 × --size-field),
+   and text in a field is big enough that a phone doesn't zoom in on it. */
+@media (pointer: coarse) {
+  :root, [data-theme] { --size-field: .275rem; }
+  .input, .select, .textarea { font-size: 1rem; }
+}
+
+/* The chart colours, which a series takes by its name: brown, orange, teal, indigo, violet,
+   orchid and plum. Each hue is clear of every tone's, as a test of the SDK checks, so a
+   category reads as no tone and keeps its colour in every chart. The app's accent isn't one:
+   it may look like one of them, or like a tone. The dark theme's are the same hues, lighter. */
+:root, [data-theme="light"] {
+  --s-chart-1: #91461c;
+  --s-chart-2: #d66900;
+  --s-chart-3: #0099a1;
+  --s-chart-4: #6675f5;
+  --s-chart-5: #773fc1;
+  --s-chart-6: #b858c6;
+  --s-chart-7: #a52484;
+}
+[data-theme="dark"] {
+  --s-chart-1: #ab5d34;
+  --s-chart-2: #eb7c27;
+  --s-chart-3: #00b2ba;
+  --s-chart-4: #7c8eff;
+  --s-chart-5: #8d58dc;
+  --s-chart-6: #d171e0;
+  --s-chart-7: #c0409c;
+}
+
+/* The colours of a series' tone: daisyUI's status colours, the same in both themes, and a
+   grey halfway between the text and the page, since daisyUI's neutral is near black in both
+   and would vanish on the dark page. */
+:root {
+  --s-tone-success: var(--color-success);
+  --s-tone-error: var(--color-error);
+  --s-tone-warning: var(--color-warning);
+  --s-tone-info: var(--color-info);
+  --s-tone-neutral: color-mix(in oklab, var(--color-base-content) 50%, var(--color-base-100));
+}
+
+/* The room the script makes for a chart's canvas: Chart.js fills it. */
+[data-chart] { display: block; position: relative; width: 100%; }
+.s-plot { position: relative; width: 100%; height: 15rem; }
+.s-plot-donut { height: 13.75rem; }
+[data-chart] canvas { display: block; max-width: 100%; }
+
+/* An icon is 1em high, in the colour of the text around it, and sits on the line as a letter
+   would. In a button, daisyUI's gap keeps it from the words; a tab has no gap of its own, and
+   drops the space between them. A square or round button holds only its icon, whose 1em would
+   be as small as daisyUI's small text, so its icon is a quarter larger. */
+[data-icon] { display: inline-flex; flex-shrink: 0; vertical-align: -.125em; }
+.s-icon { display: block; width: 1em; height: 1em; }
+.s-screen :is(.btn-square, .btn-circle) .s-icon { width: 1.25em; height: 1.25em; }
+.s-screen .tab:has(> [data-icon]) { gap: .375em; }
+
+/* What the script hides from sight but not from screen readers, such as a chart's numbers. */
+.s-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+}
+
+/* A refusal shown in its form spans the form's width, in a grid or in a row. */
+.s-problem { grid-column: 1 / -1; flex-basis: 100%; }
+form > .s-problem { margin-top: .75rem; }
+:is(.card-body, .fieldset) > .s-problem { margin-top: 0; }
+.card > .s-problem { margin: 0 var(--card-p, 1.5rem) var(--card-p, 1.5rem); }
+
+/* A form whose call is running: its submitter shows a spinner, and nothing else takes a click. */
+form[aria-busy="true"] { cursor: progress; }
+form[aria-busy="true"] :is(button, input, select, textarea, a) { pointer-events: none; }
+
+/* While a click on the screen works: daisyUI's running progress, as a slim bar along the top of
+   the frame, in the accent. It takes no room and no click, and the script shows it only once
+   the click works long enough to notice. */
+.s-working {
+  position: fixed; inset: 0 0 auto; z-index: 100; height: 2px; border-radius: 0;
+  pointer-events: none;
+}
+/* daisyUI's stroke stands still, or in Firefox isn't drawn, for less motion: a solid bar. */
+@media (prefers-reduced-motion: reduce) {
+  .s-working { background: var(--color-primary); }
+}
+
+/* A card's border, or a row of numbers', reads in both themes: daisyUI draws it in base-200,
+   barely darker than the card in the light theme and barely lighter in the dark one. In
+   daisyUI's own layer, after its rule, so that a border colour class still wins. */
+@layer daisyui.l1.l2 {
+  .card-border { border-color: color-mix(in oklab, var(--color-base-content) 15%, transparent); }
+}
+
+/* A list in a card lines up with the card's title: the card has its padding already. Outside
+   a layer, so that it wins over daisyUI's list. */
+.s-screen .card-body > .list > .list-row { padding-inline: 0; }
+.s-screen .card-body > .list > .list-row::after { inset-inline: 0; }
+
+/* Stats stay in one row on a phone, as the views guide asks, with each stat taking less room
+   there: its number is the size of a heading, so that `+€1.5M` fits three to a row, and a
+   little smaller four to a row. Its description may wrap, rather than push the row wider
+   than the screen. */
+@media (width < 480px) {
+  .s-screen .stats:not(.stats-vertical) > .stat { padding-inline: .75rem; }
+  .s-screen .stats:not(.stats-vertical) .stat-value { font-size: 1.25rem; line-height: 1.75rem; }
+  .s-screen .stats:not(.stats-vertical):has(> .stat:nth-child(4)) .stat-value {
+    font-size: 1.125rem;
+  }
+}
+.s-screen .stats { max-width: 100%; }
+.s-screen .stats .stat-desc { white-space: normal; }
+
+/* daisyUI's table-pin-cols pins every <th> to both edges, so a header's cells pile up as the
+   table scrolls. A wide table pins only the name that starts each row, on the left. */
+.s-screen .table-pin-cols tr > th:first-child { right: auto; }
+.s-screen .table-pin-cols tr > th:not(:first-child) { position: static; }
+
+/* A data grid, drawn by the script from data-grid: its search and Filters button, the chips of
+   its filters on, the panel of its filters, a table that scrolls in its own box with its
+   header row, its totals and its first column pinned, and its pages. Outside a layer, so that
+   hiding a part wins over a layout class's display. */
+[data-grid] { display: block; min-width: 0; }
+.s-grid {
+  --s-grid-line: color-mix(in oklab, var(--color-base-content) 12%, transparent);
+  --s-grid-muted: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+  display: flex; flex-direction: column; gap: .75rem; min-width: 0;
+}
+.s-grid [hidden] { display: none !important; }
+/* The search fills the bar, and the ghost Filters button stands a clear gap after it, so that
+   the two never read as a field and its submit. */
+.s-grid-bar { display: flex; align-items: center; gap: 1rem; }
+.s-grid-bar .s-grid-search { flex: 1 1 auto; min-width: 0; }
+.s-grid-search > .s-icon { opacity: .5; }
+.s-grid-search input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+/* On a phone, the Filters button shows its icon and its count: its word stays for screen
+   readers and a script's click, which reads the button's words. */
+@media (width < 480px) {
+  .s-grid-word {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+  }
+}
+/* Each filter on, as a chip: a long one is cut short, and given whole as its title. */
+.s-grid-chips { display: flex; flex-wrap: wrap; gap: .375rem; }
+.s-grid-chip { max-width: 100%; }
+.s-grid-chip > span {
+  min-width: 0; max-width: 20rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.s-grid-panel {
+  display: flex; flex-direction: column; gap: .5rem; padding: .75rem 1rem;
+  border: 1px solid var(--s-grid-line); border-radius: var(--radius-box);
+}
+/* The filters flow in columns, so a long list of values to tick leaves no hole beside it. */
+.s-grid-fields { columns: 12rem; column-gap: 1.5rem; }
+.s-grid-fields > .fieldset { break-inside: avoid; padding-block: 0 .75rem; }
+.s-grid-choices { display: flex; flex-wrap: wrap; gap: .375rem 1rem; }
+.s-grid-choice { color: var(--color-base-content); cursor: pointer; }
+.s-grid-scroll { border: 1px solid var(--s-grid-line); border-radius: var(--radius-box); }
+/* A long grid scrolls down in its box too, so that its header stays in sight: a screen grows to
+   its content in the host's page, so nothing in it can stay in sight as that page scrolls.
+   The box keeps to a phone's screen, with the search above it and the pages below it. */
+.s-grid-scroll { max-height: 30rem; overflow-y: auto; }
+@media (min-width: 40rem) { .s-grid-scroll { max-height: 42rem; } }
+/* daisyUI pins every <th> to both sides too: only the first column's stays pinned sideways. */
+.s-screen .s-grid .table-pin-cols thead tr > th {
+  position: sticky; top: 0; left: auto; right: auto; z-index: 4;
+  background-color: var(--color-base-100); box-shadow: inset 0 -1px 0 var(--s-grid-line);
+}
+.s-screen .s-grid .table-pin-cols tfoot tr > :is(th, td) {
+  position: sticky; bottom: 0; z-index: 4; background-color: var(--color-base-100);
+}
+/* A group's title stays just under the header row while the group's rows scroll under it: the
+   script measures the header into --s-grid-head. The header and the totals pass over it. */
+.s-screen .s-grid .table-pin-cols tr.s-grid-title > :is(th, td) {
+  position: sticky; top: var(--s-grid-head, 0); z-index: 2;
+  background-color: var(--color-base-100); box-shadow: inset 0 -1px 0 var(--s-grid-line);
+}
+.s-grid tr.s-grid-title > th { font-weight: 600; color: var(--color-base-content); }
+/* A title spans its row, and its words stay in sight as the columns scroll sideways: they are
+   cut short as a cell's are, not by the first column. */
+.s-grid .table tbody tr.s-grid-title > th { max-width: none; overflow: visible; }
+.s-grid tr.s-grid-title > th > span {
+  position: sticky; left: .75rem; display: inline-block; vertical-align: top;
+  max-width: 20rem; overflow: hidden; text-overflow: ellipsis;
+}
+.s-grid .table-xs tr.s-grid-title > th > span { left: .5rem; }
+/* The cell where the header row, or a group's title, and the first column meet stays above
+   both. */
+.s-screen .s-grid .table-pin-cols :is(thead, tfoot) tr > th:first-child { left: 0; z-index: 5; }
+.s-screen .s-grid .table-pin-cols tbody tr.s-grid-title > th:first-child {
+  left: 0; z-index: 3;
+}
+.s-screen .s-grid .table-pin-cols tbody tr > th:first-child { z-index: 1; }
+.s-grid-scroll:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+/* Each cell keeps to one line, and the table scrolls sideways: a long text is cut short. A
+   compact grid keeps the padding of daisyUI's table-xs. */
+.s-grid .table :is(th, td) { white-space: nowrap; }
+.s-grid .table:not(.table-xs) :is(th, td) { padding: .5rem .75rem; }
+.s-grid .table :is(tbody, tfoot) :is(th, td) {
+  max-width: 20rem; overflow: hidden; text-overflow: ellipsis;
+}
+.s-grid tbody th { font-weight: inherit; }
+/* A group's subtotal reads as the totals do, where the group ends. */
+.s-grid :is(tfoot, .s-grid-subtotal) { color: var(--color-base-content); font-weight: 600; }
+.s-grid :is(tfoot, .s-grid-subtotal) :is(th, td) { border-top: 1px solid var(--s-grid-line); }
+/* A row's indent sits its first cell in from the column's edge, by less in a compact grid. */
+.s-grid .table tbody th.s-grid-indent-1 { padding-inline-start: 2rem; }
+.s-grid .table tbody th.s-grid-indent-2 { padding-inline-start: 3.25rem; }
+.s-grid .table-xs tbody th.s-grid-indent-1 { padding-inline-start: 1.25rem; }
+.s-grid .table-xs tbody th.s-grid-indent-2 { padding-inline-start: 2rem; }
+.s-grid-total-word { font-weight: 400; color: var(--s-grid-muted); }
+/* The pinned first column keeps to part of a phone's width, and shows its edge once the rest
+   scrolls under it. */
+.s-grid .table tr > :first-child { max-width: min(14rem, 45vw); }
+.s-grid-scrolled .table-pin-cols tr > th:first-child {
+  box-shadow: inset -1px 0 0 var(--s-grid-line);
+}
+.s-screen .s-grid-scrolled .table-pin-cols thead tr > th:first-child {
+  box-shadow: inset -1px 0 0 var(--s-grid-line), inset 0 -1px 0 var(--s-grid-line);
+}
+/* The table's rows let the shadow of its right edge show through, as more columns wait there. */
+.s-grid-scroll.s-grid-more {
+  background: linear-gradient(to left,
+    color-mix(in oklab, var(--color-base-content) 14%, transparent), transparent)
+    right / .875rem 100% no-repeat;
+}
+/* A header that sorts is as tall as its words, as a plain header is. */
+.s-grid-sort {
+  display: inline-flex; align-items: center; gap: .375rem; padding: 0; border: 0;
+  vertical-align: top;
+  background: none; color: inherit; font: inherit; text-align: inherit; cursor: pointer;
+}
+.s-grid-sort:focus-visible {
+  outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 2px;
+}
+/* A header's arrow sits on the side away from where its column's values line up: after the
+   words of a column read from the left, before those of a column of numbers. So the words line
+   up with the values under them. The arrow keeps its room while hidden, so that nothing moves. */
+.s-grid th.layout-end .s-grid-sort { flex-direction: row-reverse; }
+/* The arrow is drawn here, so that its button reads as the header's words alone. It shows only
+   on a sorted column, or faintly, as the way a press would sort, while the pointer or the
+   focus is on its header. */
+.s-grid-arrow { display: inline-flex; width: .75em; justify-content: center; opacity: 0; }
+.s-grid-arrow::before, .s-grid-page::before {
+  content: ""; width: .4em; height: .4em; border: solid currentColor;
+  border-width: 0 0 .125em .125em;
+}
+.s-grid-arrow::before { transform: translateY(.1em) rotate(135deg); }
+.s-grid [aria-sort="descending"] .s-grid-arrow::before {
+  transform: translateY(-.1em) rotate(-45deg);
+}
+.s-grid-sort:is(:hover, :focus-visible) .s-grid-arrow { opacity: .4; }
+.s-grid th[aria-sort]:not([aria-sort="none"]) { color: var(--color-base-content); }
+.s-grid th[aria-sort]:not([aria-sort="none"]) .s-grid-arrow { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .s-grid-arrow { transition: opacity .15s; }
+}
+.s-grid .table td.s-grid-empty { max-width: none; white-space: normal; color: var(--s-grid-muted); }
+.s-grid-pager {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: .5rem;
+}
+/* How many filters narrow the rows, on the Filters button. */
+.s-grid-count::after { content: attr(data-count); }
+/* The page buttons are chevrons, named by their aria-label: a bar beside one goes to an end. */
+.s-grid-page { gap: 0; }
+.s-grid-page::before { transform: translateX(.1em) rotate(45deg); }
+:is(.s-grid-next, .s-grid-last)::before { transform: translateX(-.1em) rotate(-135deg); }
+:is(.s-grid-first, .s-grid-last)::after {
+  content: ""; width: .125em; height: .7em; background: currentColor;
+}
+.s-grid-first::after { order: -1; }
+.s-grid-shown { font-size: .875rem; color: var(--s-grid-muted); }

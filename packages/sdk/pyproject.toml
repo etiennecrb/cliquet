@@ -1,0 +1,25 @@
+[project]
+name = "cliquet-sdk"
+version = "0.0.1"
+description = "Apps for agents and people: data, rules and screens, served over MCP."
+readme = "README.md"
+# Apache-2.0 for the SDK; the vendored daisyUI and Chart.js (MIT) and Lucide (ISC) keep theirs.
+license = "Apache-2.0 AND MIT AND ISC"
+license-files = ["LICENSE", "src/cliquet/renderer/*-LICENSE*"]
+requires-python = ">=3.14"
+dependencies = [
+    "jinja2>=3.1.6,<4",
+    "mcp>=2.3.0",
+    "pydantic>=2.14.3",
+]
+
+[project.scripts]
+cliquet = "cliquet.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+# The distribution is cliquet-sdk, the import is cliquet.
+module-name = "cliquet"

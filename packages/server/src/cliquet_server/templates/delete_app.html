@@ -1,0 +1,41 @@
+{% extends "console.html" %}
+{% from "parts.html" import mark %}
+{% block title %}Delete {{ title }} · cliquet.dev{% endblock %}
+{% block main %}
+<header class="app-head">
+  {{ mark(tile, "lg") }}
+  <div class="app-head-text">
+    <h1>Delete {{ title }}</h1>
+    <p class="text-base-content/70">{{ login }}/{{ name }} · {% if published %}published {{ published }}{% else %}a draft, never published{% endif %}</p>
+  </div>
+</header>
+
+{% if refusal %}
+<div class="alert alert-error" role="alert" id="delete-refusal"><span>{{ refusal }}</span></div>
+{% endif %}
+
+<section class="card card-border" id="delete-app" aria-labelledby="delete-app-title">
+  <div class="card-body">
+    <h2 class="card-title" id="delete-app-title">Delete this app for good</h2>
+    {% if published %}
+    <p>Deleting {{ title }} deletes its data, its history, its draft and its shares. The people you shared it with, and the agents whose tokens reach it, lose it at once.</p>
+    <p class="text-base-content/70">Nothing keeps a copy. Download the app first to keep its code, its data and their whole history.</p>
+    <div class="card-actions">
+      <a class="btn btn-sm" href="/manage/{{ login }}/{{ name }}/download">Download the app</a>
+    </div>
+    {% else %}
+    <p>Deleting {{ title }} deletes its draft: its code and the data it holds before a first publish. Nobody else has seen it.</p>
+    {% endif %}
+    <form class="delete-app" method="post" action="/manage/{{ login }}/{{ name }}/delete"
+          data-confirm="Delete {{ title }} and everything it holds? This can't be undone.">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <fieldset class="fieldset">
+        <label class="fieldset-legend" for="delete-name">Type the app's name, {{ name }}, to confirm</label>
+        <input class="input" id="delete-name" name="name" type="text" required pattern="{{ name }}"
+               autocomplete="off" spellcheck="false">
+      </fieldset>
+      <button class="btn btn-error" type="submit">Delete the app</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

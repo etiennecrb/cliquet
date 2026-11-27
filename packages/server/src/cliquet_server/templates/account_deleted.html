@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "parts.html" import brand, privacy_link %}
+{% block title %}Account deleted · cliquet.dev{% endblock %}
+{% block body_class %}plain{% endblock %}
+{% block body %}
+<main class="plain-main">
+  {{ brand() }}
+  <section class="card card-border" aria-labelledby="deleted-title">
+    <div class="card-body">
+      <h1 class="card-title" id="deleted-title">Your account is deleted</h1>
+      <p class="text-base-content/70">Your apps, their data and your access to every app are gone, and you are signed out. Your login stays reserved, so nobody takes it after you.</p>
+      {% if unfinished %}
+      <p class="text-base-content/70">Some of what it held is still being removed: the server finishes it as it next starts.</p>
+      {% endif %}
+      <p class="text-base-content/70">Signing in again makes a new, empty account, with another login.</p>
+      <div class="card-actions">
+        <a class="btn" href="/">Home</a>
+      </div>
+    </div>
+  </section>
+  {{ privacy_link(privacy_url) }}
+</main>
+{% endblock %}

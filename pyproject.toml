@@ -1,0 +1,70 @@
+# The workspace. Each Python package is a folder in packages/.
+[tool.uv.workspace]
+members = ["packages/sdk", "packages/server"]
+
+[tool.uv.sources]
+cliquet-sdk = { workspace = true }
+cliquet-server = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "cliquet-sdk",
+    "cliquet-server",
+    "pytest>=9.2.0",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.17.4",
+    "ty>=0.0.100",
+    "pre-commit>=4.7.0",
+    "commitizen>=4.19.3",
+    "joserfc>=1.8.0",
+]
+# The docs site's generator, alone, so the website's build installs nothing else.
+docs = ["zensical==0.1.3"]
+
+[tool.uv]
+default-groups = ["dev", "docs"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# The en dash of a range, such as 09:30–10:30, and the minus sign of an amount, such as
+# −€12, are what screens and refusals show people.
+allowed-confusables = ["–", "−"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["cliquet", "cliquet_server"]
+
+# The server's database migrations, for `uv run alembic` by hand: the server runs them itself
+# as it starts. Run so, it opens the database the server's settings name.
+[tool.alembic]
+script_location = "%(here)s/packages/server/src/cliquet_server/migrations"
+
+[tool.pytest.ini_options]
+testpaths = ["packages/sdk/tests", "packages/server/tests"]
+addopts = "-n auto --dist loadgroup"
+markers = [
+    "browser: starts a real browser or a preview server",
+    "sandbox: builds or runs app code in a real sandbox",
+    "slow: takes several seconds or more; run it before a full check",
+]
+
+[tool.ty.src]
+# Each example, and each app the SDK's tests run, has its own dependencies:
+# scripts/check-examples.sh checks them.
+exclude = ["examples/", "packages/sdk/tests/apps/"]
+
+# Commit messages, checked by `cz check` at commit time and in CI. AGENTS.md says what
+# each type and scope covers. The pattern also wants a first line of at most 72 characters,
+# a lower-case summary with no final period, a blank line before the body, and a
+# `BREAKING CHANGE:` footer whenever the type carries a `!`.
+[tool.commitizen]
+name = "cz_customize"
+
+[tool.commitizen.customize]
+schema = "<type>(<scope>)!: <summary>\n\n<body>\n\nBREAKING CHANGE: <what apps must change>"
+example = "fix(runtime): refuse a migration that drops a declared file"
+schema_pattern = '''(?s)^(?=[^\n]{1,72}(?:\n|$))(?![^\n]*!: (?!.*\nBREAKING CHANGE: ))(feat|fix|docs|test|refactor|chore)(\((sdk|runtime|mcp|screens|console|builder|sandbox|auth|server|cli|examples|website)\))?!?: (?![A-Z])[^\n]*[^.\n](\n\n.*)?$'''
+info = "Types: feat, fix, docs, test, refactor, chore. Scopes: sdk, runtime, mcp, screens, console, builder, sandbox, auth, server, cli, examples, website. See AGENTS.md."

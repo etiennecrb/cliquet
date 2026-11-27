@@ -1,0 +1,54 @@
+{% extends "manage.html" %}
+{% block tab %}
+{% set base = "/manage/" ~ login ~ "/" ~ name ~ "/views" %}
+<div class="preview-controls">
+  {% if roles != ["-"] %}
+  <div class="control">
+    <span class="label-text" id="pick-role">Role</span>
+    <nav class="tabs tabs-box tabs-sm" aria-labelledby="pick-role">
+      {% for one in roles %}
+      <a class="tab" href="{{ base }}?role={{ one }}&width={{ width }}"{% if one == role %} aria-current="page"{% endif %}>{{ one }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+  {% endif %}
+  {% if views %}
+  <div class="control">
+    <span class="label-text" id="pick-screen">Screen</span>
+    <nav class="tabs tabs-box tabs-sm" aria-labelledby="pick-screen">
+      {% for one in views %}
+      <a class="tab" href="{{ base }}?role={{ role }}&view={{ one.name }}&width={{ width }}"{% if one.name == view %} aria-current="page"{% endif %}>{{ one.label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+  {% endif %}
+  <div class="control">
+    <span class="label-text" id="pick-width">Width</span>
+    <nav class="tabs tabs-box tabs-sm" aria-labelledby="pick-width">
+      {% for key, label in widths.items() %}
+      <a class="tab" href="{{ base }}?role={{ role }}{% if view %}&view={{ view }}{% endif %}&width={{ key }}"{% if key == width %} aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</div>
+
+{% if views %}
+<div class="live-stage">
+<p class="live-strip" role="note">
+  {{ icon("triangle-exclamation-point") }}
+  <span><strong>This is the live app.</strong> What you do here changes its data, as {% if role == "-" %}you{% else %}{{ role }}{% endif %}.</span>
+</p>
+<div class="preview-stage">
+  <iframe class="screen preview-frame" id="screen" title="{{ title }}: {{ view }} as {{ role }}"
+          data-width="{{ width }}"{% if width != "full" %} style="width: {{ width }}px"{% endif %}
+          data-src="/apps/{{ login }}/{{ name }}/{{ role }}/screen?view={{ view }}&width=full&embed"></iframe>
+</div>
+</div>
+{% else %}
+<div class="card card-dash"><div class="card-body"><p>{% if role == "-" %}This app has{% else %}{{ role }} has{% endif %} no screen. People use it from their assistant.</p></div></div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{% include "screen_script.html" %}
+{% endblock %}

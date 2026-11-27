@@ -1,0 +1,127 @@
+{% extends "console.html" %}
+{% from "parts.html" import mark, roles_badges %}
+{% block title %}Your apps · cliquet.dev{% endblock %}
+{% block main %}
+{% set guide = makes_apps and (asked or not nav.own) %}
+<header class="app-head">
+  <div class="app-head-text">
+    <h1>Apps</h1>
+    <p class="text-base-content/70">{% if builds or nav.own %}The apps you built, and the apps people shared with you.{% else %}The apps people shared with you.{% endif %}</p>
+  </div>
+  {% if makes_apps and not guide %}
+  <a class="btn btn-primary" href="/?new#new-app"><span class="nav-icon">{{ icon("plus") }}</span>New app</a>
+  {% endif %}
+</header>
+
+{% if notice %}
+<div class="alert" role="status"><span>{{ notice }}</span></div>
+{% endif %}
+
+{% if pending %}
+<section class="card card-border waiting" id="pending-shares" aria-labelledby="pending-title">
+  <div class="card-body">
+    <h2 class="card-title" id="pending-title">Waiting for you</h2>
+    <p class="text-base-content/70">Someone shared these apps with you. Until you accept one, it gives you nothing, and your assistant can't see it.</p>
+    <ul class="list">
+      {% for share in pending %}
+      <li class="list-row">
+        <div class="list-col-grow row-text">
+          <span><strong>{{ share.name }}</strong>, shared by {{ share.login }}</span>
+          <span class="row-badges">{{ roles_badges(share.roles) }}</span>
+        </div>
+        <div class="row-end">
+          <form method="post" action="/shares/{{ share.login }}/{{ share.name }}/accept">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
+            <button class="btn btn-primary btn-sm" type="submit">Accept</button>
+          </form>
+          <form method="post" action="/shares/{{ share.login }}/{{ share.name }}/decline">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
+            <button class="btn btn-sm row-button" type="submit">Decline</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{% if guide %}
+{% include "first_app.html" %}
+{% endif %}
+
+{% if nav.own %}
+<section class="group" id="own-apps" aria-labelledby="own-title">
+  <h2 id="own-title">Your apps</h2>
+  <div class="app-grid">
+    {% for app in nav.own %}
+    <a class="card card-border app-card" href="{{ app.href }}">
+      <div class="card-body">
+        {{ mark(app.tile) }}
+        <div class="app-card-text">
+          <h3 class="card-title">{{ app.title }}{{ roles_badges(app.roles) }}</h3>
+          <p>{{ app.description }}</p>
+          <p class="text-base-content/60"><small>Published {{ app.published }}</small></p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if nav.drafts %}
+<section class="group" id="drafts" aria-labelledby="drafts-title">
+  <h2 id="drafts-title">Drafts</h2>
+  <p class="text-base-content/70">Apps your assistant is building, never published. Nobody else sees them.</p>
+  <div class="app-grid">
+    {% for app in nav.drafts %}
+    <div class="card card-border app-card draft-card">
+      <div class="card-body">
+        {{ mark(app.tile) }}
+        <div class="app-card-text">
+          <h3 class="card-title">{{ app.title }}{% if app.previewing %}<span class="badge badge-soft badge-success">Preview open</span>{% endif %}</h3>
+          {% if app.description %}<p>{{ app.description }}</p>{% endif %}
+          <div class="card-actions">
+            <a class="btn btn-sm" href="{{ app.preview }}">Preview<span class="sr-only"> {{ app.title }}</span></a>
+            <a class="btn btn-sm" href="{{ app.upload }}">Upload data<span class="sr-only"> to {{ app.title }}</span></a>
+            <a class="btn btn-sm btn-ghost btn-square" href="/manage/{{ app.login }}/{{ app.name }}/delete" title="Delete {{ app.title }}"><span class="nav-icon">{{ icon("trash") }}</span><span class="sr-only">Delete {{ app.title }}</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if nav.shared or not makes_apps %}
+<section class="group" id="shared-apps" aria-labelledby="shared-title">
+  <h2 id="shared-title">Shared with you</h2>
+  {% if nav.shared %}
+  <div class="app-grid">
+    {% for app in nav.shared %}
+    <a class="card card-border app-card" href="{{ app.href }}">
+      <div class="card-body">
+        {{ mark(app.tile) }}
+        <div class="app-card-text">
+          <h3 class="card-title">{{ app.title }}{{ roles_badges(app.roles) }}</h3>
+          <p>{{ app.description }}</p>
+          <p class="text-base-content/60"><small>Shared by {{ app.login }}</small></p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card card-dash empty-box">
+    <div class="card-body">
+      <p>No app is shared with you yet. When someone shares one, it waits for you here.</p>
+      <p class="text-base-content/70"><small>To use your apps from your AI assistant, connect it in
+        <a class="link" href="/assistants">Settings</a>.</small></p>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

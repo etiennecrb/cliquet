@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "parts.html" import brand %}
+{% block title %}{{ name }}, shared with you · cliquet.dev{% endblock %}
+{% block body_class %}plain{% endblock %}
+{% block body %}
+<main class="plain-main">
+  {{ brand() }}
+  <section class="card card-border" id="accept-share" aria-labelledby="accept-title">
+    <div class="card-body">
+      <h1 class="card-title" id="accept-title">{{ login }} shared {{ name }} with you</h1>
+      <p class="text-base-content/70">As {{ roles }}. Until you accept it, it gives you nothing, and your assistant can't see
+        it. Accept it only if you know {{ login }} and expected it.</p>
+      <div class="card-actions">
+        <form method="post" action="/shares/{{ login }}/{{ name }}/accept">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          {# Accepted from the app's own link, the person came for the app: open it. #}
+          <input type="hidden" name="open" value="app">
+          <button class="btn btn-primary" type="submit">Accept</button>
+        </form>
+        <form method="post" action="/shares/{{ login }}/{{ name }}/decline">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button class="btn" type="submit">Decline</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  {% from "parts.html" import privacy_link %}{{ privacy_link(privacy_url) }}
+</main>
+{% endblock %}

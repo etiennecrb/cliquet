@@ -1,0 +1,7 @@
+# Every page of the site may be crawled; a page that asks not to be listed says so itself.
+# The console, at app.cliquet.dev, keeps its own pages out of search results.
+User-agent: *
+Allow: /
+
+Sitemap: https://cliquet.dev/sitemap.xml
+Sitemap: https://cliquet.dev/docs/sitemap.xml

@@ -1,0 +1,31 @@
+{% extends "problem.html" %}
+{# A problem page that opens what was asked once the app has started. #}
+{% block head %}<noscript><meta http-equiv="refresh" content="15"></noscript>{% endblock %}
+{% block heading %}<span class="loading loading-spinner loading-sm" aria-hidden="true"></span>
+{{ title }}{% endblock %}
+{% block scripts %}
+<script>
+  // Ask for the page again, each time waiting on the server a moment for the start, until the
+  // answer is no longer that the app is starting, which alone says when to try again: then
+  // load it, the app's page or why it can't start. A proxy's 502 or 504, while the server
+  // restarts, is asked again too. The probe says what it is, so the page it gets takes nothing
+  // meant for the person, such as a notice the console shows once.
+  (async () => {
+    for (;;) {
+      const asked = Date.now();
+      try {
+        const answer = await fetch(location.href, {
+          cache: "no-store",
+          headers: { "Cliquet-Probe": "starting" },
+        });
+        const starting = answer.status === 503 && answer.headers.has("Retry-After");
+        if (!starting && answer.status !== 502 && answer.status !== 504) break;
+      } catch {
+        // The server can't be reached for a moment: ask again.
+      }
+      await new Promise((go) => setTimeout(go, Math.max(0, 1000 - (Date.now() - asked))));
+    }
+    location.reload();
+  })();
+</script>
+{% endblock %}

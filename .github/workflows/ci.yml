@@ -1,0 +1,78 @@
+# Check every pull request and every push to main: work reaches main both ways. The hosted
+# service is deployed from elsewhere.
+name: CI
+
+# A change to the top-level Markdown files or the website alone runs nothing: no test reads
+# them. The docs site's pages and config are the exception: a test builds them. The builder's
+# guides and the examples' instructions are not in this list. A later pattern overrides an
+# earlier one.
+on:
+  push:
+    branches: [main]
+    paths: &paths
+      - "**"
+      - "!*.md"
+      - "!website/**"
+      - "website/docs/**"
+      - "website/docs-theme/**"
+      - "website/zensical.toml"
+      - "!wrangler.jsonc"
+  pull_request:
+    paths: *paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: Definition of done
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # The runner's Chrome. Set, so a missing browser fails the browser tests
+      # instead of skipping them.
+      CLIQUET_CHROME: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Name the commits the tests make
+        run: |
+          git config --global user.name "Cliquet CI"
+          git config --global user.email "ci@cliquet.invalid"
+      - run: uv sync --all-packages --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run ty check
+      - run: uv run pytest
+      - run: scripts/check-examples.sh
+
+  commits:
+    name: Commit messages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --all-packages --frozen
+      # Only the commits this push or pull request adds: older ones keep their messages.
+      - name: Check the new commits
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No earlier commit to compare with: nothing to check."
+          else
+            uv run cz check --rev-range "$BASE..$HEAD"
+          fi

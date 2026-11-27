@@ -1,0 +1,15 @@
+{% extends "console.html" %}
+{# The settings: one page with a tab each, as `Site.console` lists them in settings_tabs. #}
+{% block main %}
+<header class="page-head">
+  <h1>Settings</h1>
+</header>
+<nav class="tabs tabs-border nav-tabs" id="settings-tabs" aria-label="Settings">
+  {% for href, label in settings_tabs %}
+  <a class="tab" href="{{ href }}"{% if here == href %} aria-current="page"{% endif %}>{{ label }}</a>
+  {% endfor %}
+</nav>
+<div class="tab-body">
+  {% block tab %}{% endblock %}
+</div>
+{% endblock %}

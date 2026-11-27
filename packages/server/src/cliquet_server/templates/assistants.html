@@ -1,0 +1,18 @@
+{% extends "settings.html" %}
+{% block title %}Assistants · Settings · cliquet.dev{% endblock %}
+{% block tab %}
+{% if demo %}{% include "demo_warning.html" %}{% endif %}
+<section class="card card-border" aria-labelledby="connect-title">
+  <div class="card-body">
+    <h2 class="card-title" id="connect-title">Connect your AI assistant</h2>
+    <p class="text-base-content/70">Add this address to your assistant once, as a connector, also called a
+      remote MCP server. It signs in as you, and reaches every app you use{% if builds %}. It also
+      builds your apps, and publishes them when you agree{% endif %}.</p>
+    <div class="stack">
+      {% include "connector.html" %}
+    </div>
+  </div>
+</section>
+<p class="text-base-content/70"><small>An agent that runs on its own, such as a scheduled job, uses an
+  app's own address with an <a class="link" href="/tokens">API token</a> instead.</small></p>
+{% endblock %}

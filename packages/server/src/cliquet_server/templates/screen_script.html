@@ -1,0 +1,24 @@
+<script>
+  // Load the screen in the system's light or dark, and give it the height it asks for. While a
+  // click on it works, show daisyUI's running progress along the top of the window: the frame is
+  // as tall as its screen, so the screen's own bar would scroll out of sight.
+  (() => {
+    const screen = document.getElementById("screen");
+    if (!screen) return;
+    const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    screen.src = screen.dataset.src + (dark ? "&theme=dark" : "");
+    const bar = document.createElement("progress");
+    bar.className = "progress progress-primary working-bar";
+    bar.hidden = true;
+    bar.setAttribute("aria-hidden", "true");
+    document.body.append(bar);
+    window.addEventListener("message", (event) => {
+      if (event.origin !== location.origin || event.source !== screen.contentWindow) return;
+      if (event.data && event.data.cliquet === "height") {
+        screen.style.height = event.data.height + "px";
+      } else if (event.data && event.data.cliquet === "working") {
+        bar.hidden = event.data.working !== true;
+      }
+    });
+  })();
+</script>

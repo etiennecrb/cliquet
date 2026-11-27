@@ -1,0 +1,8 @@
+pattern,class,depth,upkeep
+^Assets:Broker(:|$),Stocks,1,monthly-prices
+^Assets:Insurance(:|$),Life insurance,2,yearly-prices
+^Assets:Bank:Savings(:|$),Savings,2,interest
+^Assets:Home(:|$),Property,1,revalue
+^Assets:(Bank:Checking|Meal-Card)(:|$),Current accounts,2,
+^Assets:,Other assets,2,
+^Liabilities:,Debts,2,

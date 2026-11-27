@@ -1,0 +1,65 @@
+{% extends "manage.html" %}
+{% block tab %}
+{% if notice %}
+<div class="alert{% if failed %} alert-error{% endif %}" role="{% if failed %}alert{% else %}status{% endif %}"><span class="error-text">{{ notice }}</span></div>
+{% endif %}
+<section class="card card-border" aria-labelledby="history-title">
+  <div class="card-body">
+    <h2 class="card-title" id="history-title">History</h2>
+    <p class="text-base-content/70">The latest changes to the data, newest first: who made each one, with which role, and the name of the API token it was made
+      with, if any. Open one to see
+      what it did to the data, or to undo it.</p>
+    {% if entries %}
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>When</th><th>Who</th><th>What</th><th>Files</th></tr></thead>
+        <tbody>
+        {% for entry in entries %}
+        <tr>
+          <td class="nowrap">{{ entry.when }}</td>
+          <td>{{ entry.caller }}{% if entry.role %} <span class="badge badge-ghost">{{ entry.role }}</span>{% endif %}{% if entry.agent %}<p class="text-base-content/60">with the token {{ entry.agent }}</p>{% endif %}</td>
+          <td><a class="link" href="/manage/{{ login }}/{{ name }}/history/{{ entry.commit }}">{% if entry.publish %}{{ entry.publish.title }}{% else %}<code>{{ entry.action }}</code>{% endif %}</a>{% if entry.publish %}<p class="text-base-content/60">{{ entry.publish.detail }}</p>{% endif %}{% if entry.remark %}<p class="text-base-content/60">{{ entry.remark }}</p>{% endif %}</td>
+          <td class="text-base-content/60">{{ entry.files }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-base-content/60">No change yet.</p>
+    {% endif %}
+  </div>
+</section>
+<section class="card card-border" aria-labelledby="versions-title">
+  <div class="card-body">
+    <h2 class="card-title" id="versions-title">Versions</h2>
+    <p class="text-base-content/70">Each publish, newest first. Restoring a version publishes its code again, as one new
+      publish, with the same checks as any publish. When a later publish had a migration, it also puts back the data from
+      before it.{% if can_restore %} To try a version first, ask your assistant to restore it with
+      <code>restore_version</code>, then open <a class="link" href="/build/{{ name }}/preview">the draft's pages</a>.{% endif %}</p>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>When</th><th>Who</th><th>Note</th><th>Version</th>{% if can_restore %}<th><span class="sr-only">Restore</span></th>{% endif %}</tr></thead>
+        <tbody>
+        {% for version in versions %}
+        <tr>
+          <td class="nowrap">{{ version.when }}</td>
+          <td>{{ version.caller }}</td>
+          <td>{{ version.note }}{% if version.restores %}<p class="text-base-content/60">Restored the version of <code>{{ version.restores }}</code>.</p>{% endif %}</td>
+          <td><code>{{ version.version }}</code></td>
+          {% if can_restore %}
+          <td>{% if version.live %}<span class="badge badge-ghost">Live</span>{% else %}
+            <form method="post" action="/manage/{{ login }}/{{ name }}/versions/{{ version.commit }}/restore"
+                  data-confirm="Publish the version of {{ version.when }} again? It replaces the live version, with the same checks as any publish.">
+              <input type="hidden" name="csrf" value="{{ csrf }}">
+              <button class="btn btn-sm" type="submit">Restore this version<span class="sr-only"> of {{ version.when }}</span></button>
+            </form>{% endif %}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

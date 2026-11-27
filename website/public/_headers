@@ -1,0 +1,16 @@
+# Response headers for the static files: https://developers.cloudflare.com/workers/static-assets/headers/
+# Cloudflare Web Analytics adds its script to every page, loaded from
+# static.cloudflareinsights.com, and it reports to cloudflareinsights.com.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
+
+# The docs, built by Zensical, have inline scripts and styles: their policy allows them. They
+# are static pages that show nothing a visitor sent.
+/docs/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cloudflareinsights.com; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
+
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable

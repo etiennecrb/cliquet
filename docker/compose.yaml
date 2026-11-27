@@ -1,0 +1,154 @@
+# Cliquet on one machine, with Docker Compose: see website/docs/guides/self-hosting/compose.md.
+#
+#   docker compose build                    # the server's and the sandbox's images
+#   docker compose up -d                    # local: the server, on 127.0.0.1:8800
+#   docker compose --profile public up -d   # public: Caddy, Keycloak and PostgreSQL too
+#
+# Settings come from docker/.env, which starts as a copy of docker/.env.example.
+name: cliquet
+
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/server.Dockerfile
+    image: cliquet-server:latest
+    restart: unless-stopped
+    environment:
+      CLIQUET_BASE_URL: ${CLIQUET_BASE_URL:-http://127.0.0.1:8800}
+      CLIQUET_DEV_LOGIN: ${CLIQUET_DEV_LOGIN:-}
+      CLIQUET_SECRET_KEY: ${CLIQUET_SECRET_KEY:-}
+      # In public: Keycloak, the sign-in provider below.
+      CLIQUET_AUTH: ${CLIQUET_AUTH:-}
+      CLIQUET_OIDC_ISSUER: ${CLIQUET_OIDC_ISSUER:-}
+      CLIQUET_OIDC_CLIENT_ID: ${CLIQUET_OIDC_CLIENT_ID:-}
+      CLIQUET_OIDC_CLIENT_SECRET: ${CLIQUET_OIDC_CLIENT_SECRET:-}
+      CLIQUET_EXECUTOR: docker
+      # Each sandbox mounts only its owner's folder of this volume.
+      CLIQUET_SANDBOX_SOCKETS: /sockets
+      CLIQUET_SANDBOX_SOCKETS_VOLUME: cliquet_sockets
+    # The server reaches Docker through the host's socket, as a member of the socket's group.
+    group_add: ["${DOCKER_GID:?set DOCKER_GID in docker/.env, as docker/.env.example says}"]
+    volumes:
+      - data:/data
+      - sockets:/sockets
+      - ${DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
+    # On this machine only: Caddy is what the public server is reached through.
+    ports:
+      - "127.0.0.1:8800:8080"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=5)
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+
+  # The image each owner's sandbox container is made from. The server makes the containers, so
+  # Compose only builds it.
+  sandbox:
+    build:
+      context: ..
+      dockerfile: docker/sandbox.Dockerfile
+    image: cliquet-sandbox:latest
+    scale: 0
+
+  # HTTPS for the server's address, with a certificate Caddy gets and renews by itself.
+  caddy:
+    image: caddy:2
+    profiles: [public]
+    restart: unless-stopped
+    depends_on: [server]
+    environment:
+      CLIQUET_BASE_URL: ${CLIQUET_BASE_URL:-http://127.0.0.1:8800}
+      LOGIN_HOST: ${LOGIN_HOST:-}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      default:
+        # The server reaches the sign-in provider at its public name, inside this network.
+        aliases: ["${LOGIN_HOST:-}"]
+
+  # The sign-in provider, at LOGIN_HOST through Caddy. It imports the cliquet realm at its first
+  # start: see website/docs/guides/self-hosting/sign-in.md.
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.2
+    # The realm is imported once, with the values found then: refuse to start without them.
+    entrypoint:
+      - bash
+      - -c
+      - >-
+        [[ $$CLIQUET_BASE_URL == https://* && $$CLIQUET_BASE_URL != */
+        && -n $$CLIQUET_OIDC_CLIENT_SECRET ]]
+        || { echo "Set CLIQUET_BASE_URL to the server's https address, with no final slash,"
+        "and CLIQUET_OIDC_CLIENT_SECRET, in docker/.env" >&2; exit 1; };
+        exec /opt/keycloak/bin/kc.sh start --import-realm
+    profiles: [public]
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-}
+      KC_HOSTNAME: https://${LOGIN_HOST:-}
+      # Caddy gives it HTTPS, and says so in its headers.
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_HEALTH_ENABLED: "true"
+      # The administrator of the master realm, made at the first start.
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:-}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:-}
+      # What the realm's placeholders take.
+      CLIQUET_BASE_URL: ${CLIQUET_BASE_URL:-}
+      CLIQUET_OIDC_CLIENT_SECRET: ${CLIQUET_OIDC_CLIENT_SECRET:-}
+    volumes:
+      - ./cliquet-realm.json:/opt/keycloak/data/import/cliquet-realm.json:ro
+    healthcheck:
+      # The image has no curl: bash asks the management port whether Keycloak is ready.
+      test:
+        - CMD
+        - bash
+        - -c
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/9000
+          && printf 'GET /health/ready HTTP/1.0\r\n\r\n' >&3
+          && read -r status <&3 && [[ $$status == *' 200 '* ]]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+
+  # The sign-in provider's database.
+  postgres:
+    image: postgres:18
+    profiles: [public]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+    volumes:
+      - postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username", "keycloak"]
+      interval: 10s
+      timeout: 5s
+
+volumes:
+  data:
+  # Named here as the server's setting names it.
+  sockets:
+    name: cliquet_sockets
+  caddy_data:
+  caddy_config:
+  postgres:

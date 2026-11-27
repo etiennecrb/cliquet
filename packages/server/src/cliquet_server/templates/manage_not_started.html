@@ -1,0 +1,15 @@
+{% extends "manage.html" %}
+{% block tab %}
+<section class="card card-border" aria-labelledby="not-started-title">
+  <div class="card-body">
+    <h2 class="card-title" id="not-started-title">The app can't be started</h2>
+    <p class="text-base-content/70">This needs the live app, which can't be started now. Until it can, its pages and its calls say so. Only you read why: it may quote the app's code or data.</p>
+    <pre class="error-text">{{ why }}</pre>
+    {% if error_id %}<p>It is kept in the Errors tab as <a class="link" href="{{ here }}/errors/{{ error_id }}"><code>{{ error_id }}</code></a>. Ask your assistant to read it, fix the app and publish it again.</p>{% endif %}
+    <div class="card-actions">
+      <a class="btn" href="{{ here }}/errors">Open the Errors tab</a>
+      {% if tab == "overview" %}<a class="btn btn-error btn-outline" href="{{ here }}/delete">Delete this app</a>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

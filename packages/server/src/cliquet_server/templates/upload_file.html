@@ -1,0 +1,35 @@
+{% extends "console.html" %}
+{% block title %}Upload a file · {{ app }} · cliquet.dev{% endblock %}
+{% block main %}
+<header class="page-head">
+  <h1>Upload a file for {{ action }}</h1>
+  <p class="text-base-content/70">The file goes to {{ app }} straight from your computer, for one call of
+    {{ action }}. Your assistant never reads it: the app does. Cliquet doesn't keep the file after that call.</p>
+</header>
+{% if message %}
+<div class="alert{% if not done %} alert-error{% endif %}" role="status">
+  <span>{{ message }}</span>
+</div>
+{% endif %}
+<section class="card card-border" aria-labelledby="choose-title">
+  <div class="card-body">
+    <h2 class="card-title" id="choose-title">Choose the file</h2>
+    <p class="text-base-content/70">At most {{ limit }}.{% if file_name %} {{ file_name }} ({{ size }}) is
+      there already: a new file replaces it.{% endif %}</p>
+    <form class="upload-form" method="post" action="/uploads/{{ reference }}" enctype="multipart/form-data">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <fieldset class="fieldset">
+        <label class="fieldset-legend" for="upload-file">File</label>
+        <input class="file-input" id="upload-file" name="file" type="file" required
+               data-max-size="{{ max_size }}" data-too-big="{{ too_big }}" aria-describedby="upload-too-big">
+        <p class="text-error" id="upload-too-big" role="alert" hidden></p>
+      </fieldset>
+      <div><button class="btn btn-primary" type="submit">Upload</button></div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{% include "upload_too_big.html" %}
+{% endblock %}

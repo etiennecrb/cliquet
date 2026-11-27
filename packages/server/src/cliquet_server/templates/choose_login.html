@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "parts.html" import brand %}
+{% block title %}Choose your login · cliquet.dev{% endblock %}
+{% block body_class %}plain{% endblock %}
+{% block body %}
+<main class="plain-main">
+  {{ brand() }}
+  <section class="card card-border" aria-labelledby="login-title">
+    <div class="card-body">
+      <h1 class="card-title" id="login-title">Choose your login</h1>
+      <p class="text-base-content/70">Your login is in your apps' addresses and in their history, and you can't change it later. Keep the suggestion or write your own.</p>
+      {% if refusal %}
+      <div class="alert alert-error" role="alert"><span>{{ refusal }}</span></div>
+      {% endif %}
+      <form method="post" action="/auth/choose-login">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <fieldset class="fieldset">
+          <label class="fieldset-legend" for="login">Login</label>
+          <input class="input" id="login" name="login" type="text" required value="{{ login }}" maxlength="{{ max_login }}" autocomplete="username" autocapitalize="none" spellcheck="false">
+          <p class="label">Lower-case letters, digits and hyphens.</p>
+        </fieldset>
+        <div class="card-actions">
+          <button class="btn btn-primary" type="submit">Continue</button>
+        </div>
+      </form>
+    </div>
+  </section>
+  {% from "parts.html" import privacy_link %}{{ privacy_link(privacy_url) }}
+</main>
+{% endblock %}

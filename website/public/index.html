@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cliquet.dev · Apps for you and your agents</title>
+  <meta name="description" content="Cliquet lets your AI assistant build and deploy an app for your process and its data, and runs it securely. Your team and your agents use it, and its rules always hold.">
+  <meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14131a" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://cliquet.dev/">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cliquet.dev/">
+  <meta property="og:title" content="cliquet.dev · Apps for you and your agents">
+  <meta property="og:description" content="Cliquet lets your AI assistant build and deploy an app for your process, and runs it securely. Your team and every agent use it, and the rules always hold.">
+  <meta property="og:image" content="https://cliquet.dev/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/vendor/daisyui-5.8.1.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/pagemap.js" defer></script>
+  <script src="/menu.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <!-- The logo: a ratchet wheel, the "cliquet", with a play button cut out of it. Its
+         outline, in the same colour with rounded joins, rounds the teeth; the play is drawn
+         with rounded corners, since the outline can't round a hole's corners. -->
+    <symbol id="mark" viewBox="-1 -1 34 34">
+      <path class="mark-wheel" fill-rule="evenodd" d="M25.0 16.0 L28.9 21.4 L24.3 19.5 L23.8 20.5 L24.5 27.1 L21.4 23.2 L20.5 23.8 L17.8 29.9 L17.1 24.9 L16.0 25.0 L10.6 28.9 L12.5 24.3 L11.5 23.8 L4.9 24.5 L8.8 21.4 L8.2 20.5 L2.1 17.8 L7.1 17.1 L7.0 16.0 L3.1 10.6 L7.7 12.5 L8.2 11.5 L7.5 4.9 L10.6 8.8 L11.5 8.2 L14.2 2.1 L14.9 7.1 L16.0 7.0 L21.4 3.1 L19.5 7.7 L20.5 8.2 L27.1 7.5 L23.2 10.6 L23.8 11.5 L29.9 14.2 L24.9 14.9 Z M21.60 18.42 L15.30 22.06 A2.8 2.8 0 0 1 11.10 19.64 L11.10 12.36 A2.8 2.8 0 0 1 15.30 9.94 L21.60 13.58 A2.8 2.8 0 0 1 21.60 18.42 Z"/>
+    </symbol>
+    <symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13v1M15 13v1M9 17h6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 48 24"><path d="M2 12h42M36 5l8 7-8 7"/></symbol>
+    <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-3 3.5-9.5 5.5"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v4M15 3v4M6 7h12v4a6 6 0 0 1-12 0zM12 17v4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <!-- GitHub's mark, from Simple Icons (CC0). -->
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-menu-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <nav class="navbar shell">
+      <a class="brand" href="/" aria-label="cliquet.dev home">
+        <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
+        <span>cliquet<span class="tld">.dev</span></span>
+      </a>
+      <div class="navlinks">
+        <a href="#what">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="/docs/">Docs</a>
+      </div>
+      <div class="nav-ctas">
+        <a class="nav-github" href="https://github.com/etiennecrb/cliquet" title="Cliquet on GitHub"
+          aria-label="Cliquet on GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg></a>
+        <a class="btn btn-sm btn-signin" href="https://app.cliquet.dev">Sign in</a>
+        <a class="btn btn-primary btn-sm" href="https://app.cliquet.dev/signup">Try for free</a>
+      </div>
+      <details class="nav-menu">
+        <summary aria-label="Menu">
+          <svg class="icon nav-menu-open" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="icon nav-menu-close" aria-hidden="true"><use href="#i-menu-close"/></svg>
+        </summary>
+        <div class="nav-menu-panel">
+          <a href="#what">How it works</a>
+          <a href="#faq">FAQ</a>
+          <a href="/docs/">Docs</a>
+          <a href="https://github.com/etiennecrb/cliquet"><svg aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+          <a class="btn btn-signin" href="https://app.cliquet.dev">Sign in</a>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <nav class="pagemap" aria-label="On this page">
+    <div class="pm-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="pm-card">
+      <a href="#why">Why</a>
+      <a href="#what">How it works</a>
+      <a href="#build">Building</a>
+      <a href="#rules">Rules</a>
+      <a href="#everywhere">Screens and MCP</a>
+      <a href="#uses">Use cases</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="top" class="hero2">
+      <div class="shell hero2-copy">
+        <h1>Apps for you <em>and your agents</em></h1>
+        <p class="lead">
+          Cliquet lets your AI assistant build and deploy an app for your process and its data, and
+          runs it securely. Your team works in the app from a phone or a browser, your agents through
+          its tools, and a change that breaks a rule is refused, whoever makes it.
+        </p>
+        <a class="btn btn-primary" href="https://app.cliquet.dev/signup">Try for free</a>
+        <p class="fine works-with">Works with Claude, ChatGPT, Codex, Cursor and any MCP client.</p>
+      </div>
+
+      <div class="shell stage-wrap">
+        <div class="stage" role="img" aria-label="On the left, Tom asks his AI assistant to ask the team's release schedule for a production release of v4.3, on staging since Monday, on Friday. It is refused, because no production release goes out on a Friday, a public holiday or the day before one. The assistant finds the next free slot, Monday at 10:00, and books it. On the right, Priya sees the release schedule: next week's releases, with Friday blocked, a change by the release bot waiting for her approval, and the coming releases, booked by Tom's assistant, the release bot and herself.">
+          <div class="aichat">
+            <div class="ac-bar"><span class="ac-dot"><svg class="icon"><use href="#i-bot"/></svg></span><b>Your AI assistant</b><span class="ac-app"><svg class="aw-mark"><use href="#mark"/></svg>Release schedule connected</span></div>
+            <div class="ac-body">
+              <div class="chat chat-end"><div class="chat-bubble chat-bubble-primary">v4.3 has been on staging since Monday. Book its production release for Friday, 14:00.</div></div>
+              <div class="ac-call-card bad">
+                <p class="acc-head"><svg class="aw-mark"><use href="#mark"/></svg>Release schedule · <code>book_release</code></p>
+                <p class="acc-body"><span class="st bad">Refused</span>No production release on a Friday, a public holiday or the day before one.</p>
+              </div>
+              <div class="ac-ai"><span class="ac-avatar"><svg class="icon"><use href="#i-bot"/></svg></span><p>Fridays are out. The next free slot is Monday at 10:00, a full week after staging. Shall I book it?</p></div>
+              <div class="chat chat-end"><div class="chat-bubble chat-bubble-primary">Yes.</div></div>
+              <div class="ac-call-card ok">
+                <p class="acc-head"><svg class="aw-mark"><use href="#mark"/></svg>Release schedule · <code>book_release</code> for Monday 10:00</p>
+                <p class="acc-body"><span class="st ok">Kept</span>Commit 7d01b4a</p>
+              </div>
+              <div class="ac-ai"><span class="ac-avatar"><svg class="icon"><use href="#i-bot"/></svg></span><p>Booked. v4.3 ships on Monday at 10:00, and the team sees it on the calendar.</p></div>
+            </div>
+            <div class="ac-input"><span>Ask about your releases…</span><span class="ac-send"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+          </div>
+
+          <div class="appcol">
+          <div class="appwin">
+            <div class="aw-bar">
+              <svg class="aw-mark"><use href="#mark"/></svg>
+              <span class="crumb">Engineering</span><span class="sep">/</span>
+              <span class="crumb strong">Release schedule</span>
+              <span class="aw-space"></span>
+              <span class="aw-avatar">P</span>
+            </div>
+            <div class="aw-body">
+              <div class="aw-kpis">
+                <div class="wk-card"><span class="k-label">Next week</span>
+                  <div class="wk">
+                    <span class="d"><b>Mon</b><i></i><i></i></span>
+                    <span class="d"><b>Tue</b></span>
+                    <span class="d"><b>Wed</b><i></i></span>
+                    <span class="d"><b>Thu</b></span>
+                    <span class="d no"><b>Fri</b><svg class="icon"><use href="#i-x"/></svg></span>
+                  </div>
+                </div>
+                <div class="wait-card"><span class="k-label">Waiting for you</span>
+                  <span class="w-txt">The release bot moved <b>billing v3.0</b> to Dec 14, and the release after it.</span>
+                  <span class="w-btns"><span class="btn btn-primary btn-xs">Keep</span><span class="btn btn-ghost btn-xs">Drop</span></span>
+                </div>
+              </div>
+              <div class="aw-table rel">
+                <p class="aw-h">Coming up</p>
+                <div class="tr th"><span>Release</span><span>Booked by</span><span>Slot</span><span>Status</span></div>
+                <div class="tr"><span><b>v4.3</b></span><span><i class="who-dot bot"><svg class="icon"><use href="#i-bot"/></svg></i>Tom's assistant</span><span>Mon 10:00</span><span><b class="st new">New</b></span></div>
+                <div class="tr"><span><b>payments v2.1</b></span><span><i class="who-dot bot"><svg class="icon"><use href="#i-bot"/></svg></i>Release bot</span><span>Mon 11:00</span><span><b class="st ok">Booked</b></span></div>
+                <div class="tr"><span><b>search v1.8</b></span><span><i class="who-dot a1">P</i>Priya</span><span>Wed 15:00</span><span><b class="st ok">Booked</b></span></div>
+                <div class="tr"><span><b>Freeze</b></span><span><i class="who-dot a1">P</i>Priya</span><span>Dec 18</span><span><b class="st wait">Set</b></span></div>
+              </div>
+            </div>
+          </div>
+            <div class="float notice">
+            <span class="t-icon"><svg class="icon"><use href="#i-x"/></svg></span>
+            <div><b>Refused: v4.3 on Friday</b><span>No production release on a Friday, a holiday or the day before one.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="block shell">
+      <div class="section-head center">
+        <h2>Your agents are ready.<br>The way they reach your data isn't.</h2>
+        <p class="sub">Agents already do the busywork well: they read documents, fill in records and answer
+          questions. But nothing stops an agent from breaking your rules, so it's risky to let one
+          into your team's process.</p>
+      </div>
+      <div class="problems">
+        <article class="problem">
+          <div class="p-art prompts" aria-hidden="true">
+            <p class="pr one">"No release on a Friday or before a public holiday."</p>
+            <p class="pr two">"Avoid Friday deploys if you can."</p>
+            <p class="pr three">"Holidays in which country, again?"</p>
+          </div>
+          <h3>Rules live in prompts and skills</h3>
+          <p>Each agent carries its own copy, buried among workarounds. The copies drift, and a rule in a prompt is only advice.</p>
+        </article>
+        <article class="problem">
+          <div class="p-art limits" aria-hidden="true">
+            <span class="lbot"><svg class="icon"><use href="#i-bot"/></svg></span>
+            <div class="lchips">
+              <span class="lc ok"><svg class="icon"><use href="#i-check"/></svg>book a release</span>
+              <span class="lc ok"><svg class="icon"><use href="#i-check"/></svg>find a free slot</span>
+              <span class="lc no"><svg class="icon"><use href="#i-x"/></svg>lift the freeze</span>
+            </div>
+          </div>
+          <h3>Agents need limits</h3>
+          <p>Giving an agent your spreadsheet gives it everything. It should only be able to do what its job needs.</p>
+        </article>
+        <article class="problem">
+          <div class="p-art who" aria-hidden="true">
+            <div class="cell"><span>v4.3</span><b>Fri 16:00</b></div>
+            <div class="cell-note">Moved by agent · why <span class="q">?</span> · allowed <span class="q">?</span></div>
+          </div>
+          <h3>A history without the why</h3>
+          <p>A sheet's history shows who changed a value, but not why, nor whether the change followed your rules. And undoing one change means rolling back everything after it.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="what" class="block band">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">What Cliquet is</p>
+          <h2>Your process, as an app your agents can use safely</h2>
+          <p class="sub">A Cliquet app holds your process's data, behind its rules. People use it on
+            its screens, in a browser or in their AI assistant, and agents use its tools over MCP.
+            A release schedule, a service catalog, a household ledger: any process, at work or at
+            home.</p>
+        </div>
+
+        <figure class="diagram">
+          <p id="d-desc" class="sr-only">Your team uses the app's screens on the web, and your agents use its tools over MCP. Both reach the same actions, which change the data, and queries, which only read it. Every action passes the invariants before it reaches the data, which is plain files in git; a change that breaks a rule is refused. Actions, queries and invariants run in a sandbox with no network, on a copy of the data; the server keeps the data, and commits a change only once it is checked.</p>
+          <svg class="d-wide" viewBox="0 0 1130 430" role="img" aria-labelledby="d-desc"><defs><marker id="d-head-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-headpath" d="M0 0 L10 5 L0 10 z"/></marker></defs><rect class="d-app" x="232" y="8" width="890" height="414" rx="20"/><rect class="d-box" x="472" y="45" width="392" height="340" rx="20"/><rect class="d-node d-who" x="8" y="48" width="176" height="96" rx="12"/><circle class="d-face a" cx="47.300000000000004" cy="76.0" r="9"/><circle class="d-face b" cx="59.300000000000004" cy="76.0" r="9"/><text class="d-face-t" x="47.300000000000004" y="80.0">P</text><text class="d-face-t" x="59.300000000000004" y="80.0">T</text><text class="d-t d-t-start" x="76.30000000000001" y="81.0">Your team</text><text class="d-s" x="96.0" y="105.0">on a phone or</text><text class="d-s" x="96.0" y="122.0">in the browser</text><rect class="d-node d-who" x="8" y="286" width="176" height="96" rx="12"/><circle class="d-ic-bg" cx="44.7" cy="314.0" r="12"/><use class="d-ic" href="#i-bot" x="36.7" y="306.0" width="16" height="16"/><text class="d-t d-t-start" x="62.7" y="319.0">Your agents</text><text class="d-s" x="96.0" y="343.0">Claude, Codex,</text><text class="d-s" x="96.0" y="360.0">scheduled agents</text><rect class="d-node" x="262" y="60" width="150" height="72" rx="12"/><circle class="d-ic-bg" cx="302.9" cy="84.5" r="12"/><use class="d-ic" href="#i-phone" x="294.9" y="76.5" width="16" height="16"/><text class="d-t d-t-start" x="320.9" y="89.5">Screens</text><text class="d-s" x="337.0" y="113.5">pages people tap</text><rect class="d-node" x="262" y="298" width="150" height="72" rx="12"/><circle class="d-ic-bg" cx="294.3" cy="322.5" r="12"/><use class="d-ic" href="#i-plug" x="286.3" y="314.5" width="16" height="16"/><text class="d-t d-t-start" x="312.3" y="327.5">MCP tools</text><text class="d-s" x="337.0" y="351.5">for any agent</text><rect class="d-node" x="492" y="91" width="170" height="120" rx="12"/><circle class="d-ic-bg" cx="542.9" cy="115.0" r="12"/><use class="d-ic" href="#i-pen" x="534.9" y="107.0" width="16" height="16"/><text class="d-t d-t-start" x="560.9" y="120.0">Actions</text><text class="d-s" x="577.0" y="144.0">change the data</text><rect class="d-chip" x="534.6" y="156.0" width="84.8" height="17" rx="5"/><text class="d-c" x="577.0" y="168.0">book_release</text><rect class="d-chip" x="540.5" y="177.0" width="73.0" height="17" rx="5"/><text class="d-c" x="577.0" y="189.0">set_freeze</text><rect class="d-node" x="492" y="235" width="170" height="120" rx="12"/><circle class="d-ic-bg" cx="542.9" cy="259.0" r="12"/><use class="d-ic" href="#i-search" x="534.9" y="251.0" width="16" height="16"/><text class="d-t d-t-start" x="560.9" y="264.0">Queries</text><text class="d-s" x="577.0" y="288.0">read the data</text><rect class="d-chip" x="540.5" y="300.0" width="73.0" height="17" rx="5"/><text class="d-c" x="577.0" y="312.0">free_slots</text><rect class="d-chip" x="543.45" y="321.0" width="67.1" height="17" rx="5"/><text class="d-c" x="577.0" y="333.0">this_week</text><rect class="d-node d-key" x="692" y="86" width="150" height="130" rx="12"/><circle class="d-ic-bg" cx="720.0" cy="106.5" r="12"/><use class="d-ic" href="#i-shield" x="712.0" y="98.5" width="16" height="16"/><text class="d-t d-t-start" x="738.0" y="111.5">Invariants</text><text class="d-s" x="767.0" y="135.5">rules checked on</text><text class="d-s" x="767.0" y="152.5">every change</text><rect class="d-chip" x="703.95" y="164.5" width="126.1" height="17" rx="5"/><text class="d-c" x="767.0" y="176.5">allowed_release_day</text><rect class="d-chip" x="715.75" y="185.5" width="102.5" height="17" rx="5"/><text class="d-c" x="767.0" y="197.5">week_on_staging</text><rect class="d-node d-data" x="952" y="72" width="150" height="286" rx="12"/><circle class="d-ic-bg" cx="1005.8" cy="155.0" r="12"/><use class="d-ic" href="#i-git" x="997.8" y="147.0" width="16" height="16"/><text class="d-t d-t-start" x="1023.8" y="160.0">Data</text><text class="d-s" x="1027.0" y="184.0">plain files in git</text><text class="d-s" x="1027.0" y="201.0">kept by the server</text><rect class="d-chip" x="987.55" y="213.0" width="78.9" height="17" rx="5"/><text class="d-c" x="1027.0" y="225.0">38 releases</text><path class="d-file" d="M972.0 243.0 H993.0 L1002.0 252.0 V281.0 H972.0 Z"/><path class="d-file-fold" d="M993.0 243.0 V252.0 H1002.0"/><text class="d-file-t" x="987.0" y="272.0">csv</text><path class="d-file" d="M1012.0 243.0 H1033.0 L1042.0 252.0 V281.0 H1012.0 Z"/><path class="d-file-fold" d="M1033.0 243.0 V252.0 H1042.0"/><text class="d-file-t" x="1027.0" y="272.0">json</text><path class="d-file" d="M1052.0 243.0 H1073.0 L1082.0 252.0 V281.0 H1052.0 Z"/><path class="d-file-fold" d="M1073.0 243.0 V252.0 H1082.0"/><text class="d-file-t" x="1067.0" y="272.0">txt</text><path class="d-line" d="M184 96 H262" marker-end="url(#d-head-w)"/><rect class="d-pill" x="203.5" y="85" width="39" height="22" rx="11"/><text class="d-p" x="223" y="100">web</text><path class="d-line" d="M184 334 H262" marker-end="url(#d-head-w)"/><rect class="d-pill" x="203.5" y="323" width="39" height="22" rx="11"/><text class="d-p" x="223" y="338">MCP</text><path class="d-line d-bus" d="M412 96 H452 V334 H412"/><path class="d-line" d="M452 151 H492" marker-end="url(#d-head-w)"/><path class="d-line" d="M452 295 H492" marker-end="url(#d-head-w)"/><path class="d-line" d="M662 151 H692" marker-end="url(#d-head-w)"/><path class="d-line" d="M842 151 H952" marker-end="url(#d-head-w)"/><rect class="d-pill" x="867.0" y="140" width="60" height="22" rx="11"/><text class="d-p" x="897" y="155">commit</text><path class="d-line" d="M662 295 H952" marker-end="url(#d-head-w)"/><rect class="d-pill" x="766.5" y="284" width="81" height="22" rx="11"/><text class="d-p" x="807" y="299">read only</text><text class="d-note" x="767" y="238">refused if a rule breaks</text><rect class="d-app-patch" x="250" y="21" width="132" height="21" rx="6"/><text class="d-app-label" x="256" y="36" text-anchor="start">Your Cliquet app</text><rect class="d-box-patch" x="486" y="56" width="183.0" height="21" rx="6"/><use class="d-ic d-ic-sm" href="#i-lock" x="492" y="59" width="14" height="14"/><text class="d-box-label" x="511" y="71">Sandbox · no network</text></svg>
+          <svg class="d-tall" viewBox="0 0 360 796" role="img" aria-labelledby="d-desc"><defs><marker id="d-head-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-headpath" d="M0 0 L10 5 L0 10 z"/></marker></defs><rect class="d-node d-who" x="4" y="6" width="166" height="76" rx="12"/><circle class="d-face a" cx="38.300000000000004" cy="32.5" r="9"/><circle class="d-face b" cx="50.300000000000004" cy="32.5" r="9"/><text class="d-face-t" x="38.300000000000004" y="36.5">P</text><text class="d-face-t" x="50.300000000000004" y="36.5">T</text><text class="d-t d-t-start" x="67.30000000000001" y="37.5">Your team</text><text class="d-s" x="87.0" y="61.5">phone or browser</text><rect class="d-node d-who" x="190" y="6" width="166" height="76" rx="12"/><circle class="d-ic-bg" cx="221.7" cy="32.5" r="12"/><use class="d-ic" href="#i-bot" x="213.7" y="24.5" width="16" height="16"/><text class="d-t d-t-start" x="239.7" y="37.5">Your agents</text><text class="d-s" x="273.0" y="61.5">Claude, Codex…</text><rect class="d-app" x="0" y="108" width="360" height="682" rx="20"/><rect class="d-box" x="8" y="258" width="344" height="324" rx="20"/><rect class="d-node" x="14" y="150" width="156" height="72" rx="12"/><circle class="d-ic-bg" cx="57.900000000000006" cy="174.5" r="12"/><use class="d-ic" href="#i-phone" x="49.900000000000006" y="166.5" width="16" height="16"/><text class="d-t d-t-start" x="75.9" y="179.5">Screens</text><text class="d-s" x="92.0" y="203.5">pages people tap</text><rect class="d-node" x="190" y="150" width="156" height="72" rx="12"/><circle class="d-ic-bg" cx="225.3" cy="174.5" r="12"/><use class="d-ic" href="#i-plug" x="217.3" y="166.5" width="16" height="16"/><text class="d-t d-t-start" x="243.3" y="179.5">MCP tools</text><text class="d-s" x="268.0" y="203.5">for any agent</text><rect class="d-node" x="18" y="296" width="152" height="120" rx="12"/><circle class="d-ic-bg" cx="59.900000000000006" cy="320.0" r="12"/><use class="d-ic" href="#i-pen" x="51.900000000000006" y="312.0" width="16" height="16"/><text class="d-t d-t-start" x="77.9" y="325.0">Actions</text><text class="d-s" x="94.0" y="349.0">change the data</text><rect class="d-chip" x="51.6" y="361.0" width="84.8" height="17" rx="5"/><text class="d-c" x="94.0" y="373.0">book_release</text><rect class="d-chip" x="57.5" y="382.0" width="73.0" height="17" rx="5"/><text class="d-c" x="94.0" y="394.0">set_freeze</text><rect class="d-node" x="190" y="296" width="152" height="120" rx="12"/><circle class="d-ic-bg" cx="231.9" cy="320.0" r="12"/><use class="d-ic" href="#i-search" x="223.9" y="312.0" width="16" height="16"/><text class="d-t d-t-start" x="249.9" y="325.0">Queries</text><text class="d-s" x="266.0" y="349.0">read the data</text><rect class="d-chip" x="229.5" y="361.0" width="73.0" height="17" rx="5"/><text class="d-c" x="266.0" y="373.0">free_slots</text><rect class="d-chip" x="232.45" y="382.0" width="67.1" height="17" rx="5"/><text class="d-c" x="266.0" y="394.0">this_week</text><rect class="d-node d-key" x="18" y="440" width="152" height="130" rx="12"/><circle class="d-ic-bg" cx="47.0" cy="460.5" r="12"/><use class="d-ic" href="#i-shield" x="39.0" y="452.5" width="16" height="16"/><text class="d-t d-t-start" x="65.0" y="465.5">Invariants</text><text class="d-s" x="94.0" y="489.5">rules checked on</text><text class="d-s" x="94.0" y="506.5">every change</text><rect class="d-chip" x="30.95" y="518.5" width="126.1" height="17" rx="5"/><text class="d-c" x="94.0" y="530.5">allowed_release_day</text><rect class="d-chip" x="42.75" y="539.5" width="102.5" height="17" rx="5"/><text class="d-c" x="94.0" y="551.5">week_on_staging</text><rect class="d-node d-data" x="14" y="626" width="332" height="150" rx="12"/><circle class="d-ic-bg" cx="158.8" cy="655.0" r="12"/><use class="d-ic" href="#i-git" x="150.8" y="647.0" width="16" height="16"/><text class="d-t d-t-start" x="176.8" y="660.0">Data</text><text class="d-s" x="180.0" y="684.0">plain files in git</text><text class="d-s" x="180.0" y="701.0">kept by the server</text><path class="d-file" d="M125.0 715.0 H146.0 L155.0 724.0 V753.0 H125.0 Z"/><path class="d-file-fold" d="M146.0 715.0 V724.0 H155.0"/><text class="d-file-t" x="140.0" y="744.0">csv</text><path class="d-file" d="M165.0 715.0 H186.0 L195.0 724.0 V753.0 H165.0 Z"/><path class="d-file-fold" d="M186.0 715.0 V724.0 H195.0"/><text class="d-file-t" x="180.0" y="744.0">json</text><path class="d-file" d="M205.0 715.0 H226.0 L235.0 724.0 V753.0 H205.0 Z"/><path class="d-file-fold" d="M226.0 715.0 V724.0 H235.0"/><text class="d-file-t" x="220.0" y="744.0">txt</text><path class="d-line" d="M87 82 V150" marker-end="url(#d-head-t)"/><rect class="d-pill" x="67.5" y="105" width="39" height="22" rx="11"/><text class="d-p" x="87" y="120">web</text><path class="d-line" d="M273 82 V150" marker-end="url(#d-head-t)"/><rect class="d-pill" x="253.5" y="105" width="39" height="22" rx="11"/><text class="d-p" x="273" y="120">MCP</text><path class="d-line d-bus" d="M92 222 V244 H266 V222"/><path class="d-line" d="M92 244 V296" marker-end="url(#d-head-t)"/><path class="d-line" d="M266 244 V296" marker-end="url(#d-head-t)"/><path class="d-line" d="M94 416 V440" marker-end="url(#d-head-t)"/><path class="d-line" d="M94 570 V626" marker-end="url(#d-head-t)"/><rect class="d-pill" x="64.0" y="587" width="60" height="22" rx="11"/><text class="d-p" x="94" y="602">commit</text><path class="d-line" d="M266 416 V626" marker-end="url(#d-head-t)"/><rect class="d-pill" x="225.5" y="509" width="81" height="22" rx="11"/><text class="d-p" x="266" y="524">read only</text><rect class="d-app-patch" x="114" y="117" width="132" height="21" rx="6"/><text class="d-app-label" x="180" y="132" text-anchor="middle">Your Cliquet app</text><rect class="d-box-patch" x="18" y="265" width="183.0" height="21" rx="6"/><use class="d-ic d-ic-sm" href="#i-lock" x="24" y="268" width="14" height="14"/><text class="d-box-label" x="43" y="280">Sandbox · no network</text></svg>
+        </figure>
+        <ol class="arch-steps">
+          <li><b>Two ways in.</b> Your team opens the app's screens in a browser or on a phone. Your
+            agents call its tools over MCP. Both reach the same actions and queries.</li>
+          <li><b>Every change is checked.</b> An action runs in a sandbox with no network, on a copy
+            of the data. The invariants check the result, and a change that breaks a rule is refused
+            with the reason.</li>
+          <li><b>Then it's kept.</b> The server commits the checked change to the app's git
+            repository, with who made it and why. Queries only read, so they skip that step.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="build" class="block shell frow">
+      <div class="section-head">
+        <h2>Your AI assistant builds it, and tests it before it's live</h2>
+        <p class="sub">You describe your process and its rules in plain words, and hand over your
+          spreadsheet. Your AI assistant writes the app with Cliquet's builder, and nothing goes live
+          until every rule has been tested.</p>
+      </div>
+      <div class="frow-grid">
+        <div class="panel">
+          <div class="aichat">
+            <div class="ac-bar"><span class="ac-dot"><svg class="icon"><use href="#i-bot"/></svg></span><b>Your AI assistant</b><span class="ac-app"><svg class="aw-mark"><use href="#mark"/></svg>Cliquet builder connected</span></div>
+            <div class="ac-body">
+              <div class="chat chat-end"><div class="chat-bubble chat-bubble-primary">Turn this sheet into our release schedule. No production release on a Friday, a holiday or the day before one, and a week on staging first. Only leads set a freeze.<span class="att"><svg class="icon"><use href="#i-file"/></svg>releases.xlsx</span>
+              <span class="xl in-bubble" aria-hidden="true">
+                <span class="xh"></span><span class="xh">A</span><span class="xh">B</span><span class="xh">C</span>
+                <span class="xh">1</span><span class="b">Release</span><span class="b">Date</span><span class="b">Team</span>
+                <span class="xh">2</span><span>v4.2</span><span>Dec 1</span><span>Core</span>
+                <span class="xh">3</span><span>search v1.7</span><span>Dec 2</span><span>Data</span>
+              </span></div></div>
+              <div class="ac-call-card ok">
+                <p class="acc-head"><svg class="aw-mark"><use href="#mark"/></svg>Cliquet builder · <code>run_tests</code></p>
+                <p class="acc-body"><span class="st ok">Passed</span>14 tests, and every rule refuses what it should</p>
+              </div>
+              <div class="ac-ai"><span class="ac-avatar"><svg class="icon"><use href="#i-bot"/></svg></span><p>The release schedule is ready: 38 past releases imported, 4 actions, 3 queries and 3 rules. Its screens look right on a phone and a desktop. Shall I publish it?</p></div>
+              <div class="chat chat-end"><div class="chat-bubble chat-bubble-primary">Yes, publish it.</div></div>
+              <div class="ac-call-card ok">
+                <p class="acc-head"><svg class="aw-mark"><use href="#mark"/></svg>Cliquet builder · <code>publish</code></p>
+                <p class="acc-body"><span class="st ok">Live</span>Your team and agents can use it now</p>
+              </div>
+            </div>
+            <div class="ac-input"><span>Ask for a change…</span><span class="ac-send"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+          </div>
+        </div>
+        <ul class="points">
+          <li><svg class="icon-md"><use href="#i-pen"/></svg><div><b>Describe it in plain words</b><span>Say what you track and the rules it must follow. Your AI assistant writes the app.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-file"/></svg><div><b>Bring your spreadsheet</b><span>Your existing data becomes the app's first data, checked against its rules.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-check"/></svg><div><b>Tested before it's live</b><span>Every rule is shown to refuse, and nothing is published until every check passes.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-history"/></svg><div><b>Change it by asking again</b><span>Add a rule or a screen later. Your data moves with the app.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="rules" class="block shell frow">
+      <div class="section-head">
+        <h2>Rules that always hold, whoever writes</h2>
+        <p class="sub">Your rules are written once, in the app, not in every agent's prompt. Every
+          change, by a person or an agent, is checked against them before it's saved.</p>
+      </div>
+      <div class="frow-grid">
+        <div class="panel">
+          <div class="pwin">
+            <div class="pw-head"><span class="pw-title"><svg class="icon"><use href="#i-shield"/></svg>Invariants</span><span class="badge badge-xs badge-soft badge-success">4 rules · all tested</span></div>
+            <div class="inv"><span class="inv-n">1</span><span>No production release on a Friday, a public holiday or the day before one.</span><b class="st ok">holds</b></div>
+            <div class="inv"><span class="inv-n">2</span><span>No production release during a freeze.</span><b class="st ok">holds</b></div>
+            <div class="inv"><span class="inv-n">3</span><span>A release spends at least a week on staging before production.</span><b class="st ok">holds</b></div>
+            <div class="inv"><span class="inv-n">4</span><span>A release that has shipped never moves.</span><b class="st ok">holds</b></div>
+          </div>
+          <div class="pwin call">
+            <p class="call-line"><span class="call-who"><svg class="icon"><use href="#i-bot"/></svg>release bot</span><code>book_release</code><span class="muted">billing v3.0 · production, Thu Dec 10</span></p>
+            <div class="call-out bad"><svg class="icon"><use href="#i-x"/></svg><div><b>Refused by rule 3</b><span>billing v3.0 reaches staging on Dec 7, so it can go to production on Dec 14 at the earliest. Pick a slot from then.</span></div></div>
+          </div>
+          <div class="pwin">
+            <div class="pw-head"><span class="pw-title"><svg class="icon"><use href="#i-git"/></svg>History</span><span class="badge badge-xs badge-ghost">who, what and why</span></div>
+            <div class="commits graph">
+              <div><code>a3f9c2e</code><span><b>release bot</b> · book_release · billing v3.0, Mon Dec 14 <em>"a week after staging"</em></span></div>
+              <div><code>7d01b4a</code><span><b>Tom's assistant</b> · book_release · v4.3, Mon 10:00</span></div>
+              <div><code>51be0d3</code><span><b>Priya</b> · set_freeze · Dec 18 to Jan 3</span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="points">
+          <li><svg class="icon-md"><use href="#i-shield"/></svg><div><b>Invariants, checked on every change</b><span>Each change runs on a copy and is checked first. Nothing that breaks a rule is saved.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-x"/></svg><div><b>Refused with the reason</b><span>The agent learns what was wrong and what to do next, so it can fix it alone.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-lock"/></svg><div><b>Only the actions you allow</b><span>Each action is open to the roles you choose, for people and agents alike.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-eye"/></svg><div><b>Review an agent's work first</b><span>An agent can do a larger job in a transaction. Its changes wait until you check them on a screen, then save or drop them all at once.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-history"/></svg><div><b>A history that is an audit trail</b><span>Every change is a git commit with who made it, person or agent, and why. Any of them can be undone.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="everywhere" class="block shell frow">
+      <div class="section-head">
+        <h2>One app, on every screen and in every AI assistant</h2>
+        <p class="sub">People and agents use the same app: people on its screens, in a browser or in
+          their AI assistant, and agents through its tools. Both go through the same actions and
+          rules.</p>
+      </div>
+      <div class="frow-grid">
+        <div class="panel surfaces3">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="app-head"><span class="app-name">Next week</span><span class="badge badge-xs badge-ghost">3 releases</span></div>
+              <div class="ps-row"><span>Mon 10:00</span><span>v4.3</span></div>
+              <div class="ps-row"><span>Mon 11:00</span><span>payments</span></div>
+              <div class="ps-row"><span>Wed 15:00</span><span>search</span></div>
+              <p class="ps-sub">Holiday freeze from Dec 18</p>
+              <div class="ps-row"><span>Fri Dec 11</span><span class="bad">no releases</span></div>
+              <span class="btn btn-primary btn-xs ps-btn">Set a freeze</span>
+            </div>
+          </div>
+          <div class="assistant window">
+            <div class="tools-strip">
+              <p class="ts-label">Tools from the release schedule</p>
+              <div class="tool"><svg class="icon"><use href="#i-pen"/></svg><code>book_release</code><span class="kind">changes</span></div>
+              <div class="tool"><svg class="icon"><use href="#i-pen"/></svg><code>set_freeze</code><span class="kind">changes</span></div>
+              <div class="tool q"><svg class="icon"><use href="#i-search"/></svg><code>free_slots</code><span class="kind">asks</span></div>
+            </div>
+            <div class="chat chat-end"><div class="chat-bubble chat-bubble-primary">Can I ship the billing fix on Thursday the 24th?</div></div>
+            <div class="chat chat-start"><div class="chat-bubble">No: the 24th is the day before a public holiday, and the holiday freeze runs to Jan 3. The first free slots are:
+              <span class="inline-view">
+                <span class="iv-row"><span>Mon Jan 4, 10:00</span><b>free</b></span>
+                <span class="iv-row"><span>Mon Jan 4, 11:00</span><b>free</b></span>
+              </span></div></div>
+          </div>
+        </div>
+        <ul class="points">
+          <li><svg class="icon-md"><use href="#i-phone"/></svg><div><b>Screens for people</b><span>Read, check and act on a phone, in the browser, or right in the chat with your AI assistant. Nothing to install.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-plug"/></svg><div><b>Tools for agents, over MCP</b><span>Claude, ChatGPT, Codex or any AI assistant that speaks MCP gets the app's own actions and queries, named for its job.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-bot"/></svg><div><b>Agents that work on their own</b><span>A scheduled agent gets a token for one app and one role, so it can do its job and nothing else.</span></div></li>
+          <li><svg class="icon-md"><use href="#i-search"/></svg><div><b>The same data, the same rules</b><span>Whoever asks and wherever, the answer comes from one place.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+
+    <section id="uses" class="block shell">
+      <div class="section-head">
+        <p class="eyebrow">What people build</p>
+        <h2>Made for the processes you actually run</h2>
+        <p class="sub">Teams keep these in spreadsheets and Notion, and copy how they work into every agent's
+          prompt. With Cliquet, each becomes one app that your team and every AI assistant share.</p>
+      </div>
+
+      <div class="uses-grid three">
+        <article class="use">
+          <div class="use-art" aria-hidden="true">
+            <p class="ua-head">Onboarding · Sam, starts Dec 2</p>
+            <div class="mini-row"><span>Laptop ordered</span><svg class="icon ok"><use href="#i-check"/></svg></div>
+            <div class="mini-row"><span>Accounts created</span><svg class="icon ok"><use href="#i-check"/></svg></div>
+            <div class="mini-row"><span>Badge</span><span class="badge badge-xs badge-warning badge-soft">waiting</span></div>
+            <p class="ua-head">Offboarding · Alex, leaves Nov 28</p>
+            <div class="mini-row"><span>Accounts closed</span><span class="badge badge-xs badge-error badge-soft">2 still open</span></div>
+          </div>
+          <span class="team">HR</span>
+          <h3>Onboarding and offboarding</h3>
+          <p>Managers tick steps on their phone. An agent creates and closes the accounts, and can't mark a step done that isn't.</p>
+          <p class="rule-line"><svg class="icon"><use href="#i-shield"/></svg>Nobody starts without a laptop and accounts, and every account is closed on their last day.</p>
+        </article>
+        <article class="use">
+          <div class="use-art" aria-hidden="true">
+            <p class="ua-head">Service catalog</p>
+            <div class="mini-row"><span>ledger-api <span class="tier">T1</span></span><span>Priya on call</span></div>
+            <div class="mini-row"><span>payments-api <span class="tier">T1</span></span><span>Priya on call</span></div>
+            <div class="mini-row"><span>search <span class="tier t2">T2</span></span><span class="badge badge-xs badge-error badge-soft">below its SLA</span></div>
+            <div class="mini-row"><span>auth <span class="tier">T1</span></span><span>Tom on call</span></div>
+          </div>
+          <span class="team">Engineering</span>
+          <h3>A service catalog</h3>
+          <p>Coding agents register each new service and ask who owns one before they change it. A nightly agent records each service's uptime.</p>
+          <p class="rule-line"><svg class="icon"><use href="#i-shield"/></svg>Every tier-1 service has someone on call, and a recorded uptime never changes.</p>
+        </article>
+        <article class="use">
+          <div class="use-art" aria-hidden="true">
+            <p class="ua-head">Checking account · October</p>
+            <div class="mini-row"><span>Opening</span><span>€3,210.55</span></div>
+            <div class="mini-row"><span>+ 41 lines</span><span>−€1,184.20</span></div>
+            <div class="mini-row total"><span>Closing</span><span>€2,026.35 <svg class="icon ok"><use href="#i-check"/></svg></span></div>
+          </div>
+          <span class="team">At home</span>
+          <h3>A household ledger</h3>
+          <p>An agent imports each bank statement. You check the month on a screen before it's kept.</p>
+          <p class="rule-line"><svg class="icon"><use href="#i-shield"/></svg>Every statement balances to the cent, and a confirmed month never changes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="block shell">
+      <div class="faq">
+        <h2>Questions</h2>
+        <details>
+          <summary>What is Cliquet, exactly?</summary>
+          <div class="faq-a">
+            <p>Cliquet builds, deploys and hosts apps that hold a process and its data: a release schedule, a service catalog, a household ledger. Each app has its data, the rules that data must follow, the actions that change it, the queries that read it, and screens for people.</p>
+            <p>Cliquet runs no AI model and no agent. Your AI assistant writes the app, and your agents use it, wherever they already run: Claude, ChatGPT, Codex, or a script on a schedule. Cliquet is the place they work in, with rules they can't get around.</p>
+          </div>
+        </details>
+        <details>
+          <summary>How is it different from the apps my AI assistant already makes?</summary>
+          <div class="faq-a">
+            <p>An artifact is a page for people, drawn on top of data the assistant can reach. The data stays where it was, and nothing stops the next agent from editing it however it likes.</p>
+            <p>A Cliquet app holds the data itself. Nothing reaches it except through the app's actions and queries, for people and agents alike. So the rules hold whoever writes, every change is recorded, and every AI assistant your team uses gets the same tools over MCP.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Do I need to code?</summary>
+          <div class="faq-a">
+            <p>No. You tell your AI assistant what you track and the rules it must follow, and hand over your spreadsheet if you have one. The assistant writes the app with Cliquet's builder, which tests every rule against data that breaks it and shows you the screens before anything goes live.</p>
+            <p>The app is written in Python, so a developer can read and review it. To change it later, you ask again.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Which AI assistants work with it?</summary>
+          <div class="faq-a">
+            <p>Any client that speaks MCP: Claude, ChatGPT, Claude Code, Codex, Cursor and others. You connect your AI assistant once, to your own address, and it reaches every app you may use. An agent that runs on its own gets a token limited to one app and one role.</p>
+            <p>People without an AI assistant use the app's screens, on a phone or in a browser. Nothing to install.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Who deploys and hosts the apps?</summary>
+          <div class="faq-a">
+            <p>Cliquet does. When your AI assistant publishes an app, it is live on the hosted service, with its own address for people and for agents. There is no server, database, sign-in or deployment for you to set up.</p>
+            <p>Before a new version goes live, Cliquet checks it against your live data: every rule must still hold. If a change to the data's shape is needed, it runs once, on a copy, and the new code and the migrated data go live together, or not at all.</p>
+          </div>
+        </details>
+        <details>
+          <summary>How is the app's code kept isolated?</summary>
+          <div class="faq-a">
+            <p>An app's code never runs inside Cliquet's server. It runs in a sandbox, a separate virtual machine for each owner, hardened in these ways:</p>
+            <ul>
+              <li><b>No network.</b> Once its packages are installed, the sandbox can reach no host at all. App code can't send your data anywhere.</li>
+              <li><b>Locked packages.</b> The server resolves an app's libraries, checks each package against its hash, and installs them offline. Only prebuilt packages are allowed, so no package's code runs at install time.</li>
+              <li><b>No secrets.</b> No key or token of the server ever reaches a sandbox.</li>
+              <li><b>Limits.</b> Every process that runs app code is bounded in time and file size, and is killed with all its children when it goes past them.</li>
+              <li><b>A copy, not your data.</b> Each call works on a copy of the data. The server keeps the real data and treats every answer from the sandbox as untrusted: it checks which files changed, their size and their names before it commits anything.</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Can an agent break my data?</summary>
+          <div class="faq-a">
+            <p>An agent can only call the app's actions and queries, and only those its role allows. Every action runs on a copy and is checked against every rule before it is kept. A change that breaks a rule is refused with the reason, so the agent can fix its mistake.</p>
+            <p>For larger jobs, an agent can work in a transaction, which you review on a screen and then keep or drop as a whole. And if a wrong change still gets through, any change can be undone, and the undo is checked against the rules too.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Who can see my data?</summary>
+          <div class="faq-a">
+            <p>Apps are private. Only you and the people you invite can open an app or connect an agent to it, each with a role that decides what they may read and change. An invitation gives nothing until it is accepted.</p>
+            <p>Each change is recorded with who made it, person or agent, and why. Only the app's owner sees what a change did to the data. API tokens are stored only as a hash, and a token can be limited to one app and one role.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Where does my data live, and can I take it with me?</summary>
+          <div class="faq-a">
+            <p>Each app's data is plain files, such as CSV and JSON, in the app's own git repository, kept by Cliquet's server. Every change is a commit, which makes the history an audit trail you can read and compare.</p>
+            <p>The owner can download the whole repository, with its history, at any time. Cliquet is <a href="https://github.com/etiennecrb/cliquet">open source</a>, so you can also <a href="/docs/guides/self-hosting/">run your own server</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>How do I sign up?</summary>
+          <div class="faq-a">
+            <p>Click <a href="https://app.cliquet.dev/signup">Try for free</a> and create your account with your email address. Or connect your AI assistant to Cliquet first, and sign up from there. The <a href="/docs/">docs</a> show both.</p>
+          </div>
+        </details>
+        <details id="privacy">
+          <summary>What does this site do with my data?</summary>
+          <div class="faq-a">
+            <p>It counts page views, and nothing more. It has no form, sets no cookies and runs no trackers: Cloudflare Web Analytics counts the views without cookies, and without following you to other sites. If you write to <a href="mailto:hello@cliquet.dev">hello@cliquet.dev</a>, your message is used only to answer you, and deleted when you ask. See the <a href="/legal">legal notice</a>.</p>
+            <p>The app at app.cliquet.dev does keep data: your account and your apps. Its <a href="/privacy">privacy notice</a> says what is kept, why, and who keeps it.</p>
+          </div>
+        </details>
+        <details>
+          <summary>What does it cost?</summary>
+          <div class="faq-a">
+            <p>Nothing during the beta, within a monthly limit on the time your apps' code runs. Past it, your apps wait for the next month.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="sign-up" class="block cta band-violet">
+      <div class="shell cta-inner">
+        <svg class="mark cta-mark" aria-hidden="true"><use href="#mark"/></svg>
+        <h2>Want to try it?</h2>
+        <p class="sub">Cliquet is in beta, free within a monthly limit.</p>
+        <a class="btn btn-primary" href="https://app.cliquet.dev/signup">Try for free</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <a class="brand" href="/">
+        <svg class="mark" aria-hidden="true"><use href="#mark"/></svg>
+        <span>cliquet<span class="tld">.dev</span></span>
+      </a>
+      <span>Apps for you and your agents.</span>
+      <span class="footer-links">
+        <a href="/docs/">Docs</a>
+        <a href="/legal">Legal notice</a>
+        <a href="/privacy">Privacy</a>
+        <a href="https://github.com/etiennecrb/cliquet">GitHub</a>
+        <a class="footer-mail" href="mailto:hello@cliquet.dev">hello@cliquet.dev</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

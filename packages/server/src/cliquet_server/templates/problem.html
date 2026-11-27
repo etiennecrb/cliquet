@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "parts.html" import brand %}
+{% block title %}{{ title }} · cliquet.dev{% endblock %}
+{% block body_class %}plain{% endblock %}
+{% block body %}
+<main class="plain-main">
+  {{ brand() }}
+  <section class="card card-border" aria-labelledby="problem-title">
+    <div class="card-body">
+      <h1 class="card-title" id="problem-title">{% block heading %}{{ title }}{% endblock %}</h1>
+      <p class="text-base-content/70">{{ sentence }}</p>
+      <div class="card-actions">
+        <a class="btn" href="{{ action_href }}">{{ action_label }}</a>
+        {% if signed_in %}
+        <a class="btn btn-ghost" href="/account">Your account</a>
+        <form class="sign-out" method="post" action="/logout">
+          <input type="hidden" name="csrf" value="{{ signed_in }}">
+          <button class="btn btn-ghost" type="submit">Sign out</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% from "parts.html" import privacy_link %}{{ privacy_link(privacy_url) }}
+</main>
+{% endblock %}

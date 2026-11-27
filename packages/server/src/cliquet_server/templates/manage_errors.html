@@ -1,0 +1,32 @@
+{% extends "manage.html" %}
+{% block tab %}
+<section class="card card-border" aria-labelledby="errors-title">
+  <div class="card-body">
+    <h2 class="card-title" id="errors-title">Errors</h2>
+    <p class="text-base-content/70">The calls the app's code failed, newest first: who called which tool, with which role. And the times the app couldn't be started. Only you read them. Each is kept {{ kept_days }} days, and the app's last {{ kept_most }} at most.</p>
+    {% if errors %}
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>When</th><th>Who</th><th>Tool</th><th>Error</th></tr></thead>
+        <tbody>
+        {% for error in errors %}
+        <tr>
+          <td class="nowrap">{{ error.when }}</td>
+          {% if error.during == "start" %}
+          <td colspan="2">The app's start</td>
+          {% else %}
+          <td>{{ error.caller }}{% if error.role %} <span class="badge badge-ghost">{{ error.role }}</span>{% endif %}</td>
+          <td><code>{{ error.tool }}</code></td>
+          {% endif %}
+          <td><a class="link" href="/manage/{{ login }}/{{ name }}/errors/{{ error.id }}"><code>{{ error.id }}</code></a><p class="text-base-content/60 error-line">{{ error.line }}</p></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-base-content/60">No error in the last {{ kept_days }} days.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

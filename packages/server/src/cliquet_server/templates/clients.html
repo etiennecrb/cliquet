@@ -1,0 +1,41 @@
+{# How to add the person's own address to Claude, ChatGPT or another agent, from anywhere: the
+   server is reached over the internet, and the assistant signs in to Cliquet. Needs
+   me_address. #}
+{% set name, title, example_address = "cliquet", "cliquet.dev", me_address %}
+{% set agents = [
+  ("Claude Code", "claude mcp add --transport http " ~ name ~ " " ~ example_address, "Then type /mcp in a session to sign in."),
+  ("pi", "pi mcp add " ~ name ~ " --url " ~ example_address, "Then run pi mcp login " ~ name ~ " to sign in."),
+  ("opencode", "opencode mcp add " ~ name ~ " --url " ~ example_address, "Then run opencode mcp auth " ~ name ~ " to sign in."),
+] %}
+{# One tab per assistant, Claude's open: radios, so they switch without JavaScript. #}
+<div class="tabs tabs-border clients" role="group" aria-label="How to add your address">
+  <input type="radio" name="clients" class="tab" aria-label="Claude" checked>
+  <div class="tab-content">
+      <ol class="steps-list">
+        <li>On claude.ai, open <a class="link" href="https://claude.ai/customize/connectors" target="_blank" rel="noopener">Customize, then Connectors<span class="sr-only"> (opens in a new tab)</span></a>.</li>
+        <li>Click Add, then Add custom connector.</li>
+        <li>Name it {{ title }}, paste the address, and click Continue.</li>
+        <li>Sign in to Cliquet when Claude asks.</li>
+      </ol>
+  </div>
+  <input type="radio" name="clients" class="tab" aria-label="ChatGPT">
+  <div class="tab-content">
+      <p>Add a custom MCP server with the address, then sign in to Cliquet when ChatGPT asks. Where the
+        setting is, and which plans have it, changes often: see
+        <a class="link" href="https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt" target="_blank" rel="noopener">OpenAI's help<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+  </div>
+  <input type="radio" name="clients" class="tab" aria-label="Other agents">
+  <div class="tab-content">
+      <p>Add a remote MCP server with the address, then sign in to Cliquet. For example:</p>
+      {% for agent, command, sign_in in agents %}
+      <div class="agent">
+        <span class="label-text">{{ agent }}</span>
+        <div class="join snippet">
+          <pre class="join-item" id="cmd-{{ loop.index }}">{{ command }}</pre>
+          <button class="btn join-item" type="button" data-copy="{{ command }}" aria-controls="cmd-{{ loop.index }}">Copy</button>
+        </div>
+        <small class="text-base-content/60">{{ sign_in }}</small>
+      </div>
+      {% endfor %}
+  </div>
+</div>

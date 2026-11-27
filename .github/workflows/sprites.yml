@@ -1,0 +1,41 @@
+# Run the executor against a real Sprite. It creates a Sprite named
+# cliquet-test-..., runs an app in it, checks that its URL keeps the token from the
+# container, and destroys it, even when the test fails.
+# Only by hand, from the Actions tab: each run costs runner minutes and Sprite time. Run it
+# after changing the executor or the SDK's packaging. It needs the repository secret
+# CLIQUET_SPRITES_TOKEN: a token for another Sprites organization than the deployed server's
+# keeps tests apart from it.
+name: Real Sprite
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: real-sprite
+  cancel-in-progress: false
+
+jobs:
+  real-sprite:
+    name: Executor on a real Sprite
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CLIQUET_SPRITES_TOKEN: ${{ secrets.CLIQUET_SPRITES_TOKEN }}
+      CLIQUET_TEST_SPRITES: "1"
+    steps:
+      - name: Look for the token
+        run: |
+          if [ -z "$CLIQUET_SPRITES_TOKEN" ]; then
+            echo "::error::Set the CLIQUET_SPRITES_TOKEN repository secret."
+            exit 1
+          fi
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --all-packages --frozen
+      - name: Run the real-Sprite test
+        run: uv run pytest packages/server/tests/test_server_sprites.py -k real -s -n 0 -p no:cacheprovider

@@ -1,0 +1,4 @@
+id,name,capacity,opens,closes,days
+oak,Oak,8,08:00,19:00,"mon,tue,wed,thu,fri"
+pine,Pine,4,08:00,19:00,"mon,tue,wed,thu,fri"
+lounge,The Lounge,14,09:00,18:00,"mon,tue,wed,thu"

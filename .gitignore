@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+.DS_Store
+cliquet-data/
+
+/fly.toml
+# The compose stack's settings and secrets
+/docker/.env
+
+# Claude Code settings stay out of the repository.
+.claude/
+
+# Wrangler's local state, from running the website
+.wrangler/
+
+# The docs, which Zensical builds from website/docs
+/website/public/docs/

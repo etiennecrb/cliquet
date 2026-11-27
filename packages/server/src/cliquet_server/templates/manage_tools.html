@@ -1,0 +1,67 @@
+{% extends "manage.html" %}
+{% from "parts.html" import roles_badges %}
+{% block tab %}
+{% set base = "/manage/" ~ login ~ "/" ~ name ~ "/tools" %}
+<div class="tools-head">
+  <nav class="jump-links" aria-label="Sections">
+    {% for kind in kinds %}
+    <a class="link link-hover" href="#{{ kind.title|lower }}">{{ kind.title }} <span class="badge badge-sm badge-ghost">{{ kind.tools|length }}</span></a>
+    {% endfor %}
+    <a class="link link-hover" href="#rules">Rules <span class="badge badge-sm badge-ghost">{{ rules|length }}</span></a>
+  </nav>
+  {% if roles %}
+  <div class="control">
+    <span class="label-text" id="role-filter">What a role may use</span>
+    <nav class="tabs tabs-box tabs-sm" aria-labelledby="role-filter">
+      <a class="tab" href="{{ base }}"{% if not role %} aria-current="page"{% endif %}>Every role</a>
+      {% for one in roles %}
+      <a class="tab" href="{{ base }}?role={{ one }}"{% if one == role %} aria-current="page"{% endif %}>{{ one }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+  {% endif %}
+</div>
+
+{% for kind in kinds %}
+<section class="card card-border" id="{{ kind.title|lower }}" aria-labelledby="{{ kind.title|lower }}-title">
+  <div class="card-body">
+    <h2 class="card-title" id="{{ kind.title|lower }}-title">{{ kind.title }}</h2>
+    <p class="text-base-content/70">{{ kind.sentence }}</p>
+    {% if kind.tools %}
+    <ul class="list tool-rows">
+      {% for tool in kind.tools %}
+      <li class="list-row">
+        <div class="list-col-grow row-text">
+          <code>{{ tool.name }}</code>
+          <span class="text-base-content/60">{{ tool.description }}</span>
+        </div>
+        <div class="row-end">
+          {% if tool.roles %}{{ roles_badges(tool.roles) }}{% else %}<span class="badge badge-outline">every role</span>{% endif %}
+          {% if kind.kind == "view" and tool.preview_role %}
+          <a class="btn btn-sm row-button" href="/manage/{{ login }}/{{ name }}/views?role={{ tool.preview_role }}&view={{ tool.name }}">View</a>
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/60">{% if role %}{{ role }} may use no {{ kind.title|lower }}.{% else %}No {{ kind.title|lower }}.{% endif %}</p>
+    {% endif %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="card card-border" id="rules" aria-labelledby="rules-title">
+  <div class="card-body">
+    <h2 class="card-title" id="rules-title">Rules</h2>
+    <p class="text-base-content/70">Always hold, for every role. A change that breaks one is refused.</p>
+    {% if rules %}
+    <ul class="list">
+      {% for rule in rules %}<li class="list-row">{{ rule }}</li>{% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/60">This app has no rule.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

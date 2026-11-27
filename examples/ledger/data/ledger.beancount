@@ -1,0 +1,2414 @@
+; Made-up household ledger: no real data.
+option "title" "A household's ledger"
+option "operating_currency" "EUR"
+plugin "beancount.plugins.implicit_prices"
+
+2025-01-01 commodity WORLD
+  name: "A world equity index fund, in a stock account"
+2025-01-01 commodity LIFEFUND
+  name: "A life insurance contract's units"
+
+2025-01-01 open Assets:Bank:Checking EUR
+2025-01-01 open Assets:Bank:Savings EUR
+2025-01-01 open Assets:Broker:Cash EUR
+2025-01-01 open Assets:Broker:WORLD WORLD
+2025-01-01 open Assets:Insurance:Life LIFEFUND
+2025-01-01 open Assets:Home EUR
+2025-01-01 open Assets:Meal-Card EUR
+2025-01-01 open Liabilities:Bank:Mortgage EUR
+2025-01-01 open Equity:Opening-Balances EUR
+2025-01-01 open Income:Acme:Salary EUR
+  exceptional: FALSE
+2025-01-01 open Income:Globex:Salary EUR
+  exceptional: FALSE
+2025-01-01 open Income:Family:Allowance EUR
+  exceptional: FALSE
+2025-01-01 open Income:Assets:Bank:Savings:Interest EUR
+  exceptional: FALSE
+2025-01-01 open Income:Assets:Insurance:Life:Gains EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Living:Essentials EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Living:Extras EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Taxes:Income EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Assets:Home:Loan-Interest EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Assets:Home:Loan-Insurance EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Assets:Home:Property-Tax EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Assets:Home:Insurance EUR
+  exceptional: FALSE
+2025-01-01 open Expenses:Assets:Broker:Fees EUR
+  exceptional: FALSE
+
+2025-01-01 * "Opening balances"
+  Assets:Bank:Checking  4200.00 EUR
+  Assets:Bank:Savings  15000.00 EUR
+  Assets:Broker:WORLD  120 WORLD {80.00 EUR, 2023-06-15}
+  Assets:Insurance:Life  1500 LIFEFUND {12.00 EUR, 2021-03-01}
+  Assets:Home  320000.00 EUR
+  Assets:Meal-Card  60.00 EUR
+  Liabilities:Bank:Mortgage  -228000.00 EUR
+  Equity:Opening-Balances
+2025-01-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-01-02 balance Assets:Meal-Card  53.23 EUR
+
+2025-01-03 * "REF 1519 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -123.44 EUR
+  Expenses:Living:Essentials
+
+2025-01-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  578.40 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-01-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-01-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-01-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-01-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -300.00 EUR
+  Assets:Bank:Savings
+
+2025-01-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-01-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-01-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-01-17 * "Buy WORLD"
+  Assets:Broker:Cash  -340.88 EUR
+  Assets:Broker:WORLD  4 WORLD {85.22 EUR, 2025-01-17}
+
+2025-01-05 * "CARD 03/01/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -43.65 EUR
+  Expenses:Living:Essentials
+
+2025-01-09 * "CARD 08/01/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -46.17 EUR
+  Expenses:Living:Essentials
+
+2025-01-11 * "CARD 11/01/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -199.20 EUR
+  Expenses:Living:Essentials
+
+2025-01-12 * "CARD 12/01/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -41.79 EUR
+  Expenses:Living:Essentials
+
+2025-01-13 * "CARD 11/01/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -68.82 EUR
+  Expenses:Living:Essentials
+
+2025-01-15 * "CARD 14/01/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -51.03 EUR
+  Expenses:Living:Essentials
+
+2025-01-22 * "CARD 22/01/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -189.98 EUR
+  Expenses:Living:Essentials
+
+2025-01-24 * "CARD 23/01/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -62.95 EUR
+  Expenses:Living:Extras
+
+2025-01-25 * "CARD 24/01/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -46.77 EUR
+  Expenses:Living:Extras
+
+2025-01-26 * "CARD 25/01/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -44.82 EUR
+  Expenses:Living:Extras
+
+2025-01-13 * "CARD 11/01/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-01-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-01-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-01-31 price WORLD      85.22 EUR
+
+2025-02-01 balance Assets:Bank:Checking  5135.39 EUR
+2025-02-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-02-02 balance Assets:Meal-Card  62.37 EUR
+
+2025-02-03 * "REF 8417 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -113.38 EUR
+  Expenses:Living:Essentials
+
+2025-02-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  579.41 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-02-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-02-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-02-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-02-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -318.00 EUR
+  Assets:Bank:Savings
+
+2025-02-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-02-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-02-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-02-17 * "Buy WORLD"
+  Assets:Broker:Cash  -339.96 EUR
+  Assets:Broker:WORLD  4 WORLD {84.99 EUR, 2025-02-17}
+
+2025-02-02 * "CARD 02/02/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -46.29 EUR
+  Expenses:Living:Essentials
+
+2025-02-03 * "CARD 02/02/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -43.88 EUR
+  Expenses:Living:Essentials
+
+2025-02-06 * "CARD 04/02/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -74.77 EUR
+  Expenses:Living:Essentials
+
+2025-02-08 * "CARD 06/02/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -196.99 EUR
+  Expenses:Living:Essentials
+
+2025-02-15 * "CARD 15/02/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -29.67 EUR
+  Expenses:Living:Essentials
+
+2025-02-17 * "CARD 16/02/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -41.74 EUR
+  Expenses:Living:Essentials
+
+2025-02-18 * "CARD 17/02/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -61.47 EUR
+  Expenses:Living:Essentials
+
+2025-02-19 * "CARD 18/02/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -47.44 EUR
+  Expenses:Living:Extras
+
+2025-02-21 * "CARD 20/02/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -89.61 EUR
+  Expenses:Living:Extras
+
+2025-02-24 * "CARD 23/02/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -48.54 EUR
+  Expenses:Living:Extras
+
+2025-02-13 * "CARD 11/02/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-02-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-02-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-02-28 price WORLD      84.99 EUR
+
+2025-03-01 balance Assets:Bank:Checking  6177.62 EUR
+2025-03-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-03-02 balance Assets:Meal-Card  40.11 EUR
+
+2025-03-03 * "REF 8418 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -76.12 EUR
+  Expenses:Living:Essentials
+
+2025-03-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  580.43 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-03-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-03-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-03-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-03-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1398.00 EUR
+  Assets:Bank:Savings
+
+2025-03-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-03-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-03-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-03-17 * "Buy WORLD"
+  Assets:Broker:Cash  -330.76 EUR
+  Assets:Broker:WORLD  4 WORLD {82.69 EUR, 2025-03-17}
+
+2025-03-19 * "DIRECT DEBIT HOMESURE"
+  Assets:Bank:Checking  -384.00 EUR
+  Expenses:Assets:Home:Insurance
+
+2025-03-02 * "CARD 01/03/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -233.45 EUR
+  Expenses:Living:Essentials
+
+2025-03-03 * "CARD 03/03/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -24.94 EUR
+  Expenses:Living:Essentials
+
+2025-03-05 * "CARD 04/03/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -245.88 EUR
+  Expenses:Living:Essentials
+
+2025-03-10 * "CARD 10/03/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -21.13 EUR
+  Expenses:Living:Essentials
+
+2025-03-12 * "CARD 12/03/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -33.80 EUR
+  Expenses:Living:Essentials
+
+2025-03-14 * "CARD 13/03/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -21.82 EUR
+  Expenses:Living:Essentials
+
+2025-03-15 * "CARD 14/03/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -215.26 EUR
+  Expenses:Living:Essentials
+
+2025-03-18 * "CARD 16/03/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -34.72 EUR
+  Expenses:Living:Extras
+
+2025-03-19 * "CARD 18/03/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -30.49 EUR
+  Expenses:Living:Extras
+
+2025-03-22 * "CARD 21/03/25 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -21.17 EUR
+  Expenses:Living:Extras
+
+2025-03-13 * "CARD 12/03/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-03-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-03-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-03-31 price WORLD      82.69 EUR
+
+2025-04-01 balance Assets:Bank:Checking  5590.85 EUR
+2025-04-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-04-02 balance Assets:Meal-Card  21.25 EUR
+
+2025-04-03 * "REF 8183 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -108.68 EUR
+  Expenses:Living:Essentials
+
+2025-04-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  581.44 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-04-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-04-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-04-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-04-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -778.00 EUR
+  Assets:Bank:Savings
+
+2025-04-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-04-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-04-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-04-17 * "Buy WORLD"
+  Assets:Broker:Cash  -346.84 EUR
+  Assets:Broker:WORLD  4 WORLD {86.71 EUR, 2025-04-17}
+
+2025-04-04 * "CARD 04/04/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -178.85 EUR
+  Expenses:Living:Essentials
+
+2025-04-05 * "CARD 04/04/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -42.67 EUR
+  Expenses:Living:Essentials
+
+2025-04-07 * "CARD 07/04/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -75.03 EUR
+  Expenses:Living:Essentials
+
+2025-04-10 * "CARD 10/04/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -51.44 EUR
+  Expenses:Living:Essentials
+
+2025-04-11 * "CARD 09/04/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -43.28 EUR
+  Expenses:Living:Essentials
+
+2025-04-13 * "CARD 11/04/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -61.88 EUR
+  Expenses:Living:Essentials
+
+2025-04-14 * "CARD 13/04/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -195.15 EUR
+  Expenses:Living:Essentials
+
+2025-04-17 * "CARD 16/04/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -49.32 EUR
+  Expenses:Living:Extras
+
+2025-04-22 * "CARD 20/04/25 CINEMA STAR *4821"
+  Assets:Bank:Checking  -38.55 EUR
+  Expenses:Living:Extras
+
+2025-04-26 * "CARD 25/04/25 CINEMA STAR *4821"
+  Assets:Bank:Checking  -27.90 EUR
+  Expenses:Living:Extras
+
+2025-04-13 * "CARD 12/04/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-04-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-04-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-04-30 price WORLD      86.71 EUR
+
+2025-05-01 balance Assets:Bank:Checking  6094.11 EUR
+2025-05-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-05-02 balance Assets:Meal-Card  62.49 EUR
+
+2025-05-03 * "REF 5954 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -104.84 EUR
+  Expenses:Living:Essentials
+
+2025-05-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  582.46 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-05-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-05-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-05-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-05-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1285.00 EUR
+  Assets:Bank:Savings
+
+2025-05-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-05-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-05-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-05-17 * "Buy WORLD"
+  Assets:Broker:Cash  -360.04 EUR
+  Assets:Broker:WORLD  4 WORLD {90.01 EUR, 2025-05-17}
+
+2025-05-06 * "CARD 04/05/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -180.48 EUR
+  Expenses:Living:Essentials
+
+2025-05-09 * "CARD 08/05/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -36.72 EUR
+  Expenses:Living:Essentials
+
+2025-05-11 * "CARD 09/05/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -149.78 EUR
+  Expenses:Living:Essentials
+
+2025-05-12 * "CARD 12/05/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -61.04 EUR
+  Expenses:Living:Essentials
+
+2025-05-15 * "CARD 14/05/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -72.01 EUR
+  Expenses:Living:Essentials
+
+2025-05-16 * "CARD 16/05/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -78.35 EUR
+  Expenses:Living:Essentials
+
+2025-05-19 * "CARD 17/05/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -17.87 EUR
+  Expenses:Living:Essentials
+
+2025-05-20 * "CARD 19/05/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -37.45 EUR
+  Expenses:Living:Extras
+
+2025-05-21 * "CARD 20/05/25 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -53.99 EUR
+  Expenses:Living:Extras
+
+2025-05-25 * "CARD 24/05/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -43.70 EUR
+  Expenses:Living:Extras
+
+2025-05-13 * "CARD 13/05/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-05-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-05-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-05-31 price WORLD      90.01 EUR
+
+2025-06-01 balance Assets:Bank:Checking  6126.89 EUR
+2025-06-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-06-02 balance Assets:Meal-Card  68.33 EUR
+
+2025-06-03 * "REF 9129 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -98.84 EUR
+  Expenses:Living:Essentials
+
+2025-06-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  583.48 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-06-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-06-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-06-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-06-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1324.00 EUR
+  Assets:Bank:Savings
+
+2025-06-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-06-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-06-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-06-17 * "Buy WORLD"
+  Assets:Broker:Cash  -380.48 EUR
+  Assets:Broker:WORLD  4 WORLD {95.12 EUR, 2025-06-17}
+
+2025-06-04 * "CARD 02/06/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -40.10 EUR
+  Expenses:Living:Essentials
+
+2025-06-07 * "CARD 06/06/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -47.13 EUR
+  Expenses:Living:Essentials
+
+2025-06-13 * "CARD 12/06/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -16.85 EUR
+  Expenses:Living:Essentials
+
+2025-06-14 * "CARD 12/06/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -176.43 EUR
+  Expenses:Living:Essentials
+
+2025-06-16 * "CARD 15/06/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -209.25 EUR
+  Expenses:Living:Essentials
+
+2025-06-17 * "CARD 17/06/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -233.39 EUR
+  Expenses:Living:Essentials
+
+2025-06-19 * "CARD 18/06/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -43.47 EUR
+  Expenses:Living:Essentials
+
+2025-06-20 * "CARD 19/06/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -76.60 EUR
+  Expenses:Living:Extras
+
+2025-06-21 * "CARD 20/06/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -32.19 EUR
+  Expenses:Living:Extras
+
+2025-06-23 * "CARD 21/06/25 CINEMA STAR *4821"
+  Assets:Bank:Checking  -25.49 EUR
+  Expenses:Living:Extras
+
+2025-06-13 * "CARD 13/06/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-06-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-06-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-06-30 price WORLD      95.12 EUR
+
+2025-07-01 balance Assets:Bank:Checking  5957.16 EUR
+2025-07-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-07-02 balance Assets:Meal-Card  44.44 EUR
+
+2025-07-03 * "REF 2696 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -81.46 EUR
+  Expenses:Living:Essentials
+
+2025-07-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  584.50 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-07-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-07-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-07-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-07-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1172.00 EUR
+  Assets:Bank:Savings
+
+2025-07-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-07-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-07-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-07-17 * "Buy WORLD"
+  Assets:Broker:Cash  -362.64 EUR
+  Assets:Broker:WORLD  4 WORLD {90.66 EUR, 2025-07-17}
+
+2025-07-02 * "CARD 01/07/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -216.29 EUR
+  Expenses:Living:Essentials
+
+2025-07-03 * "CARD 03/07/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -53.59 EUR
+  Expenses:Living:Essentials
+
+2025-07-05 * "CARD 05/07/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -22.34 EUR
+  Expenses:Living:Essentials
+
+2025-07-07 * "CARD 07/07/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -197.16 EUR
+  Expenses:Living:Essentials
+
+2025-07-13 * "CARD 12/07/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -36.95 EUR
+  Expenses:Living:Essentials
+
+2025-07-14 * "CARD 13/07/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -64.36 EUR
+  Expenses:Living:Essentials
+
+2025-07-17 * "CARD 15/07/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -68.45 EUR
+  Expenses:Living:Essentials
+
+2025-07-18 * "CARD 17/07/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -64.63 EUR
+  Expenses:Living:Extras
+
+2025-07-21 * "CARD 19/07/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -25.42 EUR
+  Expenses:Living:Extras
+
+2025-07-27 * "CARD 25/07/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -30.84 EUR
+  Expenses:Living:Extras
+
+2025-07-13 * "CARD 13/07/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-07-21 * "CARD 21/07/25 SUNNY CAMPING *4821"
+  Assets:Bank:Checking  -578.55 EUR
+  Expenses:Living:Extras
+
+2025-07-04 * "CARD 02/07/25 RAIL TICKETS *4821"
+  Assets:Bank:Checking  -191.82 EUR
+  Expenses:Living:Extras
+
+2025-07-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-07-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-07-31 price WORLD      90.66 EUR
+
+2025-08-01 balance Assets:Bank:Checking  5307.31 EUR
+2025-08-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-08-02 balance Assets:Meal-Card  21.49 EUR
+
+2025-08-03 * "REF 7045 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -91.59 EUR
+  Expenses:Living:Essentials
+
+2025-08-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  585.52 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-08-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-08-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-08-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-08-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -512.00 EUR
+  Assets:Bank:Savings
+
+2025-08-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-08-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-08-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-08-17 * "Buy WORLD"
+  Assets:Broker:Cash  -360.72 EUR
+  Assets:Broker:WORLD  4 WORLD {90.18 EUR, 2025-08-17}
+
+2025-08-10 * "CARD 10/08/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -34.00 EUR
+  Expenses:Living:Essentials
+
+2025-08-13 * "CARD 12/08/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -46.22 EUR
+  Expenses:Living:Essentials
+
+2025-08-15 * "CARD 14/08/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -60.81 EUR
+  Expenses:Living:Essentials
+
+2025-08-16 * "CARD 14/08/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -171.88 EUR
+  Expenses:Living:Essentials
+
+2025-08-17 * "CARD 15/08/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -199.04 EUR
+  Expenses:Living:Essentials
+
+2025-08-22 * "CARD 20/08/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -56.74 EUR
+  Expenses:Living:Essentials
+
+2025-08-23 * "CARD 23/08/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -259.91 EUR
+  Expenses:Living:Essentials
+
+2025-08-24 * "CARD 24/08/25 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -31.14 EUR
+  Expenses:Living:Extras
+
+2025-08-25 * "CARD 25/08/25 CINEMA STAR *4821"
+  Assets:Bank:Checking  -30.33 EUR
+  Expenses:Living:Extras
+
+2025-08-27 * "CARD 26/08/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -47.26 EUR
+  Expenses:Living:Extras
+
+2025-08-13 * "CARD 12/08/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-08-21 * "CARD 19/08/25 SUNNY CAMPING *4821"
+  Assets:Bank:Checking  -499.71 EUR
+  Expenses:Living:Extras
+
+2025-08-04 * "CARD 04/08/25 RAIL TICKETS *4821"
+  Assets:Bank:Checking  -189.79 EUR
+  Expenses:Living:Extras
+
+2025-08-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-08-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-08-31 price WORLD      90.18 EUR
+
+2025-09-01 balance Assets:Bank:Checking  5230.90 EUR
+2025-09-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-09-02 balance Assets:Meal-Card  54.24 EUR
+
+2025-09-03 * "REF 6543 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -80.92 EUR
+  Expenses:Living:Essentials
+
+2025-09-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  586.55 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-09-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-09-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-09-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-09-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -446.00 EUR
+  Assets:Bank:Savings
+
+2025-09-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-09-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-09-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-09-17 * "Buy WORLD"
+  Assets:Broker:Cash  -348.04 EUR
+  Assets:Broker:WORLD  4 WORLD {87.01 EUR, 2025-09-17}
+
+2025-09-20 * "DIRECT DEBIT TAX OFFICE INCOME"
+  Assets:Bank:Checking  -234.89 EUR
+  Expenses:Taxes:Income
+
+2025-09-02 * "CARD 01/09/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -155.78 EUR
+  Expenses:Living:Essentials
+
+2025-09-03 * "CARD 01/09/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -72.78 EUR
+  Expenses:Living:Essentials
+
+2025-09-06 * "CARD 05/09/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -206.02 EUR
+  Expenses:Living:Essentials
+
+2025-09-07 * "CARD 05/09/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -140.24 EUR
+  Expenses:Living:Essentials
+
+2025-09-11 * "CARD 11/09/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -50.26 EUR
+  Expenses:Living:Essentials
+
+2025-09-16 * "CARD 15/09/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -163.44 EUR
+  Expenses:Living:Essentials
+
+2025-09-17 * "CARD 16/09/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -31.55 EUR
+  Expenses:Living:Essentials
+
+2025-09-18 * "CARD 16/09/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -55.35 EUR
+  Expenses:Living:Extras
+
+2025-09-20 * "CARD 20/09/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -53.10 EUR
+  Expenses:Living:Extras
+
+2025-09-27 * "CARD 25/09/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -68.93 EUR
+  Expenses:Living:Extras
+
+2025-09-13 * "CARD 12/09/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-09-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-09-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-09-30 price WORLD      87.01 EUR
+
+2025-10-01 balance Assets:Bank:Checking  5625.65 EUR
+2025-10-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-10-02 balance Assets:Meal-Card  70.11 EUR
+
+2025-10-03 * "REF 5078 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -94.76 EUR
+  Expenses:Living:Essentials
+
+2025-10-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  587.57 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-10-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-10-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-10-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-10-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -827.00 EUR
+  Assets:Bank:Savings
+
+2025-10-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-10-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-10-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-10-17 * "Buy WORLD"
+  Assets:Broker:Cash  -337.76 EUR
+  Assets:Broker:WORLD  4 WORLD {84.44 EUR, 2025-10-17}
+
+2025-10-15 * "DIRECT DEBIT TAX OFFICE PROPERTY"
+  Assets:Bank:Checking  -1180.00 EUR
+  Expenses:Assets:Home:Property-Tax
+
+2025-10-03 * "CARD 02/10/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -41.45 EUR
+  Expenses:Living:Essentials
+
+2025-10-04 * "CARD 04/10/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -232.75 EUR
+  Expenses:Living:Essentials
+
+2025-10-07 * "CARD 07/10/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -245.18 EUR
+  Expenses:Living:Essentials
+
+2025-10-08 * "CARD 08/10/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -158.65 EUR
+  Expenses:Living:Essentials
+
+2025-10-10 * "CARD 09/10/25 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -47.91 EUR
+  Expenses:Living:Essentials
+
+2025-10-11 * "CARD 10/10/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -36.67 EUR
+  Expenses:Living:Essentials
+
+2025-10-14 * "CARD 13/10/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -256.49 EUR
+  Expenses:Living:Essentials
+
+2025-10-15 * "CARD 14/10/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -38.49 EUR
+  Expenses:Living:Extras
+
+2025-10-17 * "CARD 16/10/25 CINEMA STAR *4821"
+  Assets:Bank:Checking  -28.01 EUR
+  Expenses:Living:Extras
+
+2025-10-22 * "CARD 21/10/25 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -39.82 EUR
+  Expenses:Living:Extras
+
+2025-10-13 * "CARD 11/10/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-10-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-10-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-10-31 price WORLD      84.44 EUR
+
+2025-11-01 balance Assets:Bank:Checking  4552.48 EUR
+2025-11-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-11-02 balance Assets:Meal-Card  35.02 EUR
+
+2025-11-03 * "REF 8379 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -83.96 EUR
+  Expenses:Living:Essentials
+
+2025-11-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  588.60 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-11-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-11-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-11-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-11-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -300.00 EUR
+  Assets:Bank:Savings
+
+2025-11-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-11-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-11-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-11-17 * "Buy WORLD"
+  Assets:Broker:Cash  -353.24 EUR
+  Assets:Broker:WORLD  4 WORLD {88.31 EUR, 2025-11-17}
+
+2025-11-03 * "CARD 02/11/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -173.81 EUR
+  Expenses:Living:Essentials
+
+2025-11-08 * "CARD 08/11/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -21.53 EUR
+  Expenses:Living:Essentials
+
+2025-11-09 * "CARD 08/11/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -75.16 EUR
+  Expenses:Living:Essentials
+
+2025-11-10 * "CARD 09/11/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -65.51 EUR
+  Expenses:Living:Essentials
+
+2025-11-13 * "CARD 12/11/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -229.55 EUR
+  Expenses:Living:Essentials
+
+2025-11-14 * "CARD 13/11/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -142.61 EUR
+  Expenses:Living:Essentials
+
+2025-11-15 * "CARD 15/11/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -147.96 EUR
+  Expenses:Living:Essentials
+
+2025-11-17 * "CARD 15/11/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -59.76 EUR
+  Expenses:Living:Extras
+
+2025-11-23 * "CARD 22/11/25 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -62.70 EUR
+  Expenses:Living:Extras
+
+2025-11-25 * "CARD 24/11/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -24.40 EUR
+  Expenses:Living:Extras
+
+2025-11-13 * "CARD 11/11/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-11-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-11-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-11-30 price WORLD      88.31 EUR
+
+2025-12-01 balance Assets:Bank:Checking  5319.54 EUR
+2025-12-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2025-12-02 balance Assets:Meal-Card  33.23 EUR
+
+2025-12-03 * "REF 6507 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -121.36 EUR
+  Expenses:Living:Essentials
+
+2025-12-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  589.63 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2025-12-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2025-12-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2025-12-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2025-12-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -494.00 EUR
+  Assets:Bank:Savings
+
+2025-12-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2025-12-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2025-12-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2025-12-17 * "Buy WORLD"
+  Assets:Broker:Cash  -352.64 EUR
+  Assets:Broker:WORLD  4 WORLD {88.16 EUR, 2025-12-17}
+
+2025-12-09 * "CARD 08/12/25 FUEL STATION *4821"
+  Assets:Bank:Checking  -66.37 EUR
+  Expenses:Living:Essentials
+
+2025-12-10 * "CARD 09/12/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -247.87 EUR
+  Expenses:Living:Essentials
+
+2025-12-11 * "CARD 10/12/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -30.41 EUR
+  Expenses:Living:Essentials
+
+2025-12-12 * "CARD 11/12/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -252.84 EUR
+  Expenses:Living:Essentials
+
+2025-12-13 * "CARD 11/12/25 CORNER SHOP *4821"
+  Assets:Bank:Checking  -20.32 EUR
+  Expenses:Living:Essentials
+
+2025-12-14 * "CARD 13/12/25 CITY MARKET *4821"
+  Assets:Bank:Checking  -233.96 EUR
+  Expenses:Living:Essentials
+
+2025-12-16 * "CARD 15/12/25 GREEN GROCER *4821"
+  Assets:Bank:Checking  -36.79 EUR
+  Expenses:Living:Essentials
+
+2025-12-17 * "CARD 17/12/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -50.48 EUR
+  Expenses:Living:Extras
+
+2025-12-18 * "CARD 18/12/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -55.70 EUR
+  Expenses:Living:Extras
+
+2025-12-20 * "CARD 20/12/25 SPORTS HALL *4821"
+  Assets:Bank:Checking  -47.12 EUR
+  Expenses:Living:Extras
+
+2025-12-13 * "CARD 12/12/25 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2025-12-16 * "CARD 16/12/25 TOY SHOP *4821"
+  Assets:Bank:Checking  -177.72 EUR
+  Expenses:Living:Extras
+
+2025-12-19 * "CARD 19/12/25 BOOKSHOP *4821"
+  Assets:Bank:Checking  -50.06 EUR
+  Expenses:Living:Extras
+
+2025-12-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2380.00 EUR
+  Expenses:Taxes:Income  310.00 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2025-12-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1790.00 EUR
+  Expenses:Taxes:Income  160.00 EUR
+  Income:Globex:Salary
+
+2025-12-31 price WORLD      88.16 EUR
+
+2025-12-31 * "Interest of the year"
+  Assets:Bank:Savings  603.85 EUR
+  Income:Assets:Bank:Savings:Interest
+
+2025-12-31 * "Custody fee"
+  Assets:Broker:Cash  -24.00 EUR
+  Expenses:Assets:Broker:Fees
+2025-12-31 price LIFEFUND   12.54 EUR
+
+2026-01-01 balance Assets:Bank:Savings  24757.85 EUR
+2026-01-01 balance Liabilities:Bank:Mortgage  -220992.01 EUR
+
+2025-12-31 open Income:Assets:Home:Gains EUR
+  exceptional: TRUE
+
+2025-12-31 * "Home revalued with an agent's estimate"
+  Assets:Home  18000.00 EUR
+  Income:Assets:Home:Gains
+
+2026-01-01 balance Assets:Bank:Checking  5588.55 EUR
+2026-01-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-01-02 balance Assets:Meal-Card  72.34 EUR
+
+2026-01-03 * "REF 9761 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -119.08 EUR
+  Expenses:Living:Essentials
+
+2026-01-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  590.66 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-01-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-01-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-01-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-01-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -766.00 EUR
+  Assets:Bank:Savings
+
+2026-01-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-01-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-01-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-01-17 * "Buy WORLD"
+  Assets:Broker:Cash  -344.88 EUR
+  Assets:Broker:WORLD  4 WORLD {86.22 EUR, 2026-01-17}
+
+2026-01-02 * "CARD 02/01/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -32.23 EUR
+  Expenses:Living:Essentials
+
+2026-01-03 * "CARD 02/01/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -142.76 EUR
+  Expenses:Living:Essentials
+
+2026-01-06 * "CARD 05/01/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -49.78 EUR
+  Expenses:Living:Essentials
+
+2026-01-09 * "CARD 08/01/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -47.48 EUR
+  Expenses:Living:Essentials
+
+2026-01-11 * "CARD 09/01/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -27.43 EUR
+  Expenses:Living:Essentials
+
+2026-01-12 * "CARD 11/01/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -24.99 EUR
+  Expenses:Living:Essentials
+
+2026-01-19 * "CARD 17/01/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -237.44 EUR
+  Expenses:Living:Essentials
+
+2026-01-22 * "CARD 21/01/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -30.64 EUR
+  Expenses:Living:Extras
+
+2026-01-25 * "CARD 24/01/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -40.73 EUR
+  Expenses:Living:Extras
+
+2026-01-26 * "CARD 25/01/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -46.50 EUR
+  Expenses:Living:Extras
+
+2026-01-13 * "CARD 13/01/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-01-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-01-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-01-31 price WORLD      86.22 EUR
+
+2026-02-01 balance Assets:Bank:Checking  6293.65 EUR
+2026-02-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-02-02 balance Assets:Meal-Card  63.35 EUR
+
+2026-02-03 * "REF 3181 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -97.30 EUR
+  Expenses:Living:Essentials
+
+2026-02-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  591.70 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-02-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-02-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-02-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-02-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1493.00 EUR
+  Assets:Bank:Savings
+
+2026-02-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-02-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-02-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-02-17 * "Buy WORLD"
+  Assets:Broker:Cash  -341.08 EUR
+  Assets:Broker:WORLD  4 WORLD {85.27 EUR, 2026-02-17}
+
+2026-02-02 * "CARD 02/02/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -142.05 EUR
+  Expenses:Living:Essentials
+
+2026-02-03 * "CARD 02/02/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -40.57 EUR
+  Expenses:Living:Essentials
+
+2026-02-14 * "CARD 13/02/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -230.59 EUR
+  Expenses:Living:Essentials
+
+2026-02-17 * "CARD 17/02/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -228.16 EUR
+  Expenses:Living:Essentials
+
+2026-02-19 * "CARD 17/02/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -82.67 EUR
+  Expenses:Living:Essentials
+
+2026-02-20 * "CARD 19/02/26 GREEN GROCER *4821"
+  Assets:Bank:Checking  -34.92 EUR
+  Expenses:Living:Essentials
+
+2026-02-21 * "CARD 20/02/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -172.42 EUR
+  Expenses:Living:Essentials
+
+2026-02-22 * "CARD 21/02/26 SPORTS HALL *4821"
+  Assets:Bank:Checking  -48.29 EUR
+  Expenses:Living:Extras
+
+2026-02-24 * "CARD 22/02/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -29.69 EUR
+  Expenses:Living:Extras
+
+2026-02-25 * "CARD 24/02/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -38.50 EUR
+  Expenses:Living:Extras
+
+2026-02-13 * "CARD 13/02/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-02-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-02-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-02-28 price WORLD      85.27 EUR
+
+2026-03-01 balance Assets:Bank:Checking  5925.65 EUR
+2026-03-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-03-02 balance Assets:Meal-Card  79.78 EUR
+
+2026-03-03 * "REF 2064 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -76.56 EUR
+  Expenses:Living:Essentials
+
+2026-03-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  592.73 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-03-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-03-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-03-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-03-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1145.00 EUR
+  Assets:Bank:Savings
+
+2026-03-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-03-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-03-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-03-17 * "Buy WORLD"
+  Assets:Broker:Cash  -353.00 EUR
+  Assets:Broker:WORLD  4 WORLD {88.25 EUR, 2026-03-17}
+
+2026-03-19 * "DIRECT DEBIT HOMESURE"
+  Assets:Bank:Checking  -384.00 EUR
+  Expenses:Assets:Home:Insurance
+
+2026-03-04 * "CARD 03/03/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -240.99 EUR
+  Expenses:Living:Essentials
+
+2026-03-05 * "CARD 04/03/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -20.06 EUR
+  Expenses:Living:Essentials
+
+2026-03-06 * "CARD 05/03/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -180.46 EUR
+  Expenses:Living:Essentials
+
+2026-03-08 * "CARD 06/03/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -74.18 EUR
+  Expenses:Living:Essentials
+
+2026-03-11 * "CARD 10/03/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -33.95 EUR
+  Expenses:Living:Essentials
+
+2026-03-12 * "CARD 10/03/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -24.37 EUR
+  Expenses:Living:Essentials
+
+2026-03-14 * "CARD 12/03/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -193.01 EUR
+  Expenses:Living:Essentials
+
+2026-03-15 * "CARD 13/03/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -26.60 EUR
+  Expenses:Living:Extras
+
+2026-03-18 * "CARD 17/03/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -22.91 EUR
+  Expenses:Living:Extras
+
+2026-03-26 * "CARD 24/03/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -37.18 EUR
+  Expenses:Living:Extras
+
+2026-03-13 * "CARD 13/03/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-03-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-03-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-03-01 open Income:Acme:Bonus EUR
+  exceptional: TRUE
+
+2026-03-27 * "TRANSFER ACME BONUS"
+  Assets:Bank:Checking  1560.00 EUR
+  Expenses:Taxes:Income  440.00 EUR
+  Income:Acme:Bonus
+
+2026-03-31 price WORLD      88.25 EUR
+
+2026-04-01 balance Assets:Bank:Checking  7296.54 EUR
+2026-04-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-04-02 balance Assets:Meal-Card  34.75 EUR
+
+2026-04-03 * "REF 1834 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -70.74 EUR
+  Expenses:Living:Essentials
+
+2026-04-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  593.77 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-04-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-04-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-04-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-04-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -2522.00 EUR
+  Assets:Bank:Savings
+
+2026-04-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-04-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-04-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-04-17 * "Buy WORLD"
+  Assets:Broker:Cash  -348.40 EUR
+  Assets:Broker:WORLD  4 WORLD {87.10 EUR, 2026-04-17}
+
+2026-04-02 * "CARD 02/04/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -227.39 EUR
+  Expenses:Living:Essentials
+
+2026-04-05 * "CARD 04/04/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -73.77 EUR
+  Expenses:Living:Essentials
+
+2026-04-06 * "CARD 06/04/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -175.66 EUR
+  Expenses:Living:Essentials
+
+2026-04-07 * "CARD 06/04/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -199.65 EUR
+  Expenses:Living:Essentials
+
+2026-04-08 * "CARD 07/04/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -45.24 EUR
+  Expenses:Living:Essentials
+
+2026-04-15 * "CARD 14/04/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -161.72 EUR
+  Expenses:Living:Essentials
+
+2026-04-16 * "CARD 16/04/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -161.44 EUR
+  Expenses:Living:Essentials
+
+2026-04-22 * "CARD 20/04/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -38.57 EUR
+  Expenses:Living:Extras
+
+2026-04-24 * "CARD 22/04/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -47.76 EUR
+  Expenses:Living:Extras
+
+2026-04-26 * "CARD 25/04/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -29.91 EUR
+  Expenses:Living:Extras
+
+2026-04-13 * "CARD 12/04/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-04-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-04-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-04-30 price WORLD      87.10 EUR
+
+2026-05-01 balance Assets:Bank:Checking  5812.85 EUR
+2026-05-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-05-02 balance Assets:Meal-Card  37.84 EUR
+
+2026-05-03 * "REF 9809 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -95.93 EUR
+  Expenses:Living:Essentials
+
+2026-05-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  594.81 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-05-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-05-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-05-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-05-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1013.00 EUR
+  Assets:Bank:Savings
+
+2026-05-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-05-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-05-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-05-17 * "Buy WORLD"
+  Assets:Broker:Cash  -328.40 EUR
+  Assets:Broker:WORLD  4 WORLD {82.10 EUR, 2026-05-17}
+
+2026-05-05 * "CARD 03/05/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -174.49 EUR
+  Expenses:Living:Essentials
+
+2026-05-07 * "CARD 06/05/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -76.37 EUR
+  Expenses:Living:Essentials
+
+2026-05-11 * "CARD 10/05/26 GREEN GROCER *4821"
+  Assets:Bank:Checking  -30.82 EUR
+  Expenses:Living:Essentials
+
+2026-05-12 * "CARD 11/05/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -59.07 EUR
+  Expenses:Living:Essentials
+
+2026-05-16 * "CARD 16/05/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -166.12 EUR
+  Expenses:Living:Essentials
+
+2026-05-17 * "CARD 15/05/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -231.60 EUR
+  Expenses:Living:Essentials
+
+2026-05-19 * "CARD 18/05/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -173.71 EUR
+  Expenses:Living:Essentials
+
+2026-05-21 * "CARD 21/05/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -46.61 EUR
+  Expenses:Living:Extras
+
+2026-05-23 * "CARD 23/05/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -43.19 EUR
+  Expenses:Living:Extras
+
+2026-05-25 * "CARD 23/05/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -81.22 EUR
+  Expenses:Living:Extras
+
+2026-05-13 * "CARD 12/05/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-05-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-05-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-05-31 price WORLD      82.10 EUR
+
+2026-06-01 balance Assets:Bank:Checking  5890.88 EUR
+2026-06-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-06-02 balance Assets:Meal-Card  70.11 EUR
+
+2026-06-03 * "REF 7146 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -75.17 EUR
+  Expenses:Living:Essentials
+
+2026-06-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  595.85 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-06-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-06-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-06-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-06-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1112.00 EUR
+  Assets:Bank:Savings
+
+2026-06-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-06-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-06-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-06-17 * "Buy WORLD"
+  Assets:Broker:Cash  -330.68 EUR
+  Assets:Broker:WORLD  4 WORLD {82.67 EUR, 2026-06-17}
+
+2026-06-02 * "CARD 31/05/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -237.87 EUR
+  Expenses:Living:Essentials
+
+2026-06-03 * "CARD 01/06/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -253.91 EUR
+  Expenses:Living:Essentials
+
+2026-06-04 * "CARD 04/06/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -207.38 EUR
+  Expenses:Living:Essentials
+
+2026-06-05 * "CARD 03/06/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -44.05 EUR
+  Expenses:Living:Essentials
+
+2026-06-08 * "CARD 07/06/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -37.68 EUR
+  Expenses:Living:Essentials
+
+2026-06-09 * "CARD 08/06/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -43.30 EUR
+  Expenses:Living:Essentials
+
+2026-06-17 * "CARD 16/06/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -35.65 EUR
+  Expenses:Living:Essentials
+
+2026-06-19 * "CARD 19/06/26 SPORTS HALL *4821"
+  Assets:Bank:Checking  -51.08 EUR
+  Expenses:Living:Extras
+
+2026-06-22 * "CARD 20/06/26 SPORTS HALL *4821"
+  Assets:Bank:Checking  -35.44 EUR
+  Expenses:Living:Extras
+
+2026-06-26 * "CARD 26/06/26 CAFE LUMIERE *4821"
+  Assets:Bank:Checking  -33.11 EUR
+  Expenses:Living:Extras
+
+2026-06-13 * "CARD 12/06/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-06-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-06-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-06-30 price WORLD      82.67 EUR
+
+2026-07-01 balance Assets:Bank:Checking  5994.40 EUR
+2026-07-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-07-02 balance Assets:Meal-Card  58.51 EUR
+
+2026-07-03 * "REF 3919 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -88.19 EUR
+  Expenses:Living:Essentials
+
+2026-07-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  596.89 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-07-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-07-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-07-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-07-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -1202.00 EUR
+  Assets:Bank:Savings
+
+2026-07-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-07-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-07-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-07-17 * "Buy WORLD"
+  Assets:Broker:Cash  -326.04 EUR
+  Assets:Broker:WORLD  4 WORLD {81.51 EUR, 2026-07-17}
+
+2026-07-03 * "CARD 02/07/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -254.87 EUR
+  Expenses:Living:Essentials
+
+2026-07-07 * "CARD 07/07/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -177.11 EUR
+  Expenses:Living:Essentials
+
+2026-07-08 * "CARD 08/07/26 GREEN GROCER *4821"
+  Assets:Bank:Checking  -53.50 EUR
+  Expenses:Living:Essentials
+
+2026-07-14 * "CARD 13/07/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -256.90 EUR
+  Expenses:Living:Essentials
+
+2026-07-15 * "CARD 15/07/26 GREEN GROCER *4821"
+  Assets:Bank:Checking  -57.04 EUR
+  Expenses:Living:Essentials
+
+2026-07-16 * "CARD 15/07/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -49.32 EUR
+  Expenses:Living:Essentials
+
+2026-07-18 * "CARD 17/07/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -65.00 EUR
+  Expenses:Living:Essentials
+
+2026-07-22 * "CARD 21/07/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -52.45 EUR
+  Expenses:Living:Extras
+
+2026-07-24 * "CARD 24/07/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -88.39 EUR
+  Expenses:Living:Extras
+
+2026-07-27 * "CARD 26/07/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -25.05 EUR
+  Expenses:Living:Extras
+
+2026-07-13 * "CARD 13/07/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-07-21 * "CARD 20/07/26 SUNNY CAMPING *4821"
+  Assets:Bank:Checking  -644.06 EUR
+  Expenses:Living:Extras
+
+2026-07-04 * "CARD 02/07/26 RAIL TICKETS *4821"
+  Assets:Bank:Checking  -218.09 EUR
+  Expenses:Living:Extras
+
+2026-07-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-07-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-07-31 price WORLD      81.51 EUR
+
+2026-08-01 balance Assets:Bank:Checking  5032.59 EUR
+2026-08-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-08-02 balance Assets:Meal-Card  44.25 EUR
+
+2026-08-03 * "REF 4431 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -98.67 EUR
+  Expenses:Living:Essentials
+
+2026-08-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  597.94 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-08-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-08-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-08-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-08-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -300.00 EUR
+  Assets:Bank:Savings
+
+2026-08-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-08-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-08-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-08-17 * "Buy WORLD"
+  Assets:Broker:Cash  -330.48 EUR
+  Assets:Broker:WORLD  4 WORLD {82.62 EUR, 2026-08-17}
+
+2026-08-03 * "CARD 01/08/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -30.62 EUR
+  Expenses:Living:Essentials
+
+2026-08-08 * "CARD 07/08/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -58.07 EUR
+  Expenses:Living:Essentials
+
+2026-08-13 * "CARD 12/08/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -252.27 EUR
+  Expenses:Living:Essentials
+
+2026-08-15 * "CARD 14/08/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -180.44 EUR
+  Expenses:Living:Essentials
+
+2026-08-17 * "CARD 16/08/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -33.84 EUR
+  Expenses:Living:Essentials
+
+2026-08-18 * "CARD 18/08/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -215.67 EUR
+  Expenses:Living:Essentials
+
+2026-08-19 * "CARD 17/08/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -252.49 EUR
+  Expenses:Living:Essentials
+
+2026-08-20 * "CARD 20/08/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -51.22 EUR
+  Expenses:Living:Extras
+
+2026-08-26 * "CARD 25/08/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -37.19 EUR
+  Expenses:Living:Extras
+
+2026-08-27 * "CARD 27/08/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -33.64 EUR
+  Expenses:Living:Extras
+
+2026-08-13 * "CARD 12/08/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-08-21 * "CARD 19/08/26 SUNNY CAMPING *4821"
+  Assets:Bank:Checking  -666.53 EUR
+  Expenses:Living:Extras
+
+2026-08-04 * "CARD 04/08/26 RAIL TICKETS *4821"
+  Assets:Bank:Checking  -209.43 EUR
+  Expenses:Living:Extras
+
+2026-08-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-08-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-08-31 price WORLD      82.62 EUR
+
+2026-09-01 balance Assets:Bank:Checking  4882.67 EUR
+2026-09-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-09-02 balance Assets:Meal-Card  35.19 EUR
+
+2026-09-03 * "REF 1281 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -95.76 EUR
+  Expenses:Living:Essentials
+
+2026-09-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  598.98 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-09-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-09-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-09-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-09-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -300.00 EUR
+  Assets:Bank:Savings
+
+2026-09-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-09-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-09-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-09-17 * "Buy WORLD"
+  Assets:Broker:Cash  -329.32 EUR
+  Assets:Broker:WORLD  4 WORLD {82.33 EUR, 2026-09-17}
+
+2026-09-20 * "DIRECT DEBIT TAX OFFICE INCOME"
+  Assets:Bank:Checking  -246.83 EUR
+  Expenses:Taxes:Income
+
+2026-09-03 * "CARD 01/09/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -259.21 EUR
+  Expenses:Living:Essentials
+
+2026-09-10 * "CARD 09/09/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -232.82 EUR
+  Expenses:Living:Essentials
+
+2026-09-13 * "CARD 11/09/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -41.61 EUR
+  Expenses:Living:Essentials
+
+2026-09-16 * "CARD 15/09/26 PHARMACY CENTRAL *4821"
+  Assets:Bank:Checking  -59.94 EUR
+  Expenses:Living:Essentials
+
+2026-09-18 * "CARD 18/09/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -40.70 EUR
+  Expenses:Living:Essentials
+
+2026-09-21 * "CARD 20/09/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -244.99 EUR
+  Expenses:Living:Essentials
+
+2026-09-23 * "CARD 22/09/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -30.19 EUR
+  Expenses:Living:Essentials
+
+2026-09-25 * "CARD 23/09/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -26.95 EUR
+  Expenses:Living:Extras
+
+2026-09-26 * "CARD 25/09/26 PIZZA NAPOLI *4821"
+  Assets:Bank:Checking  -69.90 EUR
+  Expenses:Living:Extras
+
+2026-09-27 * "CARD 26/09/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -21.56 EUR
+  Expenses:Living:Extras
+
+2026-09-13 * "CARD 12/09/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-09-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-09-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-09-30 price WORLD      82.33 EUR
+
+2026-10-01 balance Assets:Bank:Checking  5482.37 EUR
+2026-10-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-10-02 balance Assets:Meal-Card  32.05 EUR
+
+2026-10-03 * "REF 7130 DIRECT DEBIT CITY POWER"
+  Assets:Bank:Checking  -77.15 EUR
+  Expenses:Living:Essentials
+
+2026-10-05 * "DIRECT DEBIT EXAMPLE BANK LOAN"
+  Assets:Bank:Checking  -1019.40 EUR
+  Liabilities:Bank:Mortgage  600.03 EUR
+  Expenses:Assets:Home:Loan-Insurance  42.00 EUR
+  Expenses:Assets:Home:Loan-Interest
+
+2026-10-06 * "DIRECT DEBIT FIBRE NET"
+  Assets:Bank:Checking  -39.99 EUR
+  Expenses:Living:Essentials
+
+2026-10-08 * "DIRECT DEBIT METRO PASS"
+  Assets:Bank:Checking  -86.40 EUR
+  Expenses:Living:Essentials
+
+2026-10-10 * "TRANSFER FROM FAMILY FUND"
+  Assets:Bank:Checking  141.99 EUR
+  Income:Family:Allowance
+
+2026-10-12 * "TRANSFER TO SAVINGS"
+  Assets:Bank:Checking  -701.00 EUR
+  Assets:Bank:Savings
+
+2026-10-07 * "DIRECT DEBIT LITTLE STARS NURSERY"
+  Assets:Bank:Checking  -540.00 EUR
+  Expenses:Living:Essentials
+
+2026-10-09 * "DIRECT DEBIT CAR INSURE"
+  Assets:Bank:Checking  -58.20 EUR
+  Expenses:Living:Essentials
+
+2026-10-15 * "TRANSFER TO BROKER"
+  Assets:Bank:Checking  -400.00 EUR
+  Assets:Broker:Cash
+
+2026-10-17 * "Buy WORLD"
+  Assets:Broker:Cash  -342.88 EUR
+  Assets:Broker:WORLD  4 WORLD {85.72 EUR, 2026-10-17}
+
+2026-10-15 * "DIRECT DEBIT TAX OFFICE PROPERTY"
+  Assets:Bank:Checking  -1210.00 EUR
+  Expenses:Assets:Home:Property-Tax
+
+2026-10-07 * "CARD 06/10/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -77.80 EUR
+  Expenses:Living:Essentials
+
+2026-10-08 * "CARD 08/10/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -22.80 EUR
+  Expenses:Living:Essentials
+
+2026-10-11 * "CARD 09/10/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -37.78 EUR
+  Expenses:Living:Essentials
+
+2026-10-12 * "CARD 11/10/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -245.50 EUR
+  Expenses:Living:Essentials
+
+2026-10-16 * "CARD 15/10/26 CITY MARKET *4821"
+  Assets:Bank:Checking  -228.54 EUR
+  Expenses:Living:Essentials
+
+2026-10-17 * "CARD 15/10/26 FUEL STATION *4821"
+  Assets:Bank:Checking  -77.39 EUR
+  Expenses:Living:Essentials
+
+2026-10-18 * "CARD 17/10/26 CORNER SHOP *4821"
+  Assets:Bank:Checking  -38.47 EUR
+  Expenses:Living:Essentials
+
+2026-10-20 * "CARD 19/10/26 BOOKSHOP *4821"
+  Assets:Bank:Checking  -30.52 EUR
+  Expenses:Living:Extras
+
+2026-10-24 * "CARD 23/10/26 SPORTS HALL *4821"
+  Assets:Bank:Checking  -54.75 EUR
+  Expenses:Living:Extras
+
+2026-10-26 * "CARD 25/10/26 CINEMA STAR *4821"
+  Assets:Bank:Checking  -32.49 EUR
+  Expenses:Living:Extras
+
+2026-10-13 * "CARD 11/10/26 STREAMFLIX *4821"
+  Assets:Bank:Checking  -13.99 EUR
+  Expenses:Living:Extras
+
+2026-10-27 * "TRANSFER ACME SALARY"
+  Assets:Bank:Checking  2451.40 EUR
+  Expenses:Taxes:Income  319.30 EUR
+  Assets:Meal-Card  150.00 EUR
+  Income:Acme:Salary
+
+2026-10-28 * "TRANSFER GLOBEX SALARY"
+  Assets:Bank:Checking  1834.75 EUR
+  Expenses:Taxes:Income  164.00 EUR
+  Income:Globex:Salary
+
+2026-10-31 price WORLD      85.72 EUR
+
+2026-11-01 balance Assets:Bank:Checking  4918.34 EUR
+2026-11-01 pad Assets:Meal-Card Expenses:Living:Essentials
+2026-11-02 balance Assets:Meal-Card  42.10 EUR

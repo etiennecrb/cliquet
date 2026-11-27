@@ -1,0 +1,14 @@
+name,owner,tier,note
+Contoso ERP E2E1,Contoso,test,
+Contoso ERP E2E2,Contoso,test,
+Contoso ERP prod,Contoso,production,
+Fabrikam SFTP prod,Fabrikam,production,Nightly cost files
+Fabrikam SFTP test,Fabrikam,test,
+Fabrikam WMS prod,Fabrikam,production,
+Fabrikam WMS UAT,Fabrikam,test,
+Northwind orders API prod,Northwind,production,
+Northwind orders API sandbox,Northwind,test,
+Relecloud API prod,Relecloud,production,Carrier bookings for several customers
+Relecloud API sandbox,Relecloud,test,
+Tailspin data lake,Tailspin,production,
+Woodgrove bucket,Woodgrove,unknown,File drop

@@ -1,0 +1,80 @@
+# The docs at cliquet.dev/docs, built by Zensical. The pages are the Markdown files in docs/,
+# listed in `nav`, and the build writes them into public/docs/, which is not committed. The
+# header is docs-theme/'s, the look is docs/stylesheets/cliquet.css, and the diagrams are drawn
+# by scripts/docs-diagrams.py. AGENTS.md says how the pages are written.
+[project]
+site_name = "cliquet.dev docs"
+site_url = "https://cliquet.dev/docs/"
+site_description = "How to connect an assistant to Cliquet, build a first app, and use it."
+docs_dir = "docs"
+site_dir = "public/docs"
+extra_css = ["stylesheets/cliquet.css"]
+nav = [
+  { "Quickstart" = "index.md" },
+  { "Create and publish" = "create-and-publish.md" },
+  { "Roles and sharing" = "sharing.md" },
+  { "History and undo" = "history.md" },
+  { "Connect your agents" = "agents.md" },
+  { "Guides" = [
+    { "Architecture" = "guides/architecture.md" },
+    { "Account management" = "guides/account.md" },
+    { "MCP tools" = "guides/mcp-tools.md" },
+    { "Self hosting" = [
+      "guides/self-hosting/index.md",
+      { "Settings" = "guides/self-hosting/settings.md" },
+      { "Deploy on Fly" = "guides/self-hosting/fly.md" },
+      { "Run with Docker Compose" = "guides/self-hosting/compose.md" },
+      { "Sign-in" = "guides/self-hosting/sign-in.md" },
+      { "Sandboxes" = "guides/self-hosting/sandboxes.md" },
+      { "Operations" = "guides/self-hosting/operations.md" },
+    ] },
+  ] },
+]
+
+[project.theme]
+language = "en"
+# The header and the home page, made to match the site: see docs-theme/.
+custom_dir = "docs-theme"
+# The site's fonts are the system's: no font is fetched from Google.
+font = false
+favicon = "/favicon.svg"
+features = [
+  "content.code.copy",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "custom"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+
+[project.extra]
+generator = false
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+def_list = {}
+md_in_html = {}
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.superfences = {}
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true

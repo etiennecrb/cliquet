@@ -1,0 +1,22 @@
+<script>
+  // A file over the limit is refused here, before the browser starts sending it: a server
+  // that answers early and closes often shows as a reset connection. The server checks again.
+  (() => {
+    const input = document.getElementById("upload-file");
+    const said = document.getElementById("upload-too-big");
+    if (!input || !said) return;
+    const tooBig = () => {
+      const file = input.files && input.files[0];
+      return !!file && file.size > Number(input.dataset.maxSize);
+    };
+    const show = () => {
+      said.hidden = !tooBig();
+      said.textContent = said.hidden ? "" : input.dataset.tooBig;
+    };
+    input.addEventListener("change", show);
+    input.form.addEventListener("submit", (event) => {
+      show();
+      if (tooBig()) event.preventDefault();
+    });
+  })();
+</script>

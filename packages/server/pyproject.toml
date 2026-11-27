@@ -1,0 +1,35 @@
+[project]
+name = "cliquet-server"
+version = "0.0.1"
+description = "The Cliquet server: holds apps, serves them over MCP and on the web, and runs their code in sandboxes."
+# AGPL-3.0-only for the server. The builder's guides are Apache-2.0, as apps copy them; the
+# vendored daisyUI (MIT) and htmx (0BSD) keep their own licences.
+license = "AGPL-3.0-only AND Apache-2.0 AND MIT AND 0BSD"
+license-files = [
+    "LICENSE",
+    "src/cliquet_server/builder/guides/LICENSE",
+    "src/cliquet_server/static/vendor/*-LICENSE",
+]
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.20,<2",
+    "fastmcp>=4.1.8,<5",
+    "httpx>=0.28",
+    "jinja2>=3.1",
+    "pydantic-settings>=2.16,<3",
+    "python-multipart>=0.0.33",
+    "sqlalchemy>=2.0",
+    "cliquet-sdk",
+    "uvicorn>=0.30",
+    "resvg-py>=0.5,<0.6",
+]
+
+[project.scripts]
+cliquet-server = "cliquet_server.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+cliquet-sdk = { workspace = true }

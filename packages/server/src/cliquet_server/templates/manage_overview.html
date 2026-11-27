@@ -1,0 +1,179 @@
+{% extends "manage.html" %}
+{% from "parts.html" import copy_field %}
+{% block tab %}
+{% set base = "/manage/" ~ login ~ "/" ~ name %}
+{% if errors.count %}
+<div class="alert alert-warning alert-soft" role="status" id="overview-errors">
+  {{ icon("triangle-exclamation-point") }}
+  <div>
+    <h2>{{ errors.count }} error{{ "s" if errors.count != 1 }} in the last {{ errors.days }} days</h2>
+    <p class="error-line">The latest, {{ errors.latest.when }}: {{ errors.latest.line }}</p>
+  </div>
+  <a class="btn btn-sm" href="{{ base }}/errors">See the errors</a>
+</div>
+{% endif %}
+
+<section class="card card-border" aria-labelledby="recent-title">
+  <div class="card-body">
+    <h2 class="card-title" id="recent-title">Recent changes</h2>
+    {% if recent %}
+    <ul class="list" id="recent">
+      {% for entry in recent %}
+      <li class="list-row">
+        <div class="list-col-grow row-text">
+          <a class="link" href="{{ base }}/history/{{ entry.commit }}">{% if entry.publish %}{{ entry.publish.title }}{% else %}<code>{{ entry.action }}</code>{% endif %}</a>
+          {% if entry.remark %}<small class="text-base-content/70">{{ entry.remark }}</small>{% endif %}
+        </div>
+        <span class="text-base-content/70 row-meta">{{ entry.caller }}, {{ entry.when }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="card-actions"><a class="link" href="{{ base }}/history">Every change</a></div>
+    {% else %}
+    <p class="text-base-content/70">No change yet.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="card card-border" aria-labelledby="summary-title">
+  <div class="card-body">
+    <h2 class="card-title" id="summary-title">What it is made of</h2>
+    <ul class="summary-line" id="summary">
+      {% for title, count in counts %}
+      <li><a class="link link-hover" href="{{ base }}/tools#{{ title|lower }}"><strong>{{ count }}</strong> {{ title|lower }}</a></li>
+      {% endfor %}
+      <li><a class="link link-hover" href="{{ base }}/sharing">{{ people }}</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="card card-border" aria-labelledby="data-title">
+  <div class="card-body">
+    <h2 class="card-title" id="data-title">Data</h2>
+    <p class="text-base-content/70">Files in the app's repository. Every change is checked against the rules, then
+      kept as a new version.</p>
+    {% if files %}
+    <ul class="list">
+      {% for file in files %}
+      <li class="list-row"><span class="list-col-grow">{% if file.created %}<a class="link" href="{{ base }}/data/{{ file.name }}" data-file-panel><code>{{ file.name }}</code></a>{% else %}<code>{{ file.name }}</code>{% endif %}</span><span class="text-base-content/70">{{ file.size }}</span></li>
+      {% endfor %}
+      {% if more_files %}
+      <li class="list-row text-base-content/70">And {{ more_files }} more file{% if more_files != 1 %}s{% endif %}: download the app to see them all.</li>
+      {% endif %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/70">This app keeps no file.</p>
+    {% endif %}
+    <div class="card-actions">
+      <a class="btn btn-sm" href="{{ base }}/download">Download the app</a>
+    </div>
+    <p class="text-base-content/70"><small>Its code, its data and their whole history, as a git repository in a zip
+      file. Unzip it and open the data with any tool.</small></p>
+  </div>
+</section>
+
+<dialog class="file-panel" id="file-panel" aria-labelledby="data-file-title">
+  <div class="file-panel-box">
+    <form class="file-panel-close" method="dialog">
+      <button class="btn btn-ghost btn-square" type="submit" aria-label="Close the file">✕</button>
+    </form>
+    <div id="file-panel-body"></div>
+  </div>
+</dialog>
+
+<section class="card card-border" aria-labelledby="roles-title">
+  <div class="card-body">
+    <h2 class="card-title" id="roles-title">Roles</h2>
+    <p class="text-base-content/70">What each role may use, and who holds it.</p>
+    <ul class="list">
+      {% for one in roles %}
+      <li class="list-row role-line">
+        <span class="label-text list-col-grow">{% if one.role == "-" %}Everyone{% else %}{{ one.role }}{% endif %}</span>
+        <span class="text-base-content/70">{{ one.uses }} · {{ one.people }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="card card-border" aria-labelledby="connect-title">
+  <div class="card-body">
+    <h2 class="card-title" id="connect-title">Use it from an AI assistant</h2>
+    <p class="text-base-content/70">Your assistant reaches it at your own address, as you, once you ask it to open
+      {{ title }}. An agent that runs on its own uses the app's address, with a token limited to the app
+      and one role.</p>
+    <div class="stack">
+      <span class="label-text">For your assistant</span>
+      {{ copy_field("me-address", me_address, "Your own address for your assistant") }}
+      <span class="label-text">For an agent that runs on its own</span>
+      {{ copy_field("app-address", app_address, "The app's address for an agent that runs on its own") }}
+      <div class="card-actions">
+        <a class="btn btn-sm" href="{{ token_link }}">Make a token for {{ title }}</a>
+      </div>
+    </div>
+    <details class="collapse collapse-arrow fold">
+      <summary class="collapse-title">How to add your address to an AI assistant</summary>
+      <div class="collapse-content">
+        {% include "clients.html" %}
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="card card-border" aria-labelledby="delete-title" id="overview-delete">
+  <div class="card-body">
+    <h2 class="card-title" id="delete-title">Delete this app</h2>
+    <p class="text-base-content/70">Deletes its data, its history, its draft and its shares, for good. The people
+      you shared it with lose it at once.</p>
+    <div class="card-actions">
+      <a class="btn btn-sm btn-error btn-outline" href="{{ base }}/delete">Delete this app</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+  // A data file opens in the panel on the right, over the overview. A click with a key held
+  // opens its own page, as any link does.
+  (() => {
+    const panel = document.getElementById("file-panel");
+    const body = document.getElementById("file-panel-body");
+    // Only the answer for the file opened last fills the panel; closing it drops the rest.
+    let opened = 0;
+    panel.addEventListener("close", () => { opened += 1; });
+    document.addEventListener("click", async (event) => {
+      const link = event.target.closest("a[data-file-panel]");
+      if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey
+          || event.altKey) return;
+      event.preventDefault();
+      const mine = ++opened;
+      body.textContent = "Loading…";
+      panel.showModal();
+      let shown;
+      try {
+        // A redirect is the sign-in page: never shown in the panel.
+        const answer = await fetch(link.href, { headers: { "HX-Request": "true" } });
+        if (!answer.ok || answer.redirected) throw new Error(String(answer.status));
+        shown = await answer.text();
+      } catch {
+        shown = null;
+      }
+      if (mine !== opened) return;
+      if (shown === null) {
+        body.textContent = "This file can't be shown now. Reload the page and try again.";
+      } else {
+        body.innerHTML = shown;
+      }
+    });
+    // A click on the shade around the panel closes it, as Escape does. The panel fills its
+    // dialog, so a click on the dialog itself is one on the shade.
+    panel.addEventListener("click", (event) => {
+      const box = panel.getBoundingClientRect();
+      const outside = event.clientX < box.left || event.clientX > box.right
+        || event.clientY < box.top || event.clientY > box.bottom;
+      if (event.target === panel && outside) panel.close();
+    });
+  })();
+</script>
+{% endblock %}

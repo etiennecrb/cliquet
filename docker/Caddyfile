@@ -1,0 +1,15 @@
+# Caddy, for docker/compose.yaml's public profile. It gets a certificate for each site's name
+# and renews it, once the name points at this host.
+
+# The server, at its own address: a local one gives Caddy nothing to serve in public.
+{$CLIQUET_BASE_URL} {
+	reverse_proxy server:8080
+}
+
+# Keycloak, the sign-in provider. Its admin console and its master realm stay off the internet:
+# reach them with kcadm.sh in Keycloak's container, as sign-in.md says.
+{$LOGIN_HOST} {
+	@admin path /admin* /realms/master*
+	respond @admin 404
+	reverse_proxy keycloak:8080
+}

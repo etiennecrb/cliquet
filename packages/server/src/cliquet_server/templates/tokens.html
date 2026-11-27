@@ -1,0 +1,114 @@
+{% extends "settings.html" %}
+{% from "parts.html" import copy_field %}
+{% block title %}API tokens · Settings · cliquet.dev{% endblock %}
+{% block tab %}
+<p class="text-base-content/70">A token lets an agent act as you with no sign-in. Limit it to the apps an agent
+  that runs on its own uses, such as a routine or a scheduled job, with one of your roles in
+  each: it then works only at those apps' addresses. A token for everywhere works on your own
+  endpoint, {{ me_address }}, for an assistant you run yourself. Give each one a name, and
+  revoke one without the others.</p>
+
+{% if notice %}
+<div class="alert" role="status"><span>{{ notice }}</span></div>
+{% endif %}
+
+{% if made %}
+<section class="card card-border new-token" id="new-token" aria-labelledby="new-token-title" tabindex="-1">
+  <div class="card-body">
+    <h2 class="card-title" id="new-token-title">Your new token, {{ made.name }}</h2>
+    <p class="text-base-content/70">Copy it now: Cliquet keeps only a fingerprint of it, and won't show it again. Anyone who has
+      it acts as you, so keep it out of chats and shared files.</p>
+    {{ copy_field("token-value", made.token, "The new token") }}
+    <p>{% if made.expires %}Expires {{ made.expires }}{% else %}Never expires{% endif %}.</p>
+    {% set addresses = made.where.addresses %}
+    <p>{{ made.where.label }}{% if addresses|length == 1 %}, at:{% elif addresses %}, each at its own address:{% endif %}</p>
+    {% for one in addresses %}{{ copy_field("token-address-" ~ loop.index, one.address, "The address of " ~ one.app) }}{% endfor %}
+    <p class="text-base-content/70"><small>Send it as <code>Authorization: Bearer {{ made.prefix }}…</code> with every
+      request to {% if addresses|length == 1 %}that address{% elif addresses %}those addresses{% else %}{{ me_address }}{% endif %}.</small></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="card card-border" aria-labelledby="make-title">
+  <div class="card-body">
+    <h2 class="card-title" id="make-title">Make a token</h2>
+    <p class="text-base-content/70">Name it after where it goes, so you know which to revoke.</p>
+    <form class="token-form" method="post" action="/tokens">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      {% if only %}<input type="hidden" name="only" value="{{ only }}">{% endif %}
+      <fieldset class="fieldset">
+        <label class="fieldset-legend" for="token-name">Name</label>
+        <input class="input" id="token-name" name="name" type="text" required maxlength="{{ max_name }}" placeholder="Laptop at home"{% if name %} value="{{ name }}"{% endif %}>
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">Where it works</legend>
+        <p class="label">{% if only %}Choose your role in {{ only }}.{% else %}Choose your role in each app it is for, or let it work everywhere.{% endif %}</p>
+        {% if places %}
+        <div class="token-apps">
+          {% for place in places %}
+          {% set one = only and place.roles|length == 1 %}
+          <label for="token-app-{{ loop.index }}">{{ place.app }}</label>
+          <select class="select" id="token-app-{{ loop.index }}" name="limit"{% if only %} required{% endif %}>
+            {% if only %}{% if not one and not place.chosen %}<option value="" disabled selected>Choose a role</option>{% endif %}
+            {% else %}<option value=""{% if not place.chosen %} selected{% endif %}>Not this app</option>{% endif %}
+            {% for role in place.roles %}
+            <option value="{{ role.value }}"{% if one or role.selected %} selected{% endif %}>{{ role.label }}</option>
+            {% endfor %}
+          </select>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if not only %}
+        {# The widest place comes last, so that it is chosen on purpose. #}
+        <label class="label"><input class="checkbox checkbox-sm" type="checkbox" name="limit" value="{{ everywhere }}"> Everywhere, through your own endpoint</label>
+        {% endif %}
+      </fieldset>
+      <fieldset class="fieldset">
+        <label class="fieldset-legend" for="token-days">Expires after</label>
+        <select class="select" id="token-days" name="days">
+          {% for one in lifetimes %}
+          <option value="{{ one.value }}"{% if one.selected %} selected{% endif %}>{{ one.label }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+      <button class="btn btn-primary" type="submit">Make a token</button>
+    </form>
+  </div>
+</section>
+
+<section class="card card-border" aria-labelledby="tokens-title">
+  <div class="card-body">
+    <h2 class="card-title" id="tokens-title">Your tokens</h2>
+    <p class="text-base-content/70">Each acts as you, where it works, until it expires or you revoke it. An expired one keeps its name until you revoke it.</p>
+    {% if tokens %}
+    <ul class="list" id="tokens">
+      {% for token in tokens %}
+      <li class="list-row">
+        <div class="list-col-grow row-text">
+          <span>{{ token.name }}{% if token.expired %} <span class="badge badge-soft badge-error">Expired</span>{% elif token.soon %} <span class="badge badge-soft badge-warning">Expires soon</span>{% endif %}</span>
+          <small>{{ token.where.label }}</small>
+          {% if token.made_by %}<small class="text-base-content/70">Made by {{ token.made_by }}</small>{% endif %}
+          <small class="text-base-content/70">Apps see it as <code>{{ token.public_id }}</code></small>
+          <small class="text-base-content/70">Made {{ token.made }} · {% if token.used %}last used {{ token.used }}{% else %}never used{% endif %} · {% if not token.expires %}never expires{% elif token.expired %}expired {{ token.expires }}{% else %}expires {{ token.expires }}{% endif %}</small>
+        </div>
+        <form method="post" action="/tokens/{{ token.id }}/revoke"
+              data-confirm="{{ token.confirm }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button class="btn btn-sm row-button" type="submit">Revoke<span class="sr-only"> {{ token.name }}</span></button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/70">No token yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+  // The new token shows only once: the page opens on it.
+  document.getElementById("new-token")?.focus();
+</script>
+{% endblock %}

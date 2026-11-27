@@ -1,0 +1,9 @@
+{% extends "manage.html" %}
+{% block tab %}
+<section class="card card-border" aria-labelledby="data-file-title">
+  <div class="card-body">
+    <p><a class="link" href="{{ here }}">Overview</a></p>
+    {% include "data_file.html" %}
+  </div>
+</section>
+{% endblock %}

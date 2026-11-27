@@ -1,0 +1,5 @@
+{# The person's own address for their assistant, and how to add it to each one. Needs
+   me_address. #}
+{% from "parts.html" import copy_field %}
+{{ copy_field("me-address", me_address, "Your own address for your assistant") }}
+{% include "clients.html" %}

@@ -1,0 +1,9 @@
+pattern,direction,min,max,account,when,note
+FAMILY FUND,credit,,,Income:Family:Allowance,always,
+SALARY,credit,1000,,,always,"A salary: split it from the payslip, as the instructions say"
+EXAMPLE BANK LOAN,debit,,,,always,"The mortgage: split capital, insurance and interest, as the instructions say"
+TAX OFFICE PROPERTY,debit,,,Expenses:Assets:Home:Property-Tax,always,
+TAX OFFICE INCOME,debit,,,Expenses:Taxes:Income,always,
+HOMESURE,debit,,,Expenses:Assets:Home:Insurance,always,
+CASH WITHDRAWAL,debit,,,Expenses:Living:Essentials,always,Cash
+MARKET|GROCER|BAKERY|PHARMACY|CORNER SHOP|FUEL,debit,,,Expenses:Living:Essentials,fallback,Probably essentials: ask the person to confirm

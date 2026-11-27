@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% from "parts.html" import mark %}
+{% block title %}Preview · {{ title }}{% if label %} · {{ label }}{% endif %}{% endblock %}
+{% block site_meta %}{% endblock %}
+{% block body_class %}app-page{% endblock %}
+{% block body %}
+{% set base = "/build/" ~ name ~ "/preview" %}
+<header class="app-bar">
+  <div class="navbar app-bar-row">
+    <a class="app-name" href="{{ base }}">{{ mark(tile) }}<span>{{ title }}</span></a>
+    <div class="app-bar-actions">
+      {% if roles|length > 1 %}
+      <details class="dropdown dropdown-end role-menu">
+        <summary class="btn btn-ghost" aria-label="Role: {{ role }}. Switch role">
+          As {{ role }}
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <ul class="menu dropdown-content">
+          {% for one in roles %}
+          <li><a href="{{ base }}/{{ one }}"{% if one == role %} aria-current="page"{% endif %}>As {{ one }}</a></li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+      <a class="btn btn-ghost" href="{{ console_href }}">Back to the console</a>
+    </div>
+  </div>
+  {% if running and views|length > 1 %}
+  <nav class="tabs tabs-border app-tabs" aria-label="Screens">
+    {% for one in views %}
+    <a class="tab" href="?view={{ one.name }}"{% if one.on %} aria-current="page"{% endif %}>{{ one.label }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+</header>
+
+<main class="app-main">
+  {% if not running %}
+  <section class="app-empty" aria-labelledby="preview-title">
+    {% if published %}
+    <h1 id="preview-title">{{ title }} was published</h1>
+    <p class="text-base-content/70">Publishing ended this preview, so its calls no longer work. Ask your assistant for a
+      new preview: it calls <code>start_preview</code>. Then reload this page.</p>
+    {% else %}
+    <h1 id="preview-title">No preview is running</h1>
+    <p class="text-base-content/70">A preview shows your draft of {{ title }} on a copy of its data. Ask your assistant to
+      start one: it calls <code>start_preview</code>. Then reload this page.</p>
+    {% endif %}
+  </section>
+  {% else %}
+  <div class="alert preview-banner" role="status">
+    <div>
+      <h2>Preview of your draft, on a copy of the data. Nothing here is live.</h2>
+      {% if notice %}<p>{{ notice }}</p>{% endif %}
+    </div>
+  </div>
+  {% if views %}
+  <iframe class="screen" id="screen" title="{{ label }}"
+          data-src="{{ base }}/{{ role }}/screen?view={{ view }}&width=full&embed"></iframe>
+  {% else %}
+  <section class="app-empty">
+    <p class="text-base-content/70">The draft has no screen for {% if role == "-" %}you{% else %}{{ role }}{% endif %}: people
+      use it from their AI assistant.</p>
+  </section>
+  {% endif %}
+  {% endif %}
+</main>
+{% endblock %}
+{% block scripts %}
+{% include "screen_script.html" %}
+{% endblock %}

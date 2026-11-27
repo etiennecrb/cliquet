@@ -1,0 +1,55 @@
+{% extends "console.html" %}
+{% from "parts.html" import mark %}
+{% block title %}{{ title }} · cliquet.dev{% endblock %}
+{% block main %}
+<header class="app-head">
+  {{ mark(tile, "lg") }}
+  <div class="app-head-text">
+    <h1>{{ title }}</h1>
+    <p class="text-base-content/70">{{ description }}</p>
+    {% if published %}<p class="text-base-content/60"><small>Published {{ published }}</small></p>{% endif %}
+  </div>
+  {% set mine = nav.own | selectattr("name", "equalto", name) | first %}
+  <div class="app-head-actions">
+  {% if mine and mine.previewing %}
+  <a class="btn" href="{{ mine.preview }}">Preview the draft</a>
+  {% endif %}
+  <a class="btn btn-primary app-open" href="/apps/{{ login }}/{{ name }}" target="_blank" rel="noopener">
+    Open the app
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+    <span class="sr-only">(opens in a new tab)</span>
+  </a>
+  </div>
+</header>
+{% set base = "/manage/" ~ login ~ "/" ~ name %}
+<nav class="tabs tabs-border nav-tabs" id="app-tabs" aria-label="{{ title }}">
+  <a class="tab" href="{{ base }}"{% if tab == "overview" %} aria-current="page"{% endif %}>Overview</a>
+  <a class="tab" href="{{ base }}/views"{% if tab == "views" %} aria-current="page"{% endif %}>Screens</a>
+  <a class="tab" href="{{ base }}/sharing"{% if tab == "sharing" %} aria-current="page"{% endif %}>Sharing</a>
+  <a class="tab" href="{{ base }}/tools"{% if tab == "tools" %} aria-current="page"{% endif %}>Tools and rules</a>
+  <a class="tab" href="{{ base }}/history"{% if tab == "history" %} aria-current="page"{% endif %}>History</a>
+  <a class="tab" href="{{ base }}/errors"{% if tab == "errors" %} aria-current="page"{% endif %}>Errors</a>
+</nav>
+<div class="tab-body">
+  {% block tab %}{% endblock %}
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+  // On a narrow screen the tabs scroll: a fade at the edge says more of them wait there.
+  (() => {
+    const tabs = document.getElementById("app-tabs");
+    if (!tabs) return;
+    const mark = () => {
+      tabs.classList.toggle("more-after", tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 1);
+      tabs.classList.toggle("more-before", tabs.scrollLeft > 1);
+    };
+    tabs.addEventListener("scroll", mark, { passive: true });
+    window.addEventListener("resize", mark);
+    // The current tab shows, even when it is past the edge.
+    tabs.querySelector("[aria-current]")?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    mark();
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{# One data file's preview: the panel's content on the overview, and the body of its own page. #}
+{% from "parts.html" import count %}
+<div class="data-file">
+  <h2 class="card-title" id="data-file-title"><code>{{ file.name }}</code></h2>
+  <p class="text-base-content/60"><small>{{ file.size }}, as the last change left it. Only you, the owner, see this.</small></p>
+  {% if file.kind == "binary" %}
+  <p class="text-base-content/70">A binary file. Its content isn't shown.
+    <a class="link" href="{{ here }}/download">Download the app</a> to open it.</p>
+  {% elif file.kind == "empty" %}
+  <p class="text-base-content/70">This file is empty.</p>
+  {% elif file.kind == "table" %}
+  <div class="data-table" role="group" aria-label="The rows of {{ file.name }}" tabindex="0">
+    <table class="table table-xs table-pin-rows">
+      <thead><tr>{% for cell in file.header %}<th>{{ cell.text }}{% if cell.cut %}<span class="patch-cut"> …</span>{% endif %}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in file.rows %}
+        <tr>{% for cell in row %}<td>{{ cell.text }}{% if cell.cut %}<span class="patch-cut"> …</span>{% endif %}</td>{% endfor %}</tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="text-base-content/60">{{ count(file.rows|length) }} row{{ "s" if file.rows|length != 1 }} shown{% if file.left_out %}, and
+    {{ count(file.left_out) }} more {{ "is" if file.left_out == 1 else "are" }} left out{% endif %}{% if file.columns_left_out %}.
+    {{ count(file.columns_left_out) }} more column{{ "s" if file.columns_left_out != 1 }} {{ "is" if file.columns_left_out == 1 else "are" }} left out{% endif %}.
+    {% if file.left_out or file.columns_left_out %}<a class="link" href="{{ here }}/download">Download the app</a> to read the rest.{% endif %}</p>
+  {% else %}
+  <div class="patch" role="group" aria-label="The lines of {{ file.name }}" tabindex="0">
+    <code class="patch-lines">
+      {% for line in file.lines -%}
+      <span class="patch-line">{{ line.text }}{% if line.cut %}<span class="patch-cut"> … the rest of this long line is left out</span>{% endif %}</span>
+      {%- endfor %}
+    </code>
+  </div>
+  {% if file.left_out %}
+  <p class="text-base-content/60">Its first {{ count(file.lines|length) }} lines show here, and {{ count(file.left_out) }} more
+    {{ "is" if file.left_out == 1 else "are" }} left out. <a class="link" href="{{ here }}/download">Download the app</a> to read the rest.</p>
+  {% endif %}
+  {% endif %}
+</div>

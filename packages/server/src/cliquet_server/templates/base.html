@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"{% if accent %} class="s-accent" style="--s-accent: {{ accent }}"{% endif %}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}cliquet.dev{% endblock %}</title>
+{# What Cliquet is, and its colours, as the website says them. An app's own page has its own. #}
+{% block site_meta %}
+<meta name="description" content="Cliquet lets your AI assistant build and deploy an app for your process and its data, and runs it securely. Your team and your agents use it, and its rules always hold.">
+<meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14131a" media="(prefers-color-scheme: dark)">
+{% endblock %}
+<script>
+  // Follow the system's light or dark setting, as the screens do.
+  (() => {
+    const dark = window.matchMedia("(prefers-color-scheme: dark)");
+    const follow = () => { document.documentElement.dataset.theme = dark.matches ? "dark" : "light"; };
+    follow();
+    dark.addEventListener("change", follow);
+  })();
+</script>
+{% block icons %}
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{% endblock %}
+{% block home_icon %}
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+{% endblock %}
+<link rel="stylesheet" href="/static/vendor/daisyui-5.8.1.css">
+<link rel="stylesheet" href="/static/cliquet.css">
+{% if accent %}<style>{{ accent_css }}</style>{% endif %}
+{% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% block body %}{% endblock %}
+<p id="announce" class="sr-only" aria-live="polite"></p>
+<script>
+  // A copy button copies its address, and says so, to screen readers too.
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-copy]");
+    if (!button) return;
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy);
+    } catch {
+      // Without the clipboard, select the address so that it can be copied by hand.
+      const address = document.getElementById(button.getAttribute("aria-controls"));
+      if (address) window.getSelection().selectAllChildren(address);
+      return;
+    }
+    const label = button.dataset.label || button.textContent;
+    button.dataset.label = label;
+    button.textContent = "Copied";
+    document.getElementById("announce").textContent = "Copied the address.";
+    setTimeout(() => { button.textContent = label; }, 2000);
+  });
+</script>
+<script>
+  // A form that can't be undone asks first. Run before htmx's own listener, so a "no"
+  // sends nothing, with htmx or without.
+  document.addEventListener("submit", (event) => {
+    const form = event.target.closest("[data-confirm]");
+    if (form && !window.confirm(form.dataset.confirm)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

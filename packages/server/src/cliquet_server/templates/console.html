@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% from "parts.html" import brand, mark, privacy_link, send_email as send_email_form %}
+{% block body_class %}console{% endblock %}
+{% block body %}
+<div class="drawer md:drawer-open">
+  <input class="drawer-toggle" id="nav-open" type="checkbox" aria-label="Show the menu">
+  <div class="drawer-content">
+    <header class="navbar console-top">
+      <label class="btn btn-ghost btn-square" for="nav-open" role="button" tabindex="0"
+             aria-label="Menu" aria-controls="sidebar">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </label>
+      {{ brand() }}
+    </header>
+    <main class="console-main">
+      {% for notice in told %}
+      <div class="alert alert-warning" role="status"><span>{{ notice }}</span></div>
+      {% endfor %}
+      {% if reminder %}
+      <div class="alert alert-warning alert-vertical sm:alert-horizontal" role="status" id="verify-email"><span>{{ reminder }}</span>{% if send_email %}{{ send_email_form(csrf, send_email_next) }}{% endif %}</div>
+      {% endif %}
+      {% block main %}{% endblock %}
+    </main>
+  </div>
+  <div class="drawer-side">
+    <label class="drawer-overlay" for="nav-open" aria-label="Close the menu"></label>
+    <nav class="sidebar" id="sidebar" aria-label="Cliquet">
+      {{ brand() }}
+      {% if makes_apps %}
+      <ul class="menu" aria-label="Build">
+        <li><a href="/?new#new-app"><span class="nav-icon">{{ icon("plus") }}</span><span>New app</span></a></li>
+      </ul>
+      {% endif %}
+      {% if nav.own %}
+      <ul class="menu" aria-labelledby="nav-own">
+        <li class="menu-title" id="nav-own">Your apps</li>
+        {% for app in nav.own %}
+        <li><a href="{{ app.href }}"{% if here == app.href %} aria-current="page"{% endif %}>{{ mark(app.tile, "sm") }}<span>{{ app.title }}</span></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if nav.drafts %}
+      <ul class="menu" aria-labelledby="nav-drafts">
+        <li class="menu-title" id="nav-drafts">Drafts</li>
+        {% for app in nav.drafts %}
+        <li><a href="{{ app.href }}"{% if here == app.href %} aria-current="page"{% endif %}>{{ mark(app.tile, "sm") }}<span>{{ app.title }}</span></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if nav.shared %}
+      <ul class="menu" aria-labelledby="nav-shared">
+        <li class="menu-title" id="nav-shared">Shared with you</li>
+        {% for app in nav.shared %}
+        <li><a href="{{ app.href }}">{{ mark(app.tile, "sm") }}<span>{{ app.title }}</span></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <ul class="menu nav-more" aria-label="Settings and help">
+        <li><a href="{{ settings_tabs[0][0] }}"{% if here in settings_tabs | map("first") %} aria-current="page"{% endif %}><span class="nav-icon">{{ icon("settings") }}</span><span>Settings</span></a></li>
+        <li><a href="https://cliquet.dev/docs/" target="_blank" rel="noopener"><span class="nav-icon">{{ icon("book-open") }}</span><span>Docs</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+      </ul>
+      <footer class="person">
+        <a class="person-card" href="/account">
+          {{ mark({"letter": person.login[:1] | upper}) }}
+          <span class="person-text">
+            <span class="person-name">{{ person.login }}</span>
+            {% if person.email %}<span class="person-email">{{ person.email }}</span>{% endif %}
+          </span>
+          <span class="sr-only">, your account</span>
+        </a>
+        <form class="sign-out" method="post" action="/logout">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button class="btn btn-sm" type="submit">Sign out</button>
+        </form>
+      </footer>
+      {{ privacy_link(privacy_url) }}
+    </nav>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  // The menu opens from the keyboard too, and Escape closes it.
+  document.addEventListener("keydown", (event) => {
+    const open = document.getElementById("nav-open");
+    if (event.target.matches?.("label[for=nav-open][role=button]")
+        && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      open.checked = !open.checked;
+      // The drawer shows after a short delay: move into it once it can take the focus.
+      if (open.checked) setTimeout(() => document.querySelector("#sidebar a")?.focus(), 150);
+    } else if (event.key === "Escape" && open.checked) {
+      open.checked = false;
+    }
+  });
+</script>
+<script src="/static/vendor/htmx-2.0.11.min.js"></script>
+{% endblock %}

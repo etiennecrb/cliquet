@@ -1,0 +1,72 @@
+{% set base = "/manage/" ~ login ~ "/" ~ name %}
+{% set statuses = {
+  "member": ("Member", "badge-soft badge-success", "They lose this role at once."),
+  "waiting": ("Hasn't accepted", "badge-soft badge-warning", "Their share is cancelled."),
+} %}
+<section id="sharing" class="stack-lg">
+  {% if sharing.notice %}
+  <div class="alert{% if sharing.refused %} alert-error{% endif %}" role="status"><span>{{ sharing.notice }}</span></div>
+  {% endif %}
+  <section class="card card-border" aria-labelledby="share-title">
+    <div class="card-body">
+      <h2 class="card-title" id="share-title">Share {{ title }}</h2>
+      <p class="text-base-content/70">The person gets the role once they sign in with this email and accept it.</p>
+      <form class="share-form" method="post" action="{{ base }}/share"
+            hx-post="{{ base }}/share" hx-target="#sharing" hx-swap="outerHTML">
+        <input type="hidden" name="csrf" value="{{ sharing.csrf }}">
+        <fieldset class="fieldset">
+          <label class="fieldset-legend" for="share-email">Email</label>
+          <input class="input" id="share-email" name="email" type="email" required placeholder="person@example.com">
+        </fieldset>
+        <fieldset class="fieldset">
+          <label class="fieldset-legend" for="share-role">Role</label>
+          <select class="select" id="share-role" name="role" required aria-describedby="share-role-uses">
+            {% set one = sharing.roles|length == 1 %}
+            {% if not one %}<option value="" disabled selected>Choose a role</option>{% endif %}
+            {% for role in sharing.roles %}
+            <option value="{{ role.value }}"{% if one %} selected{% endif %}>{{ role.label }}</option>
+            {% endfor %}
+          </select>
+        </fieldset>
+        <button class="btn btn-primary" type="submit">Share</button>
+      </form>
+      <ul class="role-uses" id="share-role-uses" aria-label="What each role may use">
+        {% for role in sharing.roles %}
+        <li><strong>{{ role.label }}</strong> {{ role.uses }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="card card-border" aria-labelledby="people-title">
+    <div class="card-body">
+      <h2 class="card-title" id="people-title">People</h2>
+      <p class="text-base-content/70">Who may open {{ title }}, and who it waits for. A share gives
+        nothing until its person signs in and accepts it.</p>
+      {% if sharing.people %}
+      <ul class="list" id="people">
+        {% for person in sharing.people %}
+        {% set status, badge, outcome = statuses[person.status] %}
+        <li class="list-row">
+          <div class="list-col-grow row-text">
+            <span>{{ person.who }}</span>
+            {% if person.email %}<small class="text-base-content/70">{{ person.email }}</small>{% endif %}
+          </div>
+          <div class="row-end">
+            <span class="badge badge-ghost">{{ person.role }}</span>
+            <span class="badge {{ badge }}">{{ status }}</span>
+            <form method="post" action="{{ person.remove }}" hx-post="{{ person.remove }}" hx-target="#sharing" hx-swap="outerHTML"
+                  data-confirm="Remove {{ person.who }} from {{ title }}? {{ outcome }}">
+              <input type="hidden" name="csrf" value="{{ sharing.csrf }}">
+              <button class="btn btn-sm row-button" type="submit">Remove<span class="sr-only"> {{ person.who }}</span></button>
+            </form>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-base-content/70">Only you, so far.</p>
+      {% endif %}
+    </div>
+  </section>
+</section>

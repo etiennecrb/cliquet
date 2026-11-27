@@ -1,0 +1,17 @@
+id,room,date,start,end,attendees,title,booked_by,status
+B-0001,oak,2026-11-23,09:30,10:30,6,Weekly planning,camille,booked
+B-0002,lounge,2026-11-23,14:00,15:00,10,Product demo,sam,booked
+B-0003,pine,2026-11-24,11:00,11:30,2,1:1 Léa / Sam,sam,booked
+B-0004,oak,2026-11-25,10:00,12:00,7,Roadmap workshop,camille,booked
+B-0005,pine,2026-11-25,15:00,16:00,3,Hiring debrief,preview,booked
+B-0006,oak,2026-11-26,09:30,10:30,6,Weekly planning,camille,booked
+B-0007,lounge,2026-11-26,16:00,17:30,12,Town hall,camille,booked
+B-0008,pine,2026-11-27,10:00,11:00,3,Design review,sam,booked
+B-0009,oak,2026-11-27,14:00,15:30,8,Client call: Ardent,camille,booked
+B-0010,lounge,2026-11-27,09:00,10:00,12,All hands,camille,cancelled
+B-0011,pine,2026-11-27,11:00,12:00,2,1:1 Sam / Léa,preview,booked
+B-0012,oak,2026-11-30,09:30,10:30,6,Weekly planning,camille,booked
+B-0013,lounge,2026-11-30,09:00,10:30,12,All hands,camille,booked
+B-0014,pine,2026-12-01,14:00,15:00,4,Budget review,preview,booked
+B-0015,oak,2026-12-01,16:00,17:00,5,Retro,sam,booked
+B-0016,lounge,2026-12-02,10:00,12:00,14,Quarterly kickoff,camille,booked

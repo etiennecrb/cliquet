@@ -1,0 +1,31 @@
+// The website at cliquet.dev: static files in website/public, with no Worker code, and the
+// docs that Zensical builds into website/public/docs. Cloudflare Workers Builds deploys it from
+// git, set up once in the dashboard, in the Worker named `cliquet`, like `name` below:
+//
+// - Build command: uv run --only-group docs zensical build --strict --config-file website/zensical.toml
+// - Build variables: SKIP_DEPENDENCY_INSTALL=1, so Cloudflare installs only Zensical, and
+//   PYTHON_VERSION=3.14.8, a release its build image already has: `.python-version` alone makes
+//   it install the newest 3.14 at every build. The previews' default settings need the same.
+// - Deploy command: npx wrangler deploy. Preview command: npx wrangler preview.
+// - Build watch paths: website/** and wrangler.jsonc. Production branch: main. Every other
+//   branch gets a Preview, at https://<branch>-cliquet.<subdomain>.workers.dev.
+// - Domains: cliquet.dev, and www.cliquet.dev redirecting to it.
+//
+// To serve it locally, build the docs first, then run `npx wrangler dev`, on localhost:8787.
+// `npx wrangler deploy --dry-run` checks this file without deploying.
+{
+  "name": "cliquet",
+  "compatibility_date": "2026-11-01",
+  // Only cliquet.dev serves the site, not the workers.dev address.
+  "workers_dev": false,
+  // Each branch's Preview has its own workers.dev address, to review it in a browser before it
+  // ships. Cloudflare tells crawlers not to index it.
+  "preview_urls": true,
+  "assets": {
+    "directory": "./website/public",
+    "not_found_handling": "404-page"
+  },
+  // Each branch's build runs `wrangler preview`, which needs this block. It stays empty: the
+  // assets and the settings above apply to the previews too.
+  "previews": {}
+}

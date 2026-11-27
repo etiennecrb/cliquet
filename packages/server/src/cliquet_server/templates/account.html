@@ -1,0 +1,104 @@
+{% extends "settings.html" %}
+{% from "parts.html" import mark, roles_badges, send_email as send_email_form %}
+{% block title %}Account · Settings · cliquet.dev{% endblock %}
+{% block tab %}
+<p class="text-base-content/70">You are signed in as <strong>{{ person.login }}</strong>{% if person.email %}, with {{ person.email }}{% endif %}. Here is what your account owns and holds.{% if privacy_url %} The <a class="link" href="{{ privacy_url }}" rel="privacy-policy">privacy notice</a> says what Cliquet keeps about you, and why.{% endif %}</p>
+
+{% if locked_out %}
+<div class="alert alert-warning alert-vertical sm:alert-horizontal" role="alert" id="account-locked-out"><span>{{ locked_out }} You can still download your apps here, or delete your account.</span>{% if send_email %}{{ send_email_form(csrf, "/account") }}{% endif %}</div>
+{% endif %}
+
+{% if refusal %}
+<div class="alert alert-error" role="alert" id="account-refusal"><span>{{ refusal }}</span></div>
+{% endif %}
+
+<section class="card card-border" id="account-apps" aria-labelledby="account-apps-title">
+  <div class="card-body">
+    <h2 class="card-title" id="account-apps-title">Your apps</h2>
+    {% if apps or drafts %}
+    <p class="text-base-content/70">Download an app to keep its data, with its whole history, before you delete your account.</p>
+    <ul class="list">
+      {% for app in apps %}
+      <li class="list-row">
+        <div>{{ mark(app.tile, "sm") }}</div>
+        <div class="list-col-grow row-text">
+          <span>{{ app.title }}</span>
+          <small class="text-base-content/70">{{ app.login }}/{{ app.name }} · published {{ app.published }}</small>
+        </div>
+        <a class="btn btn-sm row-button" href="{{ app.download }}" download>Download<span class="sr-only"> {{ app.title }}</span></a>
+      </li>
+      {% endfor %}
+      {% for app in drafts %}
+      <li class="list-row">
+        <div>{{ mark(app.tile, "sm") }}</div>
+        <div class="list-col-grow row-text">
+          <span>{{ app.title }}</span>
+          <small class="text-base-content/70">{{ app.login }}/{{ app.name }} · a draft, never published</small>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/70">You own no app.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% if sandbox_time %}
+<section class="card card-border" id="account-sandbox-time" aria-labelledby="account-sandbox-time-title">
+  <div class="card-body">
+    <h2 class="card-title" id="account-sandbox-time-title">Sandbox time</h2>
+    <p>Your apps used <strong>{{ sandbox_time.used }} of {{ sandbox_time.budget }} minutes</strong> of sandbox time this month{% if sandbox_time.plus %}, your Plus budget{% endif %}: the time your apps' code ran, for you, the people you share them with and your builds.</p>
+    <p class="text-base-content/70">{% if sandbox_time.used >= sandbox_time.budget %}Your apps' calls are refused until it resets{% else %}It resets{% endif %} on {{ sandbox_time.resets }}.</p>
+  </div>
+</section>
+{% endif %}
+
+<section class="card card-border" id="account-access" aria-labelledby="account-access-title">
+  <div class="card-body">
+    <h2 class="card-title" id="account-access-title">What you use</h2>
+    {% if used or waiting or tokens %}
+    <ul class="list">
+      {% for one in used %}
+      <li class="list-row">
+        <div class="list-col-grow row-text"><span>{{ one.app }}</span></div>
+        <span class="row-badges">{{ roles_badges(one.roles) }}</span>
+      </li>
+      {% endfor %}
+      {% for one in waiting %}
+      <li class="list-row">
+        <div class="list-col-grow row-text"><span>{{ one.app }}</span><small class="text-base-content/70">Shared with you, waiting for you to accept it</small></div>
+        <span class="row-badges">{{ roles_badges(one.roles) }}</span>
+      </li>
+      {% endfor %}
+      {% for name in tokens %}
+      <li class="list-row">
+        <div class="list-col-grow row-text"><span>{{ name }}</span><small class="text-base-content/70">An API token</small></div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-base-content/70">No app is shared with you, and you have no API token.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="card card-border" id="delete-account" aria-labelledby="delete-account-title">
+  <div class="card-body">
+    <h2 class="card-title" id="delete-account-title">Delete your account</h2>
+    <p>Deleting your account deletes, for good, every app you own, with its data, its history and its draft, your tokens, the shares waiting for you, and your access to the apps people shared with you. The people you shared your apps with lose them at once.</p>
+    <p>Two things stay: your login, which nobody can take after you, and your name in the history of the apps of others you changed.</p>
+    <p class="text-base-content/70">Your identity at the sign-in provider, and the server's backups, stay for a while.
+      {% if privacy_url %}The <a class="link" href="{{ privacy_url }}" rel="privacy-policy">privacy notice</a> says for how long, and how to have them deleted.{% else %}Ask the server's operator how long, and how to have them deleted.{% endif %}</p>
+    <form class="delete-account" method="post" action="/account/delete"
+          data-confirm="Delete your account and everything it owns? This can't be undone.">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <fieldset class="fieldset">
+        <label class="fieldset-legend" for="delete-login">Type your login, {{ person.login }}, to confirm</label>
+        <input class="input" id="delete-login" name="login" type="text" required autocomplete="off" spellcheck="false">
+      </fieldset>
+      <button class="btn btn-error" type="submit">Delete my account</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
