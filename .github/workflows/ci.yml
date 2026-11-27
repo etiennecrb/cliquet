@@ -2,7 +2,7 @@
 # elsewhere.
 name: CI
 
-# Every pull request runs both jobs, whatever it changes: main's ruleset requires them to
+# Every pull request runs every job, whatever it changes: main's ruleset requires `check` to
 # pass, and a workflow a path filter skips never reports, so its pull request could never
 # merge. On main, a change to the top-level Markdown files or the website alone runs nothing
 # again: no test reads them. The docs site's pages and config are the exception: a test builds
@@ -11,7 +11,7 @@ name: CI
 on:
   push:
     branches: [main]
-    paths: &paths
+    paths:
       - "**"
       - "!*.md"
       - "!website/**"
@@ -29,15 +29,35 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+env:
+  # The runner's Chrome. Set, so a missing browser fails the browser tests instead of
+  # skipping them.
+  CLIQUET_CHROME: /usr/bin/google-chrome
+
 jobs:
-  check:
-    name: Definition of done
+  lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    env:
-      # The runner's Chrome. Set, so a missing browser fails the browser tests
-      # instead of skipping them.
-      CLIQUET_CHROME: /usr/bin/google-chrome
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --all-packages --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run ty check
+
+  # The suite, in shards on runners of their own. A runner gives its browser and slow tests
+  # one worker, since they compete for its CPU, and the other tests the rest: so the shards
+  # deal the tests out round-robin, and each gets its share of both.
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
@@ -48,14 +68,31 @@ jobs:
           git config --global user.name "Cliquet CI"
           git config --global user.email "ci@cliquet.invalid"
       - run: uv sync --all-packages --frozen
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run ty check
-      - run: uv run pytest
+      - name: Run this shard's tests
+        env:
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ strategy.job-total }}
+        # Only test ids, each once: a warning's summary can name one again. A shard with no
+        # test fails, since pytest given none would run the whole suite.
+        run: |
+          uv run pytest --collect-only -q >all.txt || { cat all.txt; exit 1; }
+          mapfile -t tests < <(awk -v i="$SHARD" -v n="$SHARDS" \
+            '/^packages\/[^ ]*::/ && !seen[$0]++ && c++ % n == i - 1' all.txt)
+          test "${#tests[@]}" -gt 0
+          uv run pytest "${tests[@]}"
+
+  examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - run: uv sync --all-packages --frozen
       - run: scripts/check-examples.sh
 
   commits:
-    name: Commit messages
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -77,3 +114,16 @@ jobs:
           else
             uv run cz check --rev-range "$BASE..$HEAD"
           fi
+
+  # The one check main's ruleset requires: it passes only when every job above passed, so a
+  # job can be added, split or renamed without changing the ruleset.
+  check:
+    if: always()
+    needs: [lint, test, examples, commits]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Every job passed
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: jq -e 'all(. == "success")' <<<"$RESULTS"
