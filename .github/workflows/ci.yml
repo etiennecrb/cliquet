@@ -1,11 +1,13 @@
-# Check every pull request and every push to main: work reaches main both ways. The hosted
-# service is deployed from elsewhere.
+# Check every pull request, then every push to main. The hosted service is deployed from
+# elsewhere.
 name: CI
 
-# A change to the top-level Markdown files or the website alone runs nothing: no test reads
-# them. The docs site's pages and config are the exception: a test builds them. The builder's
-# guides and the examples' instructions are not in this list. A later pattern overrides an
-# earlier one.
+# Every pull request runs both jobs, whatever it changes: main's ruleset requires them to
+# pass, and a workflow a path filter skips never reports, so its pull request could never
+# merge. On main, a change to the top-level Markdown files or the website alone runs nothing
+# again: no test reads them. The docs site's pages and config are the exception: a test builds
+# them. The builder's guides and the examples' instructions are not in this list. A later
+# pattern overrides an earlier one.
 on:
   push:
     branches: [main]
@@ -18,7 +20,6 @@ on:
       - "website/zensical.toml"
       - "!wrangler.jsonc"
   pull_request:
-    paths: *paths
   workflow_dispatch:
 
 permissions:
