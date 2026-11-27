@@ -1,0 +1,37 @@
+# Dependabot keeps the Python packages in uv.lock and the GitHub Actions in the workflows
+# current, once a month: each ecosystem's minor and patch updates in one grouped pull request,
+# and each major upgrade in its own, so one breaking release holds back nothing else. They wait
+# a week after a release, and run CI and need a merge like any other. Their messages start with
+# "chore: ", which the commit message check accepts: a "deps" scope would not be. The vendored
+# daisyUI, Chart.js, htmx and Lucide files are upgraded by scripts/vendor-*.py instead.
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: /
+    # Only uv.lock moves: the ranges the SDK declares are what every app's environment
+    # installs, and change by hand.
+    versioning-strategy: lockfile-only
+    schedule:
+      interval: monthly
+    groups:
+      python:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore
+    # A hijacked release is usually found and pulled within days.
+    cooldown:
+      default-days: 7
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore
+    # A hijacked action tag is the common attack on workflows: wait as for packages.
+    cooldown:
+      default-days: 7
