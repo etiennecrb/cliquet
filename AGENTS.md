@@ -90,7 +90,7 @@ Apps depend on these three things. Changing one breaks apps, so mark the commit 
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `<type>(<scope>): <summary>`, then a blank line and a body.
 
-Only these types and scopes are accepted. `cz check` enforces them, with the rest of this section's rules, from the pattern in `pyproject.toml`: the commit-msg hook runs it before each commit, and CI on every new commit, unless the push changes only the top-level docs or the website.
+Only these types and scopes are accepted. `cz check` enforces them, with the rest of this section's rules, from the pattern in `pyproject.toml`: the commit-msg hook runs it before each commit, and CI on every pull request.
 
 - **Type:** one of
   - `feat`: new behaviour, anywhere: the SDK, the server, the CLI or an example;
